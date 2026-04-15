@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../SiteChrome.astro';
-import guideImg from '../../assets/watches/photo-1556453007-ee036169934b.jpeg';
 import { faqPageSchema } from '../../utils/faqSchema';
 import { jsonLd } from '../../utils/schema';
 
@@ -14,9 +14,10 @@ interface Props {
   faqs: { q: string; a: string }[];
   ctaHref: string;
   ctaLabel: string;
+  coverPhoto: ImageMetadata;
 }
 
-const { title, description, h1, answer, faqs, ctaHref, ctaLabel } = Astro.props;
+const { title, description, h1, answer, faqs, ctaHref, ctaLabel, coverPhoto } = Astro.props;
 const faqLd = faqPageSchema(faqs);
 ---
 
@@ -29,10 +30,10 @@ const faqLd = faqPageSchema(faqs);
           <h1>{h1}</h1>
           <div class="guide-hero-photo">
             <Image
-              src={guideImg}
-              alt="Fine watchmaking detail — Shelton Watch Services guide"
-              width={1400}
-              height={520}
+              src={coverPhoto}
+              alt=""
+              width={1600}
+              height={760}
               class="guide-hero-img"
             />
           </div>
@@ -66,7 +67,7 @@ const faqLd = faqPageSchema(faqs);
 <style>
   .guide-hero-photo {
     width: 100%;
-    height: 260px;
+    height: 380px;
     overflow: hidden;
     margin: 8px 0 24px;
   }

@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
+import toolsHeroImg from '../../assets/watches/photo-1556453007-ee036169934b.jpeg';
 ---
 
 <BaseLayout
@@ -9,9 +11,22 @@ import SiteChrome from '../../components/SiteChrome.astro';
 >
   <SiteChrome>
     <main id="main">
-      <article class="section section--ivory">
+      <article class="section section--ivory tools-page">
+        <div class="tools-hero">
+          <Image
+            src={toolsHeroImg}
+            alt=""
+            width={1400}
+            height={600}
+            class="tools-hero-img"
+            sizes="100vw"
+          />
+          <div class="tools-hero-overlay"></div>
+          <div class="container tools-hero-inner">
+            <h1 class="tools-hero-title">Free Watch Tools</h1>
+          </div>
+        </div>
         <div class="container">
-          <h1>Free Watch Tools</h1>
           <p class="muted">
             Free tools to help you understand your timepiece better. No signup, no email gate — just clear
             prompts and honest next steps.
@@ -67,6 +82,52 @@ import SiteChrome from '../../components/SiteChrome.astro';
 </BaseLayout>
 
 <style>
+  .tools-hero {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .tools-hero :global(.tools-hero-img),
+  .tools-hero :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .tools-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 51, 40, 0.7);
+    pointer-events: none;
+  }
+
+  .tools-hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .tools-hero-title {
+    color: rgba(250, 247, 242, 0.98);
+    text-align: center;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .tools-hero {
+      height: 240px;
+    }
+  }
+
   .tools-grid {
     grid-template-columns: repeat(3, 1fr);
     margin-top: 32px;

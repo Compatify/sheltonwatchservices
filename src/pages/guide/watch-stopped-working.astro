@@ -1,5 +1,8 @@
 ---
 import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+import { getGuideCover } from '../../data/guideCovers';
+
+const coverPhoto = getGuideCover('/guide/watch-stopped-working/');
 
 const faqs = [
   {
@@ -25,6 +28,7 @@ const faqs = [
   faqs={faqs}
   ctaHref="/service/"
   ctaLabel="Book a service evaluation →"
+  coverPhoto={coverPhoto}
 >
   <p>
     Stoppage is a symptom, not a diagnosis. On quartz, a <strong>dead cell accounts for a large share</strong>{' '}

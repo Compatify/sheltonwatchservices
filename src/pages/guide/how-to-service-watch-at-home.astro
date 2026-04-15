@@ -1,5 +1,8 @@
 ---
 import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+import { getGuideCover } from '../../data/guideCovers';
+
+const coverPhoto = getGuideCover('/guide/how-to-service-watch-at-home/');
 
 const faqs = [
   {
@@ -25,6 +28,7 @@ const faqs = [
   faqs={faqs}
   ctaHref="/service/"
   ctaLabel="Book professional service →"
+  coverPhoto={coverPhoto}
 >
   <p>
     The hobby deserves respect — so does the escapement. Roughly <strong>90%</strong> of “I watched a

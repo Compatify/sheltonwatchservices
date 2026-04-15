@@ -1,29 +1,47 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   category: string;
   title: string;
   excerpt: string;
   href: string;
+  coverPhoto: ImageMetadata;
 }
 
-const { category, title, excerpt, href } = Astro.props;
+const { category, title, excerpt, href, coverPhoto } = Astro.props;
 ---
 
 <article class="guide-card">
-  <p class="guide-card-cat">{category}</p>
-  <h3 class="guide-card-title">{title}</h3>
-  <p class="muted guide-card-excerpt">{excerpt}</p>
-  <a class="text-link" href={href}>Read article →</a>
+  <a class="guide-card-link" href={href}>
+    <div class="guide-card-cover">
+      <Image
+        src={coverPhoto}
+        alt=""
+        width={640}
+        height={360}
+        class="guide-card-cover-img"
+      />
+    </div>
+    <div class="guide-card-body">
+      <p class="guide-card-cat">{category}</p>
+      <h3 class="guide-card-title">{title}</h3>
+      <p class="muted guide-card-excerpt">{excerpt}</p>
+      <span class="text-link">Read article →</span>
+    </div>
+  </a>
 </article>
 
 <style>
   .guide-card {
     background: var(--ivory2);
-    padding: 26px 22px;
     border: 0.5px solid var(--rule-lt);
     transition:
       background 0.2s ease,
       border-color 0.2s ease;
+    overflow: hidden;
+    padding: 0;
   }
 
   .guide-card:hover {
@@ -32,6 +50,31 @@ const { category, title, excerpt, href } = Astro.props;
     border-left: 0.5px solid var(--rule-lt);
     border-right: 0.5px solid var(--rule-lt);
     border-bottom: 0.5px solid var(--rule-lt);
+  }
+
+  .guide-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .guide-card-cover {
+    height: 180px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .guide-card-cover :global(.guide-card-cover-img),
+  .guide-card-cover :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .guide-card-body {
+    padding: 22px 22px 26px;
   }
 
   .guide-card-cat {

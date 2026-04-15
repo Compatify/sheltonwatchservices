@@ -1,5 +1,8 @@
 ---
 import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+import { getGuideCover } from '../../data/guideCovers';
+
+const coverPhoto = getGuideCover('/guide/is-my-watch-worth-repairing/');
 
 const faqs = [
   {
@@ -25,6 +28,7 @@ const faqs = [
   faqs={faqs}
   ctaHref="/tools/repair-or-sell/"
   ctaLabel="Try the repair-or-sell tool →"
+  coverPhoto={coverPhoto}
 >
   <p>
     “Worth it” is two questions disguised as one: financial worth and personal worth. On the financial

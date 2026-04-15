@@ -1,5 +1,8 @@
 ---
 import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+import { getGuideCover } from '../../data/guideCovers';
+
+const coverPhoto = getGuideCover('/guide/why-is-my-watch-losing-time/');
 
 const faqs = [
   {
@@ -25,6 +28,7 @@ const faqs = [
   faqs={faqs}
   ctaHref="/service/full-overhaul/"
   ctaLabel="Explore full overhaul service →"
+  coverPhoto={coverPhoto}
 >
   <p>
     Slow running is often progressive. In a sampling mindset, roughly <strong>15–30 seconds per day</strong>{' '}

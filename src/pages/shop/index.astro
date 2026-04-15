@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
 import WatchCard from '../../components/WatchCard.astro';
+import shopHeroImg from '../../assets/watches/photo-1773755060442-6d128b70dd20.jpeg';
 import { watches } from '../../data/watches';
 import { productSchemaForWatch } from '../../utils/productSchema';
 import { jsonLd } from '../../utils/schema';
@@ -26,10 +28,25 @@ const filters = [
   <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
   <SiteChrome showInquiryModal>
     <main id="main">
-      <article class="section section--ivory">
+      <article class="section section--ivory shop-page">
+        <div class="shop-hero">
+          <Image
+            src={shopHeroImg}
+            alt=""
+            width={1600}
+            height={680}
+            class="shop-hero-img"
+            sizes="100vw"
+          />
+          <div class="shop-hero-overlay"></div>
+          <div class="container shop-hero-inner">
+            <p class="shop-hero-eyebrow">Curated Collection</p>
+            <h1 class="shop-hero-title">Shop Pre-Owned Watches</h1>
+            <p class="shop-hero-sub">Every piece personally inspected.</p>
+          </div>
+        </div>
         <div class="container">
-          <h1>Shop Pre-Owned Watches</h1>
-          <p class="muted">
+          <p class="muted shop-intro">
             Every watch in our collection has been personally inspected, tested for accuracy, and documented.
             No auction risk. No mystery condition — and <strong>no checkout</strong>: purchases start with a
             conversation, not a cart.
@@ -86,6 +103,82 @@ const filters = [
 </BaseLayout>
 
 <style>
+  .shop-hero {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .shop-hero :global(.shop-hero-img),
+  .shop-hero :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .shop-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 51, 40, 0.45);
+    pointer-events: none;
+  }
+
+  .shop-hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .shop-hero-inner * {
+    pointer-events: auto;
+  }
+
+  .shop-hero-eyebrow {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(197, 160, 40, 0.95);
+    margin-bottom: 14px;
+  }
+
+  .shop-hero-title {
+    color: rgba(250, 247, 242, 0.98);
+    margin-bottom: 12px;
+  }
+
+  .shop-hero-sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14.5px;
+    letter-spacing: 0.02em;
+    color: rgba(250, 247, 242, 0.72);
+    max-width: 420px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .shop-intro {
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .shop-hero {
+      height: 280px;
+    }
+  }
+
   .filter-row {
     display: flex;
     flex-wrap: wrap;

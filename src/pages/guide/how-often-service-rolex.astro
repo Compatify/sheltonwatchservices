@@ -1,5 +1,8 @@
 ---
 import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+import { getGuideCover } from '../../data/guideCovers';
+
+const coverPhoto = getGuideCover('/guide/how-often-service-rolex/');
 
 const faqs = [
   {
@@ -25,6 +28,7 @@ const faqs = [
   faqs={faqs}
   ctaHref="/service/rolex/"
   ctaLabel="Book Rolex service →"
+  coverPhoto={coverPhoto}
 >
   <p>
     Intervals are not morality — they are risk management. A Datejust that sees desk duty and occasional

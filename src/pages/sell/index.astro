@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
 import SellForm from '../../components/SellForm.astro';
+import sellHeroImg from '../../assets/watches/premium_photo-1682097578070-901d10cabc5b.jpeg';
 import { faqPageSchema } from '../../utils/faqSchema';
 import { jsonLd } from '../../utils/schema';
 
@@ -32,6 +34,20 @@ const faqLd = faqPageSchema(faqs);
       <article class="section section--ivory">
         <div class="container sell-page">
           <h1>Sell Your Timepiece</h1>
+        </div>
+        <div class="sell-hero-banner">
+          <Image
+            src={sellHeroImg}
+            alt=""
+            width={1600}
+            height={840}
+            class="sell-hero-img"
+            sizes="100vw"
+          />
+          <div class="sell-hero-overlay"></div>
+          <p class="sell-hero-tagline">Fair offers. Fast payment. No obligation.</p>
+        </div>
+        <div class="container sell-page">
           <p class="muted">
             Fair pricing, 24-hour response on most submissions, and zero obligation — whether you are
             downsizing, upgrading, or settling an estate. Lehigh Valley appointments pair well with insured
@@ -110,6 +126,57 @@ const faqLd = faqPageSchema(faqs);
 </BaseLayout>
 
 <style>
+  .sell-hero-banner {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .sell-hero-banner :global(.sell-hero-img),
+  .sell-hero-banner :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .sell-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 51, 40, 0.25);
+    pointer-events: none;
+  }
+
+  .sell-hero-tagline {
+    position: absolute;
+    left: max(24px, calc((100vw - 1180px) / 2 + 48px));
+    bottom: 36px;
+    z-index: 2;
+    margin: 0;
+    max-width: 90%;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    color: rgba(250, 247, 242, 0.98);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .sell-hero-tagline {
+      left: 24px;
+      bottom: 28px;
+      font-size: 16px;
+    }
+
+    .sell-hero-banner {
+      height: 320px;
+    }
+  }
+
   .sell-page h2 {
     font-family: var(--sans);
     font-size: clamp(26px, 3vw, 34px);

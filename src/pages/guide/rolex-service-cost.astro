@@ -1,5 +1,8 @@
 ---
 import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+import { getGuideCover } from '../../data/guideCovers';
+
+const coverPhoto = getGuideCover('/guide/rolex-service-cost/');
 
 const faqs = [
   {
@@ -25,6 +28,7 @@ const faqs = [
   faqs={faqs}
   ctaHref="/service/rolex/"
   ctaLabel="Book Rolex service →"
+  coverPhoto={coverPhoto}
 >
   <p>
     Price is a symptom of process. Factory service bundles standardized testing, lubrication regimes, and

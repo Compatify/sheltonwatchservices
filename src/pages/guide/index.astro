@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
 import GuideCard from '../../components/GuideCard.astro';
+import { guideCoverByHref } from '../../data/guideCovers';
 ---
 
 <BaseLayout
@@ -22,36 +23,42 @@ import GuideCard from '../../components/GuideCard.astro';
             title="How Often Should You Service a Rolex Watch?"
             excerpt="Official 10-year guidance vs. what daily wear typically needs in the real world."
             href="/guide/how-often-service-rolex/"
+            coverPhoto={guideCoverByHref['/guide/how-often-service-rolex/']}
           />
           <GuideCard
             category="Decision guide"
             title="Is My Watch Worth Repairing?"
             excerpt="Repair cost, market value, and sentimental weight — how to think it through."
             href="/guide/is-my-watch-worth-repairing/"
+            coverPhoto={guideCoverByHref['/guide/is-my-watch-worth-repairing/']}
           />
           <GuideCard
             category="Rolex"
             title="How Much Does a Rolex Service Cost?"
             excerpt="Authorized service vs. independent specialists — realistic ranges in 2026."
             href="/guide/rolex-service-cost/"
+            coverPhoto={guideCoverByHref['/guide/rolex-service-cost/']}
           />
           <GuideCard
             category="Troubleshooting"
             title="My Watch Stopped Working — What Should I Do?"
             excerpt="Start with the simple checks, then know when to escalate to a watchmaker."
             href="/guide/watch-stopped-working/"
+            coverPhoto={guideCoverByHref['/guide/watch-stopped-working/']}
           />
           <GuideCard
             category="Accuracy"
             title="Why Is My Watch Losing Time?"
             excerpt="Magnetism, lubrication, regulation — the usual causes in plain language."
             href="/guide/why-is-my-watch-losing-time/"
+            coverPhoto={guideCoverByHref['/guide/why-is-my-watch-losing-time/']}
           />
           <GuideCard
             category="DIY"
             title="How to Service a Watch at Home"
             excerpt="Safe owner maintenance vs. work that belongs under a loupe."
             href="/guide/how-to-service-watch-at-home/"
+            coverPhoto={guideCoverByHref['/guide/how-to-service-watch-at-home/']}
           />
         </div>
       </div>

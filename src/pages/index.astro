@@ -10,7 +10,9 @@ import GuideCard from '../components/GuideCard.astro';
 import SellForm from '../components/SellForm.astro';
 import heroImg from '../assets/watches/photo-1702865053708-be5f974d5e05.jpeg';
 import sellImg from '../assets/watches/premium_photo-1682097578070-901d10cabc5b.jpeg';
+import servicePreviewCtaBg from '../assets/watches/photo-1606744188285-d0a49e58f538.jpeg';
 import { watches } from '../data/watches';
+import { guideCoverByHref } from '../data/guideCovers';
 import { localBusinessSchema } from '../data/schema/localBusiness';
 import { jsonLd } from '../utils/schema';
 import { productSchemaForWatch } from '../utils/productSchema';
@@ -43,21 +45,12 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
               <a class="btn-ghost" href="/sell/">Sell Your Watch</a>
             </div>
           </div>
-          <div class="hero-cards-column">
-            <div class="hero-cards-bg" aria-hidden="true">
-              <Image
-                src={heroImg}
-                alt=""
-                width={1600}
-                height={1200}
-                loading="eager"
-                fetchpriority="high"
-                class="hero-bg-image"
-              />
-              <div class="hero-cards-overlay"></div>
-            </div>
-            <div class="hero-cards">
-              {heroWatches.map((w) => <WatchCard watch={w} stacked showFloat />)}
+          <div class="hero-right-stack">
+            <div class="hero-right-top" aria-hidden="true"></div>
+            <div class="hero-right-bottom">
+              <div class="hero-cards">
+                {heroWatches.map((w) => <WatchCard watch={w} stacked showFloat />)}
+              </div>
             </div>
           </div>
         </div>
@@ -128,9 +121,12 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
             />
           </div>
         </div>
-        <div class="service-preview-cta section--forest">
+        <div class="service-preview-cta section--forest service-preview-cta--banner">
           <div class="container service-preview-cta-inner">
-            <a class="btn-ghost" href="/service/">Get a Free Service Estimate →</a>
+            <p class="service-preview-cta-quote">
+              <em>Every watch we touch gets a written estimate first.</em>
+            </p>
+            <a class="btn-secondary" href="/service/">Book Service</a>
           </div>
         </div>
       </section>
@@ -247,36 +243,42 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
               title="How Often Should You Service a Rolex Watch?"
               excerpt="Official intervals vs. what independent specialists recommend for daily wear in real life."
               href="/guide/how-often-service-rolex/"
+              coverPhoto={guideCoverByHref['/guide/how-often-service-rolex/']}
             />
             <GuideCard
               category="Decision guide"
               title="Is My Watch Worth Repairing?"
               excerpt="A practical rule of thumb using repair cost, value, and sentimental importance."
               href="/guide/is-my-watch-worth-repairing/"
+              coverPhoto={guideCoverByHref['/guide/is-my-watch-worth-repairing/']}
             />
             <GuideCard
               category="Rolex"
               title="How Much Does a Rolex Service Cost?"
               excerpt="Authorized service vs. independent pricing — what to expect line by line."
               href="/guide/rolex-service-cost/"
+              coverPhoto={guideCoverByHref['/guide/rolex-service-cost/']}
             />
             <GuideCard
               category="Troubleshooting"
               title="My Watch Stopped Working — What Should I Do?"
               excerpt="Battery, winding, and when it’s time for a professional assessment."
               href="/guide/watch-stopped-working/"
+              coverPhoto={guideCoverByHref['/guide/watch-stopped-working/']}
             />
             <GuideCard
               category="Accuracy"
               title="Why Is My Watch Losing Time?"
               excerpt="Magnetism, lubrication, regulation — the usual suspects explained plainly."
               href="/guide/why-is-my-watch-losing-time/"
+              coverPhoto={guideCoverByHref['/guide/why-is-my-watch-losing-time/']}
             />
             <GuideCard
               category="DIY"
               title="How to Service a Watch at Home"
               excerpt="What you can safely maintain at home — and what belongs on the bench."
               href="/guide/how-to-service-watch-at-home/"
+              coverPhoto={guideCoverByHref['/guide/how-to-service-watch-at-home/']}
             />
           </div>
         </div>
@@ -319,19 +321,35 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
   </SiteChrome>
 </BaseLayout>
 
-<style>
+<style
+  define:vars={{
+    heroTopBgUrl: `url(${heroImg.src})`,
+    serviceCtaBgUrl: `url(${servicePreviewCtaBg.src})`,
+  }}
+>
   .hero-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: center;
+    grid-template-columns: 55% 45%;
+    gap: 0;
+    align-items: stretch;
     min-height: calc(100vh - 72px);
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px;
   }
 
   @media (max-width: 960px) {
     .hero-grid {
       grid-template-columns: 1fr;
       min-height: 0;
+    }
+
+    .hero-copy {
+      padding: 48px 24px 32px;
     }
   }
 
@@ -347,65 +365,49 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     gap: 12px;
   }
 
-  .hero-cards-column {
-    position: relative;
+  .hero-right-stack {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-self: stretch;
     min-height: min(72vh, 720px);
   }
 
-  .hero-cards-bg {
-    position: absolute;
-    z-index: 0;
-    top: -48px;
-    bottom: -48px;
-    left: 0;
-    right: -48px;
-    overflow: hidden;
+  .hero-right-top {
+    flex: 6;
+    min-height: 200px;
+    background-image: linear-gradient(rgba(30, 51, 40, 0.3), rgba(30, 51, 40, 0.3)), var(--heroTopBgUrl);
+    background-size: cover;
+    background-position: center;
   }
 
-  .hero-cards-bg :global(.hero-bg-image),
-  .hero-cards-bg :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  .hero-cards-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: 1;
-    pointer-events: none;
+  .hero-right-bottom {
+    flex: 4;
+    min-height: 0;
+    background: var(--ivory2);
+    padding: 20px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .hero-cards {
     display: grid;
     gap: 16px;
-    position: relative;
-    z-index: 2;
   }
 
   @media (max-width: 960px) {
-    .hero-cards-column {
+    .hero-right-stack {
       min-height: 0;
-      padding: 24px 0 8px;
     }
 
-    .hero-cards-bg {
-      top: 0;
-      bottom: auto;
-      left: -24px;
-      right: -24px;
-      height: min(52vh, 480px);
+    .hero-right-top {
+      flex: 0 0 min(40vh, 320px);
+      min-height: min(40vh, 320px);
     }
 
-    .hero-cards {
-      margin-top: 0;
+    .hero-right-bottom {
+      flex: 1 1 auto;
+      padding: 20px 0 32px;
     }
   }
 
@@ -473,8 +475,40 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     padding: 28px 0 32px;
   }
 
+  .service-preview-cta--banner {
+    position: relative;
+    background:
+      linear-gradient(rgba(30, 51, 40, 0.5), rgba(30, 51, 40, 0.5)),
+      var(--serviceCtaBgUrl);
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    min-height: 280px;
+    padding: 48px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .service-preview-cta-inner {
+    position: relative;
+    z-index: 1;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .service-preview-cta-quote {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 24px;
+    font-style: italic;
+    color: rgba(250, 247, 242, 0.95);
+    max-width: 560px;
+    line-height: 1.45;
+    margin: 0;
   }
 
   .sell-layout {
