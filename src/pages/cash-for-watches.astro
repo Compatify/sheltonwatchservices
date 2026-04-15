@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteChrome from '../components/SiteChrome.astro';
+import SellForm from '../components/SellForm.astro';
+import { faqPageSchema } from '../utils/faqSchema';
+import { jsonLd } from '../utils/schema';
+
+const title = 'Cash for Watches | Shelton | Lehigh Valley PA';
+const description =
+  'Get cash for your watches in the Lehigh Valley. Fair market prices — not pawn shop rates. Rolex, Omega, and all luxury brands. Free no-obligation valuation.';
+const faqs = [
+  {
+    q: 'How much cash will I get for my watch?',
+    a: 'Offers depend on reference, condition, included materials, and current market depth. We quote a specific number — not a vague range — once we have enough information.',
+  },
+  {
+    q: 'Do you buy watches in any condition?',
+    a: 'We buy many non-running and project pieces when the economics make sense. If a watch is better served by service first, we will say so.',
+  },
+  {
+    q: 'How is your offer different from a pawn shop?',
+    a: 'Pawn models optimize for speed and collateral risk. We optimize for fair specialist pricing — the same judgment used when we service and resell watches professionally.',
+  },
+];
+const faqLd = faqPageSchema(faqs);
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container narrow">
+          <h1>Cash for Watches — Lehigh Valley PA</h1>
+          <p class="muted">
+            “Cash for watches” should not mean “panic pricing.” Shelton Watch Services buys timepieces across
+            the Lehigh Valley with transparent reasoning — what the reference is doing in the market, what
+            service might be needed, and how condition changes the number.
+          </p>
+          <p class="muted">
+            You will know how we reached the offer, and you can compare it against consignment if you want
+            a higher net with more patience — both paths start with the same honest intake.
+          </p>
+          <h2>Request a valuation</h2>
+          <SellForm idSuffix="-cash" />
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+          <p class="muted">
+            Prefer a slower, higher-touch sale? Read about <a href="/sell/#consignment">consignment on our sell hub</a>.
+          </p>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 720px;
+  }
+
+  .narrow h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin: 32px 0 14px;
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+
+  a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--gold);
+  }
+</style>

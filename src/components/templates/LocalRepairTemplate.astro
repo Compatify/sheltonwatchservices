@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../SiteChrome.astro';
+import ServiceRequestForm from '../ServiceRequestForm.astro';
+import { localBusinessSchema } from '../../data/schema/localBusiness';
+import { faqPageSchema } from '../../utils/faqSchema';
+import { jsonLd } from '../../utils/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  cityLabel: string;
+  formSuffix: string;
+}
+
+const { title, description, h1, cityLabel, formSuffix } = Astro.props;
+
+const faqs = [
+  {
+    q: `Is there a watch repair shop in ${cityLabel}, PA?`,
+    a: `Yes — Shelton Watch Services serves ${cityLabel} and the wider Lehigh Valley by appointment, with mail-in service if you prefer to ship. Call (484) 291-4029 to discuss your piece.`,
+  },
+  {
+    q: `Do you service Rolex in ${cityLabel}?`,
+    a: `We service many modern and vintage Rolex models for clients in ${cityLabel} and surrounding towns, with written estimates before work begins.`,
+  },
+  {
+    q: `Can I mail my watch to you from ${cityLabel}?`,
+    a: `Yes. Many ${cityLabel} clients mail insured packages after we discuss intake. Include your contact details and a short note on symptoms — we confirm receipt and next steps.`,
+  },
+];
+
+const faqLd = faqPageSchema(faqs);
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(localBusinessSchema)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container prose-local">
+          <h1>{h1}</h1>
+          <div class="intro muted">
+            <slot name="intro" />
+          </div>
+          <h2>What we service near {cityLabel}</h2>
+          <ul class="muted list">
+            <li>Battery replacement from $25</li>
+            <li>Crystal replacement from $80</li>
+            <li>Full overhaul from $250</li>
+            <li>Vintage restoration from $350+</li>
+            <li>Bracelet repair &amp; sizing</li>
+            <li>Watch appraisal from $50</li>
+          </ul>
+          <h2>How to reach us</h2>
+          <p class="muted">
+            Appointments are available in Bethlehem, PA. Call <a href="tel:+14842914029">(484) 291-4029</a> or
+            email <a href="mailto:info@sheltonwatchservices.com">info@sheltonwatchservices.com</a> to
+            schedule. Mail-in service is available nationwide with insured shipping.
+          </p>
+          <address class="contact-block">
+            Shelton Watch Services<br />
+            By appointment — Bethlehem, PA 18017<br />
+            <a href="tel:+14842914029">(484) 291-4029</a>
+          </address>
+          <h2>Request service</h2>
+          <ServiceRequestForm idSuffix={formSuffix} />
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+          <p class="muted nearby">
+            Also serving Allentown, Bethlehem, Easton, and all of Lehigh Valley. Explore the full{' '}
+            <a href="/service/">service hub</a> or <a href="/contact/">contact us</a> anytime.
+          </p>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .intro :global(p) + :global(p) {
+    margin-top: 14px;
+  }
+
+  .prose-local h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin: 32px 0 14px;
+  }
+
+  .list {
+    margin: 12px 0 0 1.1rem;
+  }
+
+  .contact-block {
+    font-style: normal;
+    margin: 16px 0 8px;
+    line-height: 1.85;
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+
+  .nearby {
+    margin-top: 28px;
+  }
+
+  .nearby a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .nearby a:hover {
+    color: var(--gold);
+  }
+</style>

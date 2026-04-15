@@ -1,0 +1,564 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteChrome from '../components/SiteChrome.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import TrustBar from '../components/TrustBar.astro';
+import WatchCard from '../components/WatchCard.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import GuideCard from '../components/GuideCard.astro';
+import SellForm from '../components/SellForm.astro';
+import { watches } from '../data/watches';
+import { localBusinessSchema } from '../data/schema/localBusiness';
+import { jsonLd } from '../utils/schema';
+import { productSchemaForWatch } from '../utils/productSchema';
+
+const title = 'Shelton Watch Services | Buy, Sell & Service | Lehigh Valley';
+const description =
+  'Expert watch repair, buying, and selling in the Lehigh Valley. Transparent pricing, 12+ years experience. Rolex, Omega, Seiko, vintage and more. Bethlehem PA.';
+
+const heroWatches = watches.slice(0, 3);
+const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
+---
+
+<BaseLayout title={title} description={description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(localBusinessSchema)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
+  <SiteChrome showInquiryModal>
+    <main id="main">
+      <section class="hero section section--ivory">
+        <div class="hero-grid container">
+          <div class="hero-copy">
+            <Eyebrow label="Bethlehem, Pennsylvania" />
+            <h1 class="hero-h1">Watchmaker. Collector. <em>Your guy in the Valley.</em></h1>
+            <p class="hero-sub muted">
+              I've been servicing and buying watches in the Lehigh Valley for over 12 years. Every watch I
+              touch gets treated like it matters — because to someone, it does.
+            </p>
+            <div class="hero-actions">
+              <a class="btn-primary" href="/shop/">Browse Watches</a>
+              <a class="btn-secondary" href="/service/">Book Service</a>
+              <a class="btn-ghost" href="/sell/">Sell Your Watch</a>
+            </div>
+          </div>
+          <div class="hero-cards">
+            {heroWatches.map((w) => <WatchCard watch={w} stacked showFloat />)}
+          </div>
+        </div>
+      </section>
+
+      <TrustBar variant="forest" />
+
+      <section class="section section--ivory">
+        <div class="container">
+          <Eyebrow label="Curated Inventory" />
+          <h2>Shop <em>Timepieces</em></h2>
+          <div class="card-grid shop-grid">
+            {watches.map((w) => <WatchCard watch={w} />)}
+          </div>
+          <div class="shop-footer">
+            <p class="muted">New pieces added regularly. Inventory changes frequently.</p>
+            <a class="btn-ghost" href="/shop/">View All Inventory</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--ivory2">
+        <div class="container">
+          <Eyebrow label="Expert Care" />
+          <div class="service-preview-head">
+            <div>
+              <h2>Watch Service <em>&amp; Repair</em></h2>
+              <p class="muted stack-sm">
+                From battery swaps to full mechanical overhauls, every job gets the same careful
+                diagnosis — and a written estimate before any work begins.
+              </p>
+            </div>
+            <aside class="callout">
+              <p>
+                Mail-in service nationwide · Local drop-off Bethlehem, PA · Free written estimate before
+                any work begins
+              </p>
+            </aside>
+          </div>
+          <div class="card-grid service-preview-grid">
+            <ServiceCard
+              num="01"
+              title="Battery &amp; Quartz Care"
+              description="Pressure-tested resealing when needed, correct cell selection, and coil checks for running issues."
+              price="From $25"
+              tags={['Same-week', 'While you wait when possible']}
+            />
+            <ServiceCard
+              num="02"
+              title="Crystal &amp; Case Work"
+              description="Sapphire and acrylic replacements, bezel alignment, and careful refinishing that respects original lines."
+              price="From $80"
+              tags={['OEM-style parts', 'Detail-first']}
+            />
+            <ServiceCard
+              num="03"
+              title="Full Mechanical Service"
+              description="Disassembly, cleaning, lubrication, regulation, and testing — documented for modern and vintage calibers."
+              price="From $250"
+              tags={['Timegrapher', 'Written report']}
+            />
+            <ServiceCard
+              num="04"
+              title="Vintage Restoration"
+              description="American pocket watches to mid-century wristwatches — conservative restoration with collector judgment."
+              price="From $350+"
+              tags={['Pocket watches', 'Heritage pieces']}
+            />
+          </div>
+        </div>
+        <div class="service-preview-cta section--forest">
+          <div class="container service-preview-cta-inner">
+            <a class="btn-ghost" href="/service/">Get a Free Service Estimate →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--ivory">
+        <div class="container sell-grid">
+          <div>
+            <Eyebrow label="Get an Offer" />
+            <h2>Sell Your <em>Timepiece</em></h2>
+            <ol class="sell-steps">
+              <li>
+                <span class="sell-num">1.</span>
+                <div>
+                  <strong>Submit details</strong>
+                  <p class="muted">Brand, reference, condition, and what’s included.</p>
+                </div>
+              </li>
+              <li>
+                <span class="sell-num">2.</span>
+                <div>
+                  <strong>Receive offer within 24hrs</strong>
+                  <p class="muted">Straightforward numbers — no obligation.</p>
+                </div>
+              </li>
+              <li>
+                <span class="sell-num">3.</span>
+                <div>
+                  <strong>Get paid fast</strong>
+                  <p class="muted">Local appointment or insured mail-in options.</p>
+                </div>
+              </li>
+            </ol>
+            <p class="consignment-callout">
+              <span class="badge">Consignment</span> Prefer consignment? We offer that too — ask on your
+              submission.
+            </p>
+          </div>
+          <div>
+            <SellForm idSuffix="-home" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--ivory2">
+        <div class="container">
+          <Eyebrow label="Free Resources" />
+          <h2>Watch <em>Tools</em></h2>
+          <div class="card-grid tools-grid">
+            <a class="tool-card" href="/sell/">
+              <p class="tool-icon" aria-hidden="true">⌁</p>
+              <h3>Watch Value Estimator</h3>
+              <p class="tool-hook"><em>What might my watch be worth?</em></p>
+              <p class="muted">Ballpark guidance before you sell or trade.</p>
+              <span class="text-link">Coming soon — Sell hub →</span>
+            </a>
+            <a class="tool-card" href="/service/">
+              <p class="tool-icon" aria-hidden="true">◷</p>
+              <h3>Service Due Calculator</h3>
+              <p class="tool-hook"><em>When is my watch due?</em></p>
+              <p class="muted">Intervals by brand and wear pattern.</p>
+              <span class="text-link">Coming soon — Service hub →</span>
+            </a>
+            <a class="tool-card" href="/tools/repair-or-sell/">
+              <p class="tool-icon" aria-hidden="true">⚖</p>
+              <h3>Repair or Sell?</h3>
+              <p class="tool-hook"><em>Which path makes sense?</em></p>
+              <p class="muted">Five quick questions — clear guidance.</p>
+              <span class="text-link">Use tool →</span>
+            </a>
+            <a class="tool-card" href="/guide/">
+              <p class="tool-icon" aria-hidden="true">⌕</p>
+              <h3>Movement Lookup</h3>
+              <p class="tool-hook"><em>What caliber is inside?</em></p>
+              <p class="muted">Decode references and calibers.</p>
+              <span class="text-link">Coming soon — Guide →</span>
+            </a>
+            <a class="tool-card" href="/service/">
+              <p class="tool-icon" aria-hidden="true">✎</p>
+              <h3>Instant Service Quote</h3>
+              <p class="tool-hook"><em>What should I budget?</em></p>
+              <p class="muted">Transparent starting points by service type.</p>
+              <span class="text-link">Coming soon — Service hub →</span>
+            </a>
+            <a class="tool-card" href="/sell/">
+              <p class="tool-icon" aria-hidden="true">◆</p>
+              <h3>Condition Grader</h3>
+              <p class="tool-hook"><em>How do dealers grade condition?</em></p>
+              <p class="muted">Understand mint vs. excellent vs. daily wear.</p>
+              <span class="text-link">Coming soon — Sell hub →</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--ivory">
+        <div class="container">
+          <Eyebrow label="Knowledge Base" />
+          <h2>The Watch <em>Guide</em></h2>
+          <div class="card-grid guide-grid">
+            <GuideCard
+              category="Rolex"
+              title="How Often Should You Service a Rolex Watch?"
+              excerpt="Official intervals vs. what independent specialists recommend for daily wear in real life."
+              href="/guide/how-often-service-rolex/"
+            />
+            <GuideCard
+              category="Decision guide"
+              title="Is My Watch Worth Repairing?"
+              excerpt="A practical rule of thumb using repair cost, value, and sentimental importance."
+              href="/guide/is-my-watch-worth-repairing/"
+            />
+            <GuideCard
+              category="Rolex"
+              title="How Much Does a Rolex Service Cost?"
+              excerpt="Authorized service vs. independent pricing — what to expect line by line."
+              href="/guide/rolex-service-cost/"
+            />
+            <GuideCard
+              category="Troubleshooting"
+              title="My Watch Stopped Working — What Should I Do?"
+              excerpt="Battery, winding, and when it’s time for a professional assessment."
+              href="/guide/watch-stopped-working/"
+            />
+            <GuideCard
+              category="Accuracy"
+              title="Why Is My Watch Losing Time?"
+              excerpt="Magnetism, lubrication, regulation — the usual suspects explained plainly."
+              href="/guide/why-is-my-watch-losing-time/"
+            />
+            <GuideCard
+              category="DIY"
+              title="How to Service a Watch at Home"
+              excerpt="What you can safely maintain at home — and what belongs on the bench."
+              href="/guide/how-to-service-watch-at-home/"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="location-strip section section--forest">
+        <div class="container location-grid">
+          <div>
+            <p class="location-lead"><em>Bethlehem, Pennsylvania.</em></p>
+            <p class="location-sub muted">
+              Serving the Lehigh Valley and all of PA by appointment. Mail-in watch service accepted
+              nationwide.
+            </p>
+          </div>
+          <div class="location-divider" aria-hidden="true"></div>
+          <div class="location-contact">
+            <div class="loc-row">
+              <p class="loc-label">Local</p>
+              <p>By appointment — Bethlehem, PA 18017</p>
+            </div>
+            <div class="loc-row">
+              <p class="loc-label">Mail-In</p>
+              <p>Insured shipping accepted nationwide</p>
+            </div>
+            <div class="loc-row">
+              <p class="loc-label">Hours</p>
+              <p>Mon–Fri 9am–5pm · Saturday by appointment</p>
+            </div>
+            <div class="loc-row">
+              <p class="loc-label">Email</p>
+              <p>
+                <a href="mailto:info@sheltonwatchservices.com">info@sheltonwatchservices.com</a>
+              </p>
+            </div>
+            <a class="btn-secondary" href="/contact/">Book a Service</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    min-height: calc(100vh - 68px);
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    max-width: 520px;
+    margin: 20px 0 28px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hero-cards {
+    display: grid;
+    gap: 16px;
+    position: relative;
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .shop-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .shop-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .shop-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .service-preview-head {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 36px;
+  }
+
+  @media (max-width: 900px) {
+    .service-preview-head {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .callout {
+    background: var(--ivory);
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink3);
+  }
+
+  .service-preview-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    .service-preview-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .service-preview-cta {
+    margin-top: 48px;
+    padding: 28px 0 32px;
+  }
+
+  .service-preview-cta-inner {
+    text-align: center;
+  }
+
+  .sell-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .sell-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sell-steps {
+    list-style: none;
+    margin: 28px 0 24px;
+  }
+
+  .sell-steps li {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .sell-num {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--ink5);
+    line-height: 1;
+    min-width: 48px;
+  }
+
+  .consignment-callout {
+    font-size: 13.5px;
+    color: var(--ink3);
+    border: 0.5px solid var(--rule);
+    padding: 14px 16px;
+    display: inline-block;
+    max-width: 480px;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 36px;
+  }
+
+  @media (max-width: 900px) {
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .tool-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--ivory);
+    padding: 24px 22px;
+    border: 0.5px solid var(--rule-lt);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .tool-card:hover {
+    background: var(--ivory3);
+    border-top: 2px solid var(--gold);
+    border-left: 0.5px solid var(--rule-lt);
+    border-right: 0.5px solid var(--rule-lt);
+    border-bottom: 0.5px solid var(--rule-lt);
+  }
+
+  .tool-icon {
+    color: var(--gold);
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .tool-hook {
+    font-size: 13px;
+    margin: 8px 0 10px;
+  }
+
+  .guide-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 36px;
+  }
+
+  @media (max-width: 900px) {
+    .guide-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .guide-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1.1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .location-grid {
+      grid-template-columns: 1fr;
+    }
+    .location-divider {
+      display: none;
+    }
+  }
+
+  .location-lead {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 32px);
+    font-style: italic;
+    color: rgba(250, 247, 242, 0.92);
+    margin-bottom: 12px;
+  }
+
+  .location-sub {
+    color: rgba(250, 247, 242, 0.55);
+    font-size: 13.5px;
+    max-width: 420px;
+  }
+
+  .location-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--gold);
+    opacity: 0.45;
+  }
+
+  .location-contact .loc-row {
+    margin-bottom: 14px;
+  }
+
+  .loc-label {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .location-contact {
+    color: rgba(250, 247, 242, 0.78);
+    font-size: 14px;
+  }
+
+  .location-contact a {
+    color: rgba(250, 247, 242, 0.85);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .location-contact .btn-secondary {
+    margin-top: 18px;
+  }
+</style>

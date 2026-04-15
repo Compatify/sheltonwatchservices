@@ -1,0 +1,44 @@
+---
+interface Props {
+  idSuffix?: string;
+}
+
+const { idSuffix = '' } = Astro.props;
+const suf = idSuffix;
+---
+
+<form
+  class="service-form"
+  data-netlify="true"
+  name="service-request"
+  method="POST"
+  action="/service/"
+>
+  <input type="hidden" name="form-name" value="service-request" />
+  <div class="form-group">
+    <label class="form-label" for={`svc-name${suf}`}>Name</label>
+    <input class="form-field" type="text" id={`svc-name${suf}`} name="name" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`svc-email${suf}`}>Email</label>
+    <input class="form-field" type="email" id={`svc-email${suf}`} name="email" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`svc-phone${suf}`}>Phone</label>
+    <input class="form-field" type="tel" id={`svc-phone${suf}`} name="phone" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`svc-watch${suf}`}>Watch brand &amp; model</label>
+    <input class="form-field" type="text" id={`svc-watch${suf}`} name="watch" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`svc-service${suf}`}>Service needed</label>
+    <textarea class="form-field" id={`svc-service${suf}`} name="service_needed" rows={3} required
+    ></textarea>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`svc-notes${suf}`}>Additional details</label>
+    <textarea class="form-field" id={`svc-notes${suf}`} name="message" rows={3}></textarea>
+  </div>
+  <button class="form-submit" type="submit">Request Service →</button>
+</form>

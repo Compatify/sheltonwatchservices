@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+import WatchCard from '../../components/WatchCard.astro';
+import { watchesByBrand } from '../../data/watches';
+import { productSchemaForWatch } from '../../utils/productSchema';
+import { jsonLd } from '../../utils/schema';
+
+const title = 'Seiko Watches For Sale | Shelton Watch PA';
+const description =
+  'Shop pre-owned Seiko watches. Personally inspected, accurately described. Inquiry-based purchasing from a specialist watchmaker in Bethlehem PA.';
+const list = watchesByBrand('Seiko');
+const productGraph = { '@context': 'https://schema.org', '@graph': list.map(productSchemaForWatch) };
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
+  <SiteChrome showInquiryModal>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container">
+          <h1>Seiko Watches For Sale | Pre-Owned | Lehigh Valley PA</h1>
+          <p class="muted">
+            Seiko collectors notice chapter rings, handset alignment, and the difference between “runs” and
+            “runs right.” Listings here include the practical details enthusiasts actually ask about.
+          </p>
+          <p class="muted">
+            Maintain what you buy: <a href="/service/seiko/">Seiko service</a> ·{' '}
+            <a href="/sell/">Sell your watch</a>
+          </p>
+          <div class="card-grid shop-grid">
+            {list.map((w) => (
+              <WatchCard watch={w} />
+            ))}
+          </div>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .shop-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .shop-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--gold);
+  }
+</style>

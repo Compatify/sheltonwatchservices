@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteChrome from '../components/SiteChrome.astro';
+import { localBusinessSchema } from '../data/schema/localBusiness';
+import { jsonLd } from '../utils/schema';
+---
+
+<BaseLayout
+  title="Contact Shelton Watch Services | Bethlehem PA"
+  description="Contact Shelton Watch Services in Bethlehem, PA. Book a service appointment, mail in your watch, or ask about buying and selling. (484) 291-4029."
+>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(localBusinessSchema)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container contact-grid">
+          <div>
+            <h1>Contact Shelton Watch Services</h1>
+            <address class="contact-address">
+              Shelton Watch Services<br />
+              By appointment — Bethlehem, PA 18017<br />
+              <a href="tel:+14842914029">(484) 291-4029</a><br />
+              <a href="mailto:info@sheltonwatchservices.com">info@sheltonwatchservices.com</a>
+            </address>
+            <p class="muted stack-sm">
+              <strong>Hours:</strong> Mon–Fri 9am–5pm · Saturday by appointment
+            </p>
+            <section class="mailin">
+              <h2>Mail-in service</h2>
+              <p class="muted">
+                [OWNER: Describe your mail-in process — how to package, where to ship, what info to
+                include, insurance instructions]
+              </p>
+            </section>
+            <div class="map-placeholder muted">
+              [EMBED GOOGLE MAPS — search "Bethlehem PA" area, Share &gt; Embed a map, paste iframe here]
+            </div>
+          </div>
+          <div>
+            <form data-netlify="true" name="contact" method="POST" action="/contact/">
+              <input type="hidden" name="form-name" value="contact" />
+              <div class="form-group">
+                <label class="form-label" for="contact-name">Name</label>
+                <input class="form-field" type="text" id="contact-name" name="name" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-email">Email</label>
+                <input class="form-field" type="email" id="contact-email" name="email" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-subject">Subject</label>
+                <select class="form-field" id="contact-subject" name="subject" required>
+                  <option value="">Select</option>
+                  <option>Service Inquiry</option>
+                  <option>Buy a Watch</option>
+                  <option>Sell My Watch</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-message">Message</label>
+                <textarea class="form-field" id="contact-message" name="message" rows={5} required
+                ></textarea>
+              </div>
+              <button class="form-submit" type="submit">Send message →</button>
+            </form>
+          </div>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .contact-page h1,
+  .contact-grid h1 {
+    margin-bottom: 20px;
+  }
+
+  .contact-address {
+    font-style: normal;
+    line-height: 1.85;
+    margin-bottom: 16px;
+  }
+
+  .contact-address a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .mailin {
+    margin-top: 28px;
+  }
+
+  .mailin h2 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+
+  .map-placeholder {
+    margin-top: 24px;
+    padding: 20px;
+    border: 0.5px dashed var(--rule);
+    font-size: 13.5px;
+  }
+</style>

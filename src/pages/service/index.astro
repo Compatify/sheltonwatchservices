@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import ServiceRequestForm from '../../components/ServiceRequestForm.astro';
+import { localBusinessSchema } from '../../data/schema/localBusiness';
+import { serviceSchema } from '../../utils/serviceSchema';
+import { faqPageSchema } from '../../utils/faqSchema';
+import { jsonLd } from '../../utils/schema';
+
+const title = 'Watch Repair & Service | Shelton Watch | Bethlehem PA';
+const description =
+  'Expert watch repair in Lehigh Valley PA. Battery replacement from $25, full overhaul from $250. All brands. Free written estimate. Mail-in nationwide.';
+const svc = serviceSchema(
+  'Watch Repair and Servicing',
+  'Independent watch service in Bethlehem PA with written estimates, mail-in nationwide support, and transparent pricing for battery, crystal, overhaul, and vintage work.',
+);
+const faqs = [
+  {
+    q: 'How long does a watch service take?',
+    a: 'Timing depends on parts and complexity. Many battery and crystal jobs turn quickly; full mechanical services are quoted with realistic windows once evaluated — never a surprise finish date.',
+  },
+  {
+    q: 'Do you service watches by mail?',
+    a: 'Yes. Insured shipping nationwide is common. We confirm intake, document condition on arrival, and discuss approvals before ordering parts.',
+  },
+  {
+    q: 'Do you offer a warranty on repairs?',
+    a: 'Completed work is backed by a stated warranty period discussed at pickup — specifics depend on service type and parts used.',
+  },
+];
+const faqLd = faqPageSchema(faqs);
+
+const brands = [
+  { href: '/service/rolex/', label: 'Rolex' },
+  { href: '/service/omega/', label: 'Omega' },
+  { href: '/service/seiko/', label: 'Seiko' },
+  { href: '/service/cartier/', label: 'Cartier' },
+  { href: '/service/tudor/', label: 'Tudor' },
+  { href: '/service/tag-heuer/', label: 'TAG Heuer' },
+];
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(localBusinessSchema)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(svc)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container">
+          <h1>Watch Service &amp; Repair</h1>
+          <div class="service-hero">
+            <div>
+              <p class="muted">
+                Independent watchmaking for the Lehigh Valley — with the kind of estimates you can forward
+                to your spouse without wincing. Whether you need a battery or a full overhaul, the process
+                starts with diagnosis, not sales pressure.
+              </p>
+            </div>
+            <aside class="callout">
+              <p>
+                Mail-in service nationwide · Local Bethlehem PA · Free written estimate · No work done
+                without your approval
+              </p>
+            </aside>
+          </div>
+          <h2>Brands we service</h2>
+          <p class="muted">
+            Rolex · Omega · Seiko · Cartier · Tudor · TAG Heuer · Hamilton · Citizen · Bulova · Longines ·
+            Waltham · Elgin — plus many more, including vintage wristwatches and American pocket watches.
+          </p>
+          <div class="brand-grid">
+            {brands.map((b) => (
+              <a class="brand-card" href={b.href}>
+                <span class="brand-label">{b.label}</span>
+                <span class="text-link">Service overview →</span>
+              </a>
+            ))}
+          </div>
+          <h2>Service types &amp; starting prices</h2>
+          <ul class="price-list muted">
+            <li>Battery replacement from $25</li>
+            <li>Crystal replacement from $80</li>
+            <li>Band / bracelet repair from $40</li>
+            <li>Full overhaul from $250</li>
+            <li>Vintage restoration from $350</li>
+            <li>Watch appraisal from $50</li>
+            <li>Polishing from $75</li>
+            <li>Stem &amp; crown repair from $85</li>
+          </ul>
+          <h2>Request service</h2>
+          <ServiceRequestForm idSuffix="-hub" />
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+          <p class="sell-cta muted">
+            Also buying watches — <a href="/sell/">get a free quote</a> if you are considering selling or
+            trading toward service.
+          </p>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .service-hero {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 28px;
+    align-items: start;
+    margin: 24px 0 32px;
+  }
+
+  @media (max-width: 900px) {
+    .service-hero {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .callout {
+    background: var(--ivory2);
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink3);
+  }
+
+  .brand-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 20px 0 32px;
+  }
+
+  @media (max-width: 768px) {
+    .brand-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .brand-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 22px 20px;
+    background: var(--ivory2);
+    border: 0.5px solid var(--rule-lt);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .brand-card:hover {
+    background: var(--ivory3);
+    border-top: 2px solid var(--gold);
+    border-left: 0.5px solid var(--rule-lt);
+    border-right: 0.5px solid var(--rule-lt);
+    border-bottom: 0.5px solid var(--rule-lt);
+  }
+
+  .brand-label {
+    font-family: var(--serif);
+    font-size: 24px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .price-list {
+    list-style: none;
+    margin-top: 12px;
+  }
+
+  .price-list li {
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--rule-lt);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin: 32px 0 12px;
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+
+  .sell-cta {
+    margin-top: 28px;
+  }
+
+  .sell-cta a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .sell-cta a:hover {
+    color: var(--gold);
+  }
+</style>

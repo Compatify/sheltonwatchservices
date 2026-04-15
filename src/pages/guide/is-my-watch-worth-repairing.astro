@@ -1,0 +1,53 @@
+---
+import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+
+const faqs = [
+  {
+    q: 'How do I know if my watch is worth repairing?',
+    a: 'Compare a written repair estimate to realistic market value for your exact reference and condition, then adjust for sentimental weight — the math is only half the story.',
+  },
+  {
+    q: 'What watches are generally not worth repairing?',
+    a: 'Low-value quartz with module failure, heavily damaged fashion pieces, and some mass-market models where parts exceed replacement cost often fail the ratio test — but exceptions exist when the watch is irreplaceable personally.',
+  },
+  {
+    q: 'How much should I expect to pay for watch repair?',
+    a: 'Common starting points: battery work from roughly $25, crystals from roughly $80, and mechanical overhauls from roughly $250 — with final quotes dependent on parts and movement complexity.',
+  },
+];
+---
+
+<GuideArticlePage
+  title="Is My Watch Worth Repairing? | Shelton Watch Services"
+  description="A practical framework for deciding if watch repair makes sense — cost vs. value, sentimental weight, and when to ask a watchmaker."
+  h1="Is My Watch Worth Repairing?"
+  answer="If honest repair costs approach a large fraction of what the watch could reasonably sell for — and the piece is not emotionally irreplaceable — selling often wins. A common rule of thumb starts evaluating tension around roughly half of market value: below that, repair frequently makes sense; above it, pause and compare options."
+  faqs={faqs}
+  ctaHref="/tools/repair-or-sell/"
+  ctaLabel="Try the repair-or-sell tool →"
+>
+  <p>
+    “Worth it” is two questions disguised as one: financial worth and personal worth. On the financial
+    side, collectors often anchor to a <strong>40–60%</strong> repair-to-value band before skepticism kicks
+    in — but a rare dial or family engraving can blow that model up instantly.
+  </p>
+  <h2>How Should You Compare Repair Cost to Market Value?</h2>
+  <p>
+    Market value means <em>your</em> reference in <em>your</em> condition — not a cherry-picked auction
+    highlight. Start with comparable sales that match bracelet type, service history signals, and dial
+    integrity. If you cannot find comps, assume wider uncertainty and lean on a professional opinion.
+  </p>
+  <h2>When Does Sentimental Value Change the Math?</h2>
+  <p>
+    If losing the watch would bother you more than losing the cash, repair is often the path — just do it
+    with eyes open about diminishing returns. Sentimental pieces still deserve written estimates so you are
+    choosing consciously, not drifting into a money pit.
+  </p>
+  <h2>What Is the Fastest Way to Stop Guessing?</h2>
+  <p>
+    A short appointment with documented condition notes beats weeks of forum scrolling. If you are in the
+    Lehigh Valley, book an evaluation — or use our{' '}
+    <a href="/tools/repair-or-sell/">repair-or-sell tool</a> for a first-pass nudge, then confirm with a
+    human. For documentation needs, see <a href="/service/watch-appraisal/">watch appraisal</a>.
+  </p>
+</GuideArticlePage>

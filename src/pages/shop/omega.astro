@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+import WatchCard from '../../components/WatchCard.astro';
+import { watchesByBrand } from '../../data/watches';
+import { productSchemaForWatch } from '../../utils/productSchema';
+import { jsonLd } from '../../utils/schema';
+
+const title = 'Omega Watches For Sale | Shelton Watch PA';
+const description =
+  'Shop pre-owned Omega watches. Personally inspected, accurately described. Inquiry-based purchasing from a specialist watchmaker in Bethlehem PA.';
+const list = watchesByBrand('Omega');
+const productGraph = { '@context': 'https://schema.org', '@graph': list.map(productSchemaForWatch) };
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
+  <SiteChrome showInquiryModal>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container">
+          <h1>Omega Watches For Sale | Pre-Owned | Lehigh Valley PA</h1>
+          <p class="muted">
+            Omega buyers care about dial texture, bezel action, and service history gaps — we photograph and
+            describe what matters, then answer follow-ups like a bench conversation, not a chatbot.
+          </p>
+          <p class="muted">
+            Pair purchases with <a href="/service/omega/">Omega service</a> or explore{' '}
+            <a href="/sell/">selling options</a> if you are upgrading.
+          </p>
+          <div class="card-grid shop-grid">
+            {list.map((w) => (
+              <WatchCard watch={w} />
+            ))}
+          </div>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .shop-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .shop-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--gold);
+  }
+</style>

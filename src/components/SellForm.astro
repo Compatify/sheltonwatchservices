@@ -1,0 +1,97 @@
+---
+interface Props {
+  idSuffix?: string;
+}
+
+const { idSuffix = '' } = Astro.props;
+const suf = idSuffix;
+---
+
+<form
+  class="sell-form"
+  data-netlify="true"
+  name="sell-quote"
+  method="POST"
+  action="/sell/"
+>
+  <input type="hidden" name="form-name" value="sell-quote" />
+  <div class="form-group">
+    <label class="form-label" for={`sell-brand${suf}`}>Brand</label>
+    <select class="form-field" id={`sell-brand${suf}`} name="brand" required>
+      <option value="">Select brand</option>
+      <option>Rolex</option>
+      <option>Omega</option>
+      <option>Seiko</option>
+      <option>Cartier</option>
+      <option>Tudor</option>
+      <option>Tag Heuer</option>
+      <option>Hamilton</option>
+      <option>Citizen</option>
+      <option>Other Luxury</option>
+      <option>Vintage</option>
+      <option>Other</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-model${suf}`}>Model / Reference</label>
+    <input class="form-field" type="text" id={`sell-model${suf}`} name="model_reference" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-condition${suf}`}>Condition</label>
+    <select class="form-field" id={`sell-condition${suf}`} name="condition" required>
+      <option value="">Select condition</option>
+      <option>Mint / Unworn</option>
+      <option>Excellent</option>
+      <option>Very Good</option>
+      <option>Good</option>
+      <option>Fair</option>
+      <option>Not Working</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-box${suf}`}>Included with watch</label>
+    <select class="form-field" id={`sell-box${suf}`} name="included" required>
+      <option value="">Select</option>
+      <option>Full Box &amp; Papers</option>
+      <option>Box Only</option>
+      <option>Papers Only</option>
+      <option>No Box or Papers</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-consign${suf}`}>Interested in consignment?</label>
+    <select class="form-field" id={`sell-consign${suf}`} name="consignment" required>
+      <option value="">Select</option>
+      <option>No, I want to sell outright</option>
+      <option>Yes, tell me about consignment</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-name${suf}`}>Name</label>
+    <input class="form-field" type="text" id={`sell-name${suf}`} name="name" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-email${suf}`}>Email</label>
+    <input class="form-field" type="email" id={`sell-email${suf}`} name="email" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-phone${suf}`}>Phone</label>
+    <input class="form-field" type="tel" id={`sell-phone${suf}`} name="phone" required />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for={`sell-notes${suf}`}>Additional notes</label>
+    <textarea class="form-field" id={`sell-notes${suf}`} name="notes" rows={4}></textarea>
+  </div>
+  <button class="form-submit" type="submit">Submit for Offer →</button>
+  <p class="form-note muted">
+    No obligation. We respond within 24 hours. Your information is never shared.
+  </p>
+</form>
+
+<style>
+  .form-note {
+    font-size: 12.5px;
+    margin-top: 14px;
+    line-height: 1.65;
+  }
+</style>

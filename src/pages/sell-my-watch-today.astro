@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteChrome from '../components/SiteChrome.astro';
+import SellForm from '../components/SellForm.astro';
+import { faqPageSchema } from '../utils/faqSchema';
+import { jsonLd } from '../utils/schema';
+
+const title = 'Sell My Watch Today | Shelton Watch Bethlehem PA';
+const description =
+  'Sell your watch today. Same-day response, fair market value, cash payment options. Local Bethlehem PA drop-off or mail-in. No obligation quote.';
+const faqs = [
+  {
+    q: 'Can I get an offer the same day?',
+    a: 'Often yes for local Lehigh Valley appointments — especially when reference and condition details are clear. Mail-in submissions are confirmed quickly once the package is received and checked in.',
+  },
+  {
+    q: 'Do you pay cash for watches?',
+    a: 'Payment methods are discussed upfront once we agree on a number. Many sellers prefer secure, documented payment options — we outline choices at offer time.',
+  },
+  {
+    q: 'What watches do you buy?',
+    a: 'We purchase a wide range of modern and vintage pieces — from everyday mechanicals to luxury sport watches — and we are transparent when something is not a fit.',
+  },
+];
+const faqLd = faqPageSchema(faqs);
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container narrow">
+          <h1>Sell My Watch Today — Same-Day Offers, Bethlehem PA</h1>
+          <p class="muted">
+            If you are searching “sell my watch today,” you already know timing matters. Shelton Watch
+            Services returns messages quickly, evaluates fairly, and explains the number — without pawn-shop
+            pressure. Local drop-off in the Lehigh Valley can move faster than anonymous online quotes.
+          </p>
+          <p class="muted">
+            This is not a strip-mall buy counter. You are working with a specialist who also services what
+            he buys, which keeps offers grounded in real-world condition — not algorithmic lowballs.
+          </p>
+          <h2>Get a same-day response</h2>
+          <p class="muted">
+            Submit details below with clear photos references. For Bethlehem-area sellers, mention if you
+            can meet by appointment — that alone can compress the timeline.
+          </p>
+          <SellForm idSuffix="-today" />
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+          <p class="muted">
+            Explore <a href="/sell/">sell hub</a>, <a href="/cash-for-watches/">cash for watches</a>, or{' '}
+            <a href="/service/watch-appraisal/">written appraisals</a>.
+          </p>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 720px;
+  }
+
+  .narrow h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin: 32px 0 14px;
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+
+  a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--gold);
+  }
+</style>

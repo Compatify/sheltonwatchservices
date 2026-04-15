@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteChrome from '../components/SiteChrome.astro';
+import WatchCard from '../components/WatchCard.astro';
+import { watches } from '../data/watches';
+import { productSchemaForWatch } from '../utils/productSchema';
+import { jsonLd } from '../utils/schema';
+
+const title = 'Pre-Owned Watches For Sale | Shelton Watch PA';
+const description =
+  'Browse pre-owned and used watches for sale. Rolex, Omega, Seiko, Tudor, Cartier and more. Every used watch personally inspected and authenticated.';
+const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
+  <SiteChrome showInquiryModal>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container">
+          <h1>Pre-Owned Watches For Sale</h1>
+          <p class="muted">
+            Whether you search for <strong>pre-owned</strong> or <strong>used watches</strong>, you are
+            looking for the same thing: real condition, honest timing data, and a seller who will still be
+            here after delivery. This inventory page uses both phrases on purpose — because Google users
+            type both, and clarity matters more than jargon.
+          </p>
+          <section class="section-block">
+            <h2>How authentication works here</h2>
+            <p class="muted">
+              Every watch is evaluated as if it were entering our personal collection: reference checks,
+              obvious authenticity cues, timing behavior on the bench, and a candid conversation about
+              service history gaps. Nothing ships on vibes alone.
+            </p>
+          </section>
+          <section class="section-block">
+            <h2>Why buy locally vs. Chrono24 or eBay</h2>
+            <p class="muted">
+              Marketplaces optimize for volume; we optimize for fit. You can ask follow-up questions,
+              discuss bracelet geometry, and — if you are in the Lehigh Valley — arrange an appointment to
+              meet the watch. That reduces the “surprise delta” between photos and wrist.
+            </p>
+          </section>
+          <div class="card-grid shop-grid">
+            {watches.map((w) => (
+              <WatchCard watch={w} />
+            ))}
+          </div>
+          <p class="muted">
+            Servicing a new purchase? Start at <a href="/service/">watch service</a>. Selling instead?{' '}
+            <a href="/sell/">Sell your watch</a> for a no-obligation offer.
+          </p>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .section-block {
+    margin-top: 28px;
+    max-width: 720px;
+  }
+
+  .section-block h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 36px 0 24px;
+  }
+
+  @media (max-width: 900px) {
+    .shop-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .shop-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--gold);
+  }
+</style>

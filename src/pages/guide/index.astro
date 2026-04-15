@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+import GuideCard from '../../components/GuideCard.astro';
+---
+
+<BaseLayout
+  title="Watch Repair & Buying Guides | Shelton Watch Services"
+  description="Practical watch guides from an independent Lehigh Valley watchmaker — service intervals, costs, troubleshooting, and when to repair vs. sell."
+>
+  <SiteChrome>
+    <main id="main" class="section section--ivory">
+      <div class="container guide-hub">
+        <h1>The Watch Guide</h1>
+        <p class="muted stack-sm">
+          Straight answers to the questions owners actually ask — written to be useful on the bench and in
+          search.
+        </p>
+        <div class="card-grid guide-hub-grid">
+          <GuideCard
+            category="Rolex"
+            title="How Often Should You Service a Rolex Watch?"
+            excerpt="Official 10-year guidance vs. what daily wear typically needs in the real world."
+            href="/guide/how-often-service-rolex/"
+          />
+          <GuideCard
+            category="Decision guide"
+            title="Is My Watch Worth Repairing?"
+            excerpt="Repair cost, market value, and sentimental weight — how to think it through."
+            href="/guide/is-my-watch-worth-repairing/"
+          />
+          <GuideCard
+            category="Rolex"
+            title="How Much Does a Rolex Service Cost?"
+            excerpt="Authorized service vs. independent specialists — realistic ranges in 2026."
+            href="/guide/rolex-service-cost/"
+          />
+          <GuideCard
+            category="Troubleshooting"
+            title="My Watch Stopped Working — What Should I Do?"
+            excerpt="Start with the simple checks, then know when to escalate to a watchmaker."
+            href="/guide/watch-stopped-working/"
+          />
+          <GuideCard
+            category="Accuracy"
+            title="Why Is My Watch Losing Time?"
+            excerpt="Magnetism, lubrication, regulation — the usual causes in plain language."
+            href="/guide/why-is-my-watch-losing-time/"
+          />
+          <GuideCard
+            category="DIY"
+            title="How to Service a Watch at Home"
+            excerpt="Safe owner maintenance vs. work that belongs under a loupe."
+            href="/guide/how-to-service-watch-at-home/"
+          />
+        </div>
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .guide-hub h1 {
+    margin-bottom: 12px;
+  }
+
+  .guide-hub-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 36px;
+    gap: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .guide-hub-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .guide-hub-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../SiteChrome.astro';
+import ServiceRequestForm from '../ServiceRequestForm.astro';
+import { localBusinessSchema } from '../../data/schema/localBusiness';
+import { serviceSchema } from '../../utils/serviceSchema';
+import { faqPageSchema } from '../../utils/faqSchema';
+import { jsonLd } from '../../utils/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  serviceType: string;
+  serviceDescription: string;
+  answer: string;
+  faqs: { q: string; a: string }[];
+  brandShort: string;
+  shopHref: string;
+  sellHref: string;
+  guideLinks: { href: string; label: string }[];
+  formSuffix: string;
+}
+
+const {
+  title,
+  description,
+  h1,
+  serviceType,
+  serviceDescription,
+  answer,
+  faqs,
+  brandShort,
+  shopHref,
+  sellHref,
+  guideLinks,
+  formSuffix,
+} = Astro.props;
+
+const svc = serviceSchema(serviceType, serviceDescription);
+const faqLd = faqPageSchema(faqs);
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(localBusinessSchema)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(svc)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container prose">
+          <h1>{h1}</h1>
+          <div class="answer-capsule">
+            <p>{answer}</p>
+          </div>
+          <div class="body">
+            <slot />
+          </div>
+          <h2>Request service</h2>
+          <ServiceRequestForm idSuffix={formSuffix} />
+          <h2>Related next steps</h2>
+          <ul class="cross muted">
+            <li><a href={shopHref}>Shop {brandShort} inventory</a></li>
+            <li><a href={sellHref}>Sell your {brandShort}</a></li>
+            {guideLinks.map((g) => (
+              <li>
+                <a href={g.href}>{g.label}</a>
+              </li>
+            ))}
+          </ul>
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin: 32px 0 14px;
+  }
+
+  .body :global(p) {
+    color: var(--ink3);
+    margin-bottom: 14px;
+  }
+
+  .cross {
+    list-style: none;
+    margin: 0;
+  }
+
+  .cross li {
+    margin-bottom: 10px;
+  }
+
+  .cross a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cross a:hover {
+    color: var(--gold);
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+</style>

@@ -1,0 +1,141 @@
+---
+
+---
+
+<div id="inquiry-modal" class="inquiry-modal" hidden>
+  <div class="inquiry-backdrop" data-inquiry-close tabindex="-1" aria-hidden="true"></div>
+  <div class="inquiry-dialog" role="dialog" aria-modal="true" aria-labelledby="inquiry-title">
+    <button type="button" class="inquiry-close" data-inquiry-close aria-label="Close">×</button>
+    <h2 id="inquiry-title" class="inquiry-title">Purchase inquiry</h2>
+    <p class="muted inquiry-watch-line" id="inquiry-watch-line"></p>
+    <form data-netlify="true" name="purchase-inquiry" method="POST" action="/shop/">
+      <input type="hidden" name="form-name" value="purchase-inquiry" />
+      <input type="hidden" name="watch_details" id="inquiry-watch-details" value="" />
+      <div class="form-group">
+        <label class="form-label" for="inquiry-name">Name</label>
+        <input class="form-field" type="text" id="inquiry-name" name="name" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inquiry-email">Email</label>
+        <input class="form-field" type="email" id="inquiry-email" name="email" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inquiry-phone">Phone</label>
+        <input class="form-field" type="tel" id="inquiry-phone" name="phone" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inquiry-message">Message</label>
+        <textarea class="form-field" id="inquiry-message" name="message" rows={3}></textarea>
+      </div>
+      <button class="form-submit" type="submit">Send inquiry →</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .inquiry-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+  }
+
+  .inquiry-modal[hidden] {
+    display: none !important;
+  }
+
+  .inquiry-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 51, 40, 0.45);
+  }
+
+  .inquiry-dialog {
+    position: relative;
+    max-width: 440px;
+    margin: 10vh auto 0;
+    background: var(--ivory);
+    padding: 28px 26px 32px;
+    border: 0.5px solid var(--rule);
+    border-radius: 0;
+  }
+
+  .inquiry-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--ink3);
+    transition: color 0.2s ease;
+  }
+
+  .inquiry-close:hover {
+    color: var(--gold);
+  }
+
+  .inquiry-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 8px;
+    padding-right: 32px;
+  }
+
+  .inquiry-watch-line {
+    margin-bottom: 18px;
+    font-size: 13.5px;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var modal = document.getElementById('inquiry-modal');
+    if (!modal) return;
+    var line = document.getElementById('inquiry-watch-line');
+    var details = document.getElementById('inquiry-watch-details');
+    var closers = modal.querySelectorAll('[data-inquiry-close]');
+
+    function openModal(data) {
+      var summary =
+        data.brand +
+        ' ' +
+        data.model +
+        ' — ' +
+        data.reference +
+        ' — ' +
+        data.priceDisplay;
+      if (line) line.textContent = summary;
+      if (details) details.value = JSON.stringify(data);
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!(t instanceof Element)) return;
+      var btn = t.closest('.watch-inquire');
+      if (!btn) return;
+      var raw = btn.getAttribute('data-watch');
+      if (!raw) return;
+      try {
+        openModal(JSON.parse(raw));
+      } catch (err) {}
+    });
+
+    closers.forEach(function (c) {
+      c.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
+  })();
+</script>

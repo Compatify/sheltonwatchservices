@@ -1,0 +1,16 @@
+---
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import InquiryModal from './InquiryModal.astro';
+
+interface Props {
+  showInquiryModal?: boolean;
+}
+
+const { showInquiryModal = false } = Astro.props;
+---
+
+<Nav />
+<slot />
+<Footer />
+{showInquiryModal && <InquiryModal />}

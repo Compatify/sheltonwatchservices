@@ -1,0 +1,94 @@
+---
+interface Props {
+  variant?: 'forest' | 'ivory';
+}
+
+const { variant = 'forest' } = Astro.props;
+---
+
+<section class:list={['trust-bar', `trust-bar--${variant}`]}>
+  <div class="trust-inner container">
+    <div class="trust-stat">
+      <p class="trust-num">500+</p>
+      <p class="trust-label">Watches Serviced</p>
+    </div>
+    <div class="trust-stat">
+      <p class="trust-num">12+</p>
+      <p class="trust-label">Years Experience</p>
+    </div>
+    <div class="trust-stat">
+      <p class="trust-num">50+</p>
+      <p class="trust-label">Brands Covered</p>
+    </div>
+    <div class="trust-stat">
+      <p class="trust-num">4.9★</p>
+      <p class="trust-label">Google Rating</p>
+    </div>
+    <div class="trust-stat">
+      <p class="trust-num">PA</p>
+      <p class="trust-label">Lehigh Valley Based</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-bar {
+    padding: 48px 48px;
+  }
+
+  .trust-bar--forest {
+    background: var(--forest);
+    color: rgba(250, 247, 242, 0.88);
+  }
+
+  .trust-bar--ivory {
+    background: var(--ivory);
+    color: var(--ink);
+    border-top: 0.5px solid var(--rule-lt);
+    border-bottom: 0.5px solid var(--rule-lt);
+  }
+
+  .trust-inner {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .trust-inner {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .trust-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .trust-num {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1.1;
+  }
+
+  .trust-bar--ivory .trust-num {
+    color: var(--gold);
+  }
+
+  .trust-label {
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 242, 0.45);
+    margin-top: 8px;
+  }
+
+  .trust-bar--ivory .trust-label {
+    color: var(--ink4);
+  }
+</style>

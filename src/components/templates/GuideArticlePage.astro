@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../SiteChrome.astro';
+import { faqPageSchema } from '../../utils/faqSchema';
+import { jsonLd } from '../../utils/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  answer: string;
+  faqs: { q: string; a: string }[];
+  ctaHref: string;
+  ctaLabel: string;
+}
+
+const { title, description, h1, answer, faqs, ctaHref, ctaLabel } = Astro.props;
+const faqLd = faqPageSchema(faqs);
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container guide">
+          <h1>{h1}</h1>
+          <div class="answer-capsule">
+            <p>{answer}</p>
+          </div>
+          <div class="guide-body muted">
+            <slot />
+          </div>
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+        </div>
+      </article>
+      <section class="guide-cta section section--forest" aria-label="Next step">
+        <div class="container guide-cta-inner">
+          <p class="guide-cta-text">Ready for the next step?</p>
+          <a class="btn-secondary" href={ctaHref}>{ctaLabel}</a>
+        </div>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .guide-body :global(h2) {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    color: var(--ink);
+    margin: 32px 0 14px;
+  }
+
+  .guide-body :global(p) {
+    margin-bottom: 14px;
+    line-height: 1.85;
+  }
+
+  .guide-body :global(a) {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .guide-body :global(a:hover) {
+    color: var(--gold);
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+
+  .guide-cta-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+  }
+
+  .guide-cta-text {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: rgba(250, 247, 242, 0.88);
+  }
+</style>

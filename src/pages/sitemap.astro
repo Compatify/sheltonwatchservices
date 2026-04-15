@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteChrome from '../components/SiteChrome.astro';
+
+const title = 'Sitemap | Shelton Watch Services';
+const description =
+  'Complete sitemap for Shelton Watch Services — all service, shop, sell, and guide pages.';
+---
+
+<BaseLayout title={title} description={description}>
+  <SiteChrome>
+    <main id="main" class="section section--ivory">
+      <div class="container sitemap-page">
+        <h1>Sitemap</h1>
+        <p class="muted stack-sm">Every public page on this site, grouped for quick navigation.</p>
+
+        <section class="sitemap-block">
+          <h2>Core</h2>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </section>
+
+        <section class="sitemap-block">
+          <h2>Service</h2>
+          <ul>
+            <li><a href="/service/">Watch service hub</a></li>
+            <li><a href="/service/rolex/">Rolex service</a></li>
+            <li><a href="/service/omega/">Omega service</a></li>
+            <li><a href="/service/seiko/">Seiko service</a></li>
+            <li><a href="/service/cartier/">Cartier service</a></li>
+            <li><a href="/service/tudor/">Tudor service</a></li>
+            <li><a href="/service/tag-heuer/">TAG Heuer service</a></li>
+            <li><a href="/service/battery-replacement/">Battery replacement</a></li>
+            <li><a href="/service/full-overhaul/">Full overhaul</a></li>
+            <li><a href="/service/crystal-replacement/">Crystal replacement</a></li>
+            <li><a href="/service/mechanical-watch/">Mechanical watch service</a></li>
+            <li><a href="/service/vintage-restoration/">Vintage restoration</a></li>
+            <li><a href="/service/watch-appraisal/">Watch appraisal</a></li>
+          </ul>
+        </section>
+
+        <section class="sitemap-block">
+          <h2>Shop</h2>
+          <ul>
+            <li><a href="/shop/">Shop hub</a></li>
+            <li><a href="/shop/rolex/">Rolex watches</a></li>
+            <li><a href="/shop/omega/">Omega watches</a></li>
+            <li><a href="/shop/seiko/">Seiko watches</a></li>
+          </ul>
+        </section>
+
+        <section class="sitemap-block">
+          <h2>Sell</h2>
+          <ul>
+            <li><a href="/sell/">Sell your watch</a></li>
+            <li><a href="/sell/rolex/">Sell your Rolex</a></li>
+            <li><a href="/sell-my-watch-today/">Sell my watch today</a></li>
+            <li><a href="/cash-for-watches/">Cash for watches</a></li>
+          </ul>
+        </section>
+
+        <section class="sitemap-block">
+          <h2>Tools</h2>
+          <ul>
+            <li><a href="/tools/">Tools hub</a></li>
+            <li><a href="/tools/repair-or-sell/">Repair or sell tool</a></li>
+          </ul>
+        </section>
+
+        <section class="sitemap-block">
+          <h2>Local</h2>
+          <ul>
+            <li><a href="/watch-repair-allentown-pa/">Watch repair Allentown PA</a></li>
+            <li><a href="/watch-repair-bethlehem-pa/">Watch repair Bethlehem PA</a></li>
+            <li><a href="/watch-repair-lehigh-valley/">Watch repair Lehigh Valley</a></li>
+            <li><a href="/watches-for-sale-allentown-pa/">Watches for sale Allentown PA</a></li>
+            <li><a href="/watches-for-sale-bethlehem-pa/">Watches for sale Bethlehem PA</a></li>
+            <li><a href="/watches-for-sale-lehigh-valley/">Watches for sale Lehigh Valley</a></li>
+            <li><a href="/pre-owned-watches-for-sale/">Pre-owned watches for sale</a></li>
+          </ul>
+        </section>
+
+        <section class="sitemap-block">
+          <h2>Guides</h2>
+          <ul>
+            <li><a href="/guide/">Watch guide hub</a></li>
+            <li><a href="/guide/how-often-service-rolex/">How often to service a Rolex</a></li>
+            <li><a href="/guide/is-my-watch-worth-repairing/">Is my watch worth repairing?</a></li>
+            <li><a href="/guide/rolex-service-cost/">Rolex service cost</a></li>
+            <li><a href="/guide/watch-stopped-working/">Watch stopped working</a></li>
+            <li><a href="/guide/why-is-my-watch-losing-time/">Why is my watch losing time?</a></li>
+            <li><a href="/guide/how-to-service-watch-at-home/">How to service a watch at home</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .sitemap-page h1 {
+    margin-bottom: 12px;
+  }
+
+  .sitemap-block {
+    margin-top: 36px;
+    padding-left: 20px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .sitemap-block h2 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+
+  .sitemap-block ul {
+    list-style: none;
+  }
+
+  .sitemap-block li {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .sitemap-block a {
+    color: var(--ink3);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .sitemap-block a:hover {
+    color: var(--gold);
+  }
+</style>

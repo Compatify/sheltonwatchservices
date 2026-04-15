@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+import WatchCard from '../../components/WatchCard.astro';
+import { watches } from '../../data/watches';
+import { productSchemaForWatch } from '../../utils/productSchema';
+import { jsonLd } from '../../utils/schema';
+
+const title = 'Shop Pre-Owned Watches | Shelton Watch Services';
+const description =
+  'Shop authenticated pre-owned and used watches. Rolex, Omega, Seiko, Tudor, Cartier and more. Every watch personally inspected. Inquiry-based — no checkout needed.';
+const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
+
+const filters = [
+  { href: '/shop/rolex/', label: 'Rolex' },
+  { href: '/shop/omega/', label: 'Omega' },
+  { href: '/shop/seiko/', label: 'Seiko' },
+  { href: '/shop/', label: 'Tudor' },
+  { href: '/shop/', label: 'Cartier' },
+  { href: '/shop/', label: 'TAG Heuer' },
+  { href: '/pre-owned-watches-for-sale/', label: 'Vintage' },
+];
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
+  <SiteChrome showInquiryModal>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container">
+          <h1>Shop Pre-Owned Watches</h1>
+          <p class="muted">
+            Every watch in our collection has been personally inspected, tested for accuracy, and documented.
+            No auction risk. No mystery condition — and <strong>no checkout</strong>: purchases start with a
+            conversation, not a cart.
+          </p>
+          <div class="filter-row" aria-label="Shop by brand">
+            {filters.map((f) => (
+              <a class="filter-pill" href={f.href}>
+                {f.label}
+              </a>
+            ))}
+          </div>
+          <div class="card-grid shop-grid">
+            {watches.map((w) => (
+              <WatchCard watch={w} />
+            ))}
+          </div>
+          <section class="looking">
+            <h2>Looking for something specific?</h2>
+            <form data-netlify="true" name="contact" method="POST" action="/shop/">
+              <input type="hidden" name="form-name" value="contact" />
+              <input type="hidden" name="subject" value="Buy a Watch — wishlist request" />
+              <div class="form-group">
+                <label class="form-label" for="wish-name">Name</label>
+                <input class="form-field" type="text" id="wish-name" name="name" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="wish-email">Email</label>
+                <input class="form-field" type="email" id="wish-email" name="email" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="wish-msg">What you’re looking for</label>
+                <textarea class="form-field" id="wish-msg" name="message" rows={4} required></textarea>
+              </div>
+              <button class="form-submit" type="submit">Send request →</button>
+            </form>
+          </section>
+          <section class="why">
+            <h2>Why buy from Shelton Watch Services</h2>
+            <ul class="muted">
+              <li>Personal inspection by an independent watchmaker — not a drop-shipper</li>
+              <li>Accurate condition notes tied to real timing behavior</li>
+              <li>Local pickup option in the Lehigh Valley when timing aligns</li>
+              <li>Direct access to the person who signed off on the watch</li>
+            </ul>
+            <p class="muted">
+              Need service after purchase? <a href="/service/">Book service</a> with the same bench that
+              approved the sale.
+            </p>
+          </section>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 24px 0 28px;
+  }
+
+  .filter-pill {
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 99px;
+    border: 0.5px solid var(--rule);
+    text-decoration: none;
+    color: var(--ink3);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .filter-pill:hover {
+    color: var(--gold);
+    border-color: rgba(197, 160, 40, 0.45);
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 900px) {
+    .shop-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .shop-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .looking {
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+
+  .looking h2 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+
+  .why h2 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+
+  .why ul {
+    margin: 0 0 16px 1.1rem;
+  }
+
+  .why a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .why a:hover {
+    color: var(--gold);
+  }
+</style>

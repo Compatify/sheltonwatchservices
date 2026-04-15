@@ -1,0 +1,206 @@
+---
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/shop/', label: 'Shop' },
+  { href: '/service/', label: 'Service' },
+  { href: '/sell/', label: 'Sell' },
+  { href: '/tools/', label: 'Tools' },
+  { href: '/guide/', label: 'Learn' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/' || pathname === '';
+  if (pathname === href) return true;
+  if (href.endsWith('/') && pathname.startsWith(href)) return true;
+  return false;
+}
+---
+
+<header class="site-header">
+  <nav class="nav-inner container" aria-label="Primary">
+    <a class="nav-logo" href="/">
+      <img
+        class="logo-img"
+        src="/SWS-logo.PNG"
+        alt="Shelton Watch Services"
+        width="200"
+        height="48"
+        loading="eager"
+      />
+    </a>
+    <ul class="nav-links">
+      {
+        links.map((l) => (
+          <li>
+            <a class:list={['nav-link', { active: isActive(l.href) }]} href={l.href}>
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="btn-secondary nav-cta" href="/service/">Book Service</a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+      ☰
+    </button>
+  </nav>
+  <div id="nav-panel" class="nav-panel" hidden>
+    <ul class="nav-panel-list">
+      {
+        links.map((l) => (
+          <li>
+            <a class:list={['nav-panel-link', { active: isActive(l.href) }]} href={l.href}>
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a class="btn-secondary nav-panel-cta" href="/service/">Book Service</a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: var(--forest);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    height: 68px;
+  }
+
+  .nav-inner {
+    height: 68px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .nav-link {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 242, 0.5);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: rgba(197, 160, 40, 0.9);
+  }
+
+  .nav-cta {
+    flex-shrink: 0;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: rgba(250, 247, 242, 0.75);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 8px;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+
+  .nav-toggle:hover {
+    color: var(--gold);
+  }
+
+  .nav-panel {
+    background: var(--forest);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-panel-list {
+    list-style: none;
+    padding: 24px 48px 32px;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .nav-panel-link {
+    display: block;
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 242, 0.55);
+    text-decoration: none;
+    padding: 10px 0;
+    transition: color 0.2s ease;
+  }
+
+  .nav-panel-link:hover,
+  .nav-panel-link.active {
+    color: rgba(197, 160, 40, 0.95);
+  }
+
+  .nav-panel-cta {
+    margin-top: 16px;
+    display: inline-block;
+  }
+
+  @media (max-width: 960px) {
+    .nav-links,
+    .nav-cta {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: block;
+    }
+
+    .nav-panel-list {
+      padding: 24px 24px 32px;
+    }
+  }
+
+  @media (min-width: 961px) {
+    .nav-panel {
+      display: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var btn = document.querySelector('.nav-toggle');
+    var panel = document.getElementById('nav-panel');
+    if (!btn || !panel) return;
+
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      panel.hidden = !open;
+    }
+
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      setOpen(!open);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  })();
+</script>

@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+import SellForm from '../../components/SellForm.astro';
+import { faqPageSchema } from '../../utils/faqSchema';
+import { jsonLd } from '../../utils/schema';
+
+const title = 'Sell Your Rolex | Shelton | Lehigh Valley PA';
+const description =
+  'Get the best price for your Rolex in the Lehigh Valley. Fair market offers, 24hr response, cash payment. All Rolex models considered.';
+const faqs = [
+  {
+    q: 'How much is my Rolex worth?',
+    a: 'Model reference, production era, condition, bracelet stretch, and included materials drive value — we quote with those factors explicit, not vague “market” language.',
+  },
+  {
+    q: 'Do box and papers matter when selling a Rolex?',
+    a: 'They often strengthen buyer confidence and can affect price — but missing paperwork is common; we evaluate the whole story.',
+  },
+  {
+    q: 'Will you buy my Rolex if it needs service?',
+    a: 'Frequently yes — needed service is priced into the offer with transparent math.',
+  },
+];
+const faqLd = faqPageSchema(faqs);
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container narrow">
+          <h1>Sell Your Rolex — Get a Fair Offer in 24 Hours</h1>
+          <p class="muted">
+            The 2026 pre-owned Rolex market still rewards correct references — but buyers punish mystery
+            condition. Shelton Watch Services buys with bench eyes: bracelet geometry, service history
+            signals, dial honesty, and bezel life.
+          </p>
+          <p class="muted">
+            Whether you are exiting a Datejust, a sport model, or a neo-vintage piece, you get a response
+            that respects the watch’s story — without strip-mall negotiation tactics.
+          </p>
+          <h2>What we look for</h2>
+          <p class="muted">
+            Reference clarity, sharp edges vs. over-polish, genuine components, and realistic service needs.
+            If something is replaced or refinished, say so — surprises late in the deal help nobody.
+          </p>
+          <h2>Submit details</h2>
+          <SellForm idSuffix="-rolexsell" />
+          <h2>Explore related services</h2>
+          <p class="cross muted">
+            <a href="/service/rolex/">Rolex service</a> · <a href="/shop/rolex/">Shop Rolex inventory</a> ·{' '}
+            <a href="/guide/rolex-service-cost/">Rolex service cost guide</a>
+          </p>
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 720px;
+  }
+
+  .narrow h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin: 32px 0 14px;
+  }
+
+  .cross a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cross a:hover {
+    color: var(--gold);
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+</style>

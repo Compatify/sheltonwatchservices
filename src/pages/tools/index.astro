@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+---
+
+<BaseLayout
+  title="Free Watch Tools | Shelton Watch Services"
+  description="Free interactive tools to help you make smarter watch decisions. Watch value estimator, service calculator, repair-or-sell guide and more. No signup required."
+>
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container">
+          <h1>Free Watch Tools</h1>
+          <p class="muted">
+            Free tools to help you understand your timepiece better. No signup, no email gate — just clear
+            prompts and honest next steps.
+          </p>
+          <div class="card-grid tools-grid">
+            <article class="tool-card">
+              <p class="tool-icon" aria-hidden="true">⌁</p>
+              <h2>Watch Value Estimator</h2>
+              <p class="tool-hook"><em>What might my watch be worth?</em></p>
+              <p class="muted">Phase 2 — link to sell hub for context today.</p>
+              <a class="btn-ghost" href="/sell/">Coming soon — Sell hub</a>
+            </article>
+            <article class="tool-card">
+              <p class="tool-icon" aria-hidden="true">◷</p>
+              <h2>Service Due Calculator</h2>
+              <p class="tool-hook"><em>When is my watch due?</em></p>
+              <p class="muted">Phase 2 — start with service intervals on the hub.</p>
+              <a class="btn-ghost" href="/service/">Coming soon — Service hub</a>
+            </article>
+            <article class="tool-card tool-card--live">
+              <p class="tool-icon" aria-hidden="true">⚖</p>
+              <h2>Repair or Sell?</h2>
+              <p class="tool-hook"><em>Which path makes sense?</em></p>
+              <p class="muted">Live now — five questions, clear guidance.</p>
+              <a class="btn-primary" href="/tools/repair-or-sell/">Open tool →</a>
+            </article>
+            <article class="tool-card">
+              <p class="tool-icon" aria-hidden="true">⌕</p>
+              <h2>Movement Lookup</h2>
+              <p class="tool-hook"><em>What caliber is inside?</em></p>
+              <p class="muted">Phase 2 — browse guides while we build the database.</p>
+              <a class="btn-ghost" href="/guide/">Coming soon — Guide hub</a>
+            </article>
+            <article class="tool-card">
+              <p class="tool-icon" aria-hidden="true">✎</p>
+              <h2>Instant Service Quote</h2>
+              <p class="tool-hook"><em>What should I budget?</em></p>
+              <p class="muted">Phase 2 — pricing transparency lives on the service hub today.</p>
+              <a class="btn-ghost" href="/service/">Coming soon — Service hub</a>
+            </article>
+            <article class="tool-card">
+              <p class="tool-icon" aria-hidden="true">◆</p>
+              <h2>Condition Grader</h2>
+              <p class="tool-hook"><em>How do dealers grade condition?</em></p>
+              <p class="muted">Phase 2 — sell page explains how we think about condition now.</p>
+              <a class="btn-ghost" href="/sell/">Coming soon — Sell hub</a>
+            </article>
+          </div>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 32px;
+    gap: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .tool-card {
+    background: var(--ivory2);
+    padding: 24px 22px;
+    border: 0.5px solid var(--rule-lt);
+  }
+
+  .tool-card--live {
+    background: var(--ivory3);
+    border-top: 2px solid var(--gold);
+  }
+
+  .tool-icon {
+    color: var(--gold);
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .tool-card h2 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  .tool-hook {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .tool-card .btn-primary,
+  .tool-card .btn-ghost {
+    margin-top: 12px;
+  }
+</style>

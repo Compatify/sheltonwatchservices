@@ -1,0 +1,98 @@
+---
+import type { Watch } from '../data/watches';
+import WatchFaceSvg from './WatchFaceSvg.astro';
+
+interface Props {
+  watch: Watch;
+  stacked?: boolean;
+  showFloat?: boolean;
+}
+
+const { watch, stacked = false, showFloat = false } = Astro.props;
+const data = JSON.stringify({
+  brand: watch.brand,
+  model: watch.model,
+  reference: watch.reference,
+  priceDisplay: watch.priceDisplay,
+  slug: watch.slug,
+});
+---
+
+<article class:list={['watch-card', { 'watch-card--stacked': stacked }]}>
+  {showFloat && <div class="watch-card-float" aria-hidden="true">Now Available</div>}
+  <WatchFaceSvg />
+  <p class="eyebrow watch-card-brand">{watch.brand}</p>
+  <h3 class="watch-card-model">{watch.model}</h3>
+  <p class="meta muted watch-card-ref">{watch.reference}</p>
+  <p class="meta muted watch-card-extras">{watch.extras}</p>
+  <p class="price">{watch.priceDisplay}</p>
+  <span class="badge">{watch.condition}</span>
+  <button type="button" class="btn-primary watch-inquire" data-watch={data}>Inquire to Purchase</button>
+</article>
+
+<style>
+  .watch-card {
+    position: relative;
+    background: var(--ivory2);
+    padding: 28px 22px 24px;
+    border: 0.5px solid var(--rule-lt);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .watch-card:hover {
+    background: var(--ivory3);
+    border-top: 2px solid var(--gold);
+    border-left: 0.5px solid var(--rule-lt);
+    border-right: 0.5px solid var(--rule-lt);
+    border-bottom: 0.5px solid var(--rule-lt);
+  }
+
+  .watch-card--stacked {
+    transform: rotate(-1.5deg);
+  }
+
+  .watch-card--stacked:nth-child(even) {
+    transform: rotate(1.2deg);
+  }
+
+  .watch-card-float {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--forest);
+    color: rgba(250, 247, 242, 0.9);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+  }
+
+  .watch-card-brand {
+    margin-bottom: 8px;
+  }
+
+  .watch-card-model {
+    margin-bottom: 8px;
+  }
+
+  .watch-card-ref,
+  .watch-card-extras {
+    margin-bottom: 6px;
+  }
+
+  .watch-card .price {
+    margin: 12px 0 10px;
+  }
+
+  .watch-card .badge {
+    margin-bottom: 16px;
+  }
+
+  .watch-inquire {
+    width: 100%;
+    text-align: center;
+    border: none;
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../SiteChrome.astro';
+import WatchCard from '../WatchCard.astro';
+import { watches } from '../../data/watches';
+import { localBusinessSchema } from '../../data/schema/localBusiness';
+import { productSchemaForWatch } from '../../utils/productSchema';
+import { jsonLd } from '../../utils/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  cityLabel: string;
+}
+
+const { title, description, h1, cityLabel } = Astro.props;
+const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(localBusinessSchema)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
+  <SiteChrome showInquiryModal>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container">
+          <h1>{h1}</h1>
+          <div class="intro muted">
+            <slot name="intro" />
+          </div>
+          <p class="trust-local muted">
+            Every watch personally inspected by an independent watchmaker with 12+ years experience. No
+            auction risk. No shipping uncertainty — especially for buyers near {cityLabel} who want to meet
+            the person evaluating their next watch.
+          </p>
+          <div class="card-grid buy-grid">
+            {watches.map((w) => (
+              <WatchCard watch={w} />
+            ))}
+          </div>
+          <p class="muted stack">
+            Looking for the full inventory narrative? Browse{' '}
+            <a href="/pre-owned-watches-for-sale/">pre-owned watches for sale</a> — we use both “pre-owned”
+            and “used watches” language because real people search both ways.
+          </p>
+          <p class="muted">
+            Ready for service instead? Head to the <a href="/service/">service hub</a> or{' '}
+            <a href="/contact/">contact us</a> to book time.
+          </p>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .intro :global(p) + :global(p) {
+    margin-top: 14px;
+  }
+
+  .trust-local {
+    margin: 24px 0 28px;
+    max-width: 720px;
+    border-left: 3px solid var(--gold);
+    padding-left: 18px;
+    background: var(--ivory2);
+    padding: 16px 18px;
+  }
+
+  .buy-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 8px 0 28px;
+  }
+
+  @media (max-width: 900px) {
+    .buy-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .buy-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .stack {
+    margin-bottom: 12px;
+  }
+
+  a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--gold);
+  }
+</style>

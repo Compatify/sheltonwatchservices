@@ -1,0 +1,52 @@
+---
+import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+
+const faqs = [
+  {
+    q: 'What causes a watch to lose time?',
+    a: 'Common causes include magnetism, lubrication breakdown, worn escapement components, and poor regulation — position changes can reveal issues that averages hide.',
+  },
+  {
+    q: 'Can magnetism cause a watch to run slow or fast?',
+    a: 'Yes — steel components can become magnetized and disturb timing; demagnetization is a routine first step when traces suggest it.',
+  },
+  {
+    q: 'How do I fix a watch that runs slow?',
+    a: 'Home fixes are limited to demagnetizers in skilled hands; real solutions usually mean professional regulation or overhaul once wear is identified — start with evaluation, not random adjusting.',
+  },
+];
+---
+
+<GuideArticlePage
+  title="Why Is My Watch Losing Time? | Shelton Watch Services"
+  description="Why mechanical watches lose time — magnetism, lubrication, regulation, and when slow running means service."
+  h1="Why Is My Watch Losing Time?"
+  answer="Mechanical watches usually drift when friction rises, magnetism pulls the hairspring out of shape, or regulation no longer compensates for wear — position changes can make a watch look ‘fine’ dial-up but slow crown-left. Quartz pieces rarely ‘lose time’ gradually without a deeper issue; they tend to stop or stutter."
+  faqs={faqs}
+  ctaHref="/service/full-overhaul/"
+  ctaLabel="Explore full overhaul service →"
+>
+  <p>
+    Slow running is often progressive. In a sampling mindset, roughly <strong>15–30 seconds per day</strong>{' '}
+    might feel tolerable — until you miss a train connection. Track drift over a week, note positions, and
+    bring that log to evaluation; it speeds diagnosis.
+  </p>
+  <h2>How Does Magnetism Show Up in Real Life?</h2>
+  <p>
+    Speakers, laptops, bag clasps, and tool drawers can magnetize a watch in ordinary routines. The classic
+    clue is erratic rates — fast sometimes, slow sometimes — or sudden changes after travel. A coil-style
+    demagnetizer is not a toy; if you are not experienced, let a watchmaker confirm.
+  </p>
+  <h2>When Does Losing Time Mean an Overhaul?</h2>
+  <p>
+    When amplitude drops and rate stability disappears across positions, oil is often done doing its job.
+    Regulation alone becomes lipstick on wear — the movement needs cleaning, inspection, and fresh
+    lubrication where pivots demand it.
+  </p>
+  <h2>What Should You Do Next?</h2>
+  <p>
+    Book timing evaluation — especially if the watch is a daily wearer you rely on. Learn more about{' '}
+    <a href="/service/mechanical-watch/">mechanical watch service</a> and the broader{' '}
+    <a href="/service/">service hub</a> for pricing context before you commit.
+  </p>
+</GuideArticlePage>

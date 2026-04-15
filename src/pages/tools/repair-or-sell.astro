@@ -1,0 +1,340 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+---
+
+<BaseLayout
+  title="Repair or Sell Your Watch? | Shelton Watch Tool"
+  description="Free interactive tool to help you decide whether to repair or sell your watch. Takes 60 seconds. No signup required."
+>
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container tool-page">
+          <h1>Should I Repair or Sell My Watch?</h1>
+          <p class="muted">
+            Five quick answers — then a clear recommendation. This is guidance, not a substitute for an
+            in-person evaluation, but it mirrors how specialists think about the ratio between repair cost
+            and market value.
+          </p>
+
+          <div class="roos" id="roos-tool">
+            <div class="roos-progress" aria-hidden="true">
+              <div class="roos-progress-track">
+                <div class="roos-progress-fill" id="roos-fill" style="width: 0%"></div>
+              </div>
+              <p class="roos-progress-label"><span id="roos-step-num">1</span> / 5</p>
+            </div>
+
+            <div class="roos-step" data-step="1">
+              <h2>What brand is your watch?</h2>
+              <div class="roos-actions">
+                <button type="button" class="roos-btn" data-next data-brand="Rolex">Rolex</button>
+                <button type="button" class="roos-btn" data-next data-brand="Omega">Omega</button>
+                <button type="button" class="roos-btn" data-next data-brand="Seiko">Seiko</button>
+                <button type="button" class="roos-btn" data-next data-brand="Cartier">Cartier</button>
+                <button type="button" class="roos-btn" data-next data-brand="Tudor">Tudor</button>
+                <button type="button" class="roos-btn" data-next data-brand="Tag Heuer">TAG Heuer</button>
+                <button type="button" class="roos-btn" data-next data-brand="Hamilton">Hamilton</button>
+                <button type="button" class="roos-btn" data-next data-brand="Citizen">Citizen</button>
+                <button type="button" class="roos-btn" data-next data-brand="Other luxury brand">
+                  Other luxury brand
+                </button>
+                <button type="button" class="roos-btn" data-next data-brand="Vintage">Vintage</button>
+                <button type="button" class="roos-btn" data-next data-brand="Fashion watch">
+                  Fashion watch
+                </button>
+                <button type="button" class="roos-btn" data-next data-brand="Unsure">Unsure</button>
+              </div>
+            </div>
+
+            <div class="roos-step is-hidden" data-step="2">
+              <h2>What is it approximately worth?</h2>
+              <div class="roos-actions">
+                <button type="button" class="roos-btn" data-next data-value="under500">Under $500</button>
+                <button type="button" class="roos-btn" data-next data-value="500-2000">$500–$2,000</button>
+                <button type="button" class="roos-btn" data-next data-value="2000-5000">$2,000–$5,000</button>
+                <button type="button" class="roos-btn" data-next data-value="over5000">Over $5,000</button>
+                <button type="button" class="roos-btn" data-next data-value="unsure">Not sure</button>
+              </div>
+            </div>
+
+            <div class="roos-step is-hidden" data-step="3">
+              <h2>What would it cost to repair?</h2>
+              <div class="roos-actions">
+                <button type="button" class="roos-btn" data-next data-repair="under100">Under $100</button>
+                <button type="button" class="roos-btn" data-next data-repair="100-300">$100–$300</button>
+                <button type="button" class="roos-btn" data-next data-repair="over300">Over $300</button>
+                <button type="button" class="roos-btn" data-next data-repair="unknown">I don't know yet</button>
+              </div>
+            </div>
+
+            <div class="roos-step is-hidden" data-step="4">
+              <h2>What’s the issue?</h2>
+              <div class="roos-actions">
+                <button type="button" class="roos-btn" data-next data-issue="inaccurate">Running inaccurately</button>
+                <button type="button" class="roos-btn" data-next data-issue="stopped">Stopped completely</button>
+                <button type="button" class="roos-btn" data-next data-issue="crystal">Damaged crystal or case</button>
+                <button type="button" class="roos-btn" data-next data-issue="overhaul">Needs full service/overhaul</button>
+                <button type="button" class="roos-btn" data-next data-issue="multiple">Multiple issues</button>
+              </div>
+            </div>
+
+            <div class="roos-step is-hidden" data-step="5">
+              <h2>Does this watch have sentimental value?</h2>
+              <div class="roos-actions">
+                <button type="button" class="roos-btn" data-finish data-sentimental="yes">
+                  Yes, it means a lot to me
+                </button>
+                <button type="button" class="roos-btn" data-finish data-sentimental="no">
+                  No, it’s purely monetary
+                </button>
+              </div>
+            </div>
+
+            <div class="roos-result is-hidden" id="roos-result" role="status">
+              <div class="result-card">
+                <h2 id="roos-result-title"></h2>
+                <p class="muted" id="roos-result-body"></p>
+                <a class="btn-primary" id="roos-result-cta" href="/service/">Continue</a>
+                <button type="button" class="text-link roos-restart" id="roos-restart">Change my answers</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .tool-page {
+    max-width: 720px;
+  }
+
+  .roos {
+    margin-top: 28px;
+  }
+
+  .roos-progress {
+    margin-bottom: 22px;
+  }
+
+  .roos-progress-track {
+    height: 8px;
+    border: 0.5px solid var(--rule);
+    background: var(--ivory2);
+  }
+
+  .roos-progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.2s ease;
+  }
+
+  .roos-progress-label {
+    margin-top: 8px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink4);
+  }
+
+  .roos-step h2 {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 30px);
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+
+  .roos-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .roos-btn {
+    text-align: left;
+    padding: 12px 14px;
+    border: 0.5px solid var(--rule);
+    background: var(--ivory);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--ink2);
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .roos-btn:hover {
+    border-color: var(--ink3);
+    background: var(--ivory2);
+  }
+
+  .is-hidden {
+    display: none !important;
+  }
+
+  .result-card {
+    background: var(--ivory2);
+    border-left: 3px solid var(--gold);
+    padding: 20px 22px;
+    margin-top: 12px;
+  }
+
+  .result-card h2 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+
+  .result-card .btn-primary {
+    margin-top: 16px;
+    margin-right: 16px;
+  }
+
+  .roos-restart {
+    display: inline-block;
+    margin-top: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById('roos-tool');
+    if (!root) return;
+
+    var fill = document.getElementById('roos-fill');
+    var stepNumEl = document.getElementById('roos-step-num');
+    var resultWrap = document.getElementById('roos-result');
+    var resultTitle = document.getElementById('roos-result-title');
+    var resultBody = document.getElementById('roos-result-body');
+    var resultCta = document.getElementById('roos-result-cta');
+    var restartBtn = document.getElementById('roos-restart');
+
+    var state = {
+      brand: null,
+      valueKey: null,
+      repairKey: null,
+      issue: null,
+      sentimental: null,
+    };
+
+    function valueMid(key) {
+      if (key === 'under500') return 350;
+      if (key === '500-2000') return 1250;
+      if (key === '2000-5000') return 3500;
+      if (key === 'over5000') return 8000;
+      return null;
+    }
+
+    function repairMid(key) {
+      if (key === 'under100') return 75;
+      if (key === '100-300') return 200;
+      if (key === 'over300') return 450;
+      return null;
+    }
+
+    function showStep(n) {
+      var steps = root.querySelectorAll('.roos-step');
+      steps.forEach(function (s) {
+        var id = parseInt(s.getAttribute('data-step') || '0', 10);
+        s.classList.toggle('is-hidden', id !== n);
+      });
+      if (stepNumEl) stepNumEl.textContent = String(Math.min(n, 5));
+      if (fill) fill.style.width = String((n / 5) * 100) + '%';
+      if (resultWrap) resultWrap.classList.add('is-hidden');
+    }
+
+    function finish() {
+      var v = valueMid(state.valueKey);
+      var r = repairMid(state.repairKey);
+      var sentimentalYes = state.sentimental === 'yes';
+
+      var title = '';
+      var body = '';
+      var href = '/service/watch-appraisal/';
+      var cta = 'Get Free Appraisal';
+
+      if (sentimentalYes) {
+        title = 'Repair It';
+        body =
+          'If this watch matters to you, the decision is already made. We will take great care of it — starting with a clear estimate and conservative case judgment.';
+        href = '/service/';
+        cta = 'Book Service';
+      } else if (v != null && r != null && r > 0.5 * v) {
+        title = 'Consider Selling';
+        body =
+          'At this repair-to-value ratio, selling is likely your better option. We would be happy to give you a free, no-obligation offer grounded in real market context.';
+        href = '/sell/';
+        cta = 'Get a Free Offer';
+      } else if (v != null && r != null && r < 0.3 * v) {
+        title = 'Worth Repairing';
+        body =
+          'Good news — at this price point, the repair cost is well justified. Book a free estimate and we will confirm the exact cost before any work begins.';
+        href = '/service/';
+        cta = 'Book Free Estimate';
+      } else {
+        title = 'Let’s Take a Look';
+        body =
+          'The answer depends on factors we would need to assess in person. A free appraisal takes about 15 minutes and we will give you an honest recommendation.';
+        href = '/service/watch-appraisal/';
+        cta = 'Get Free Appraisal';
+      }
+
+      if (resultTitle) resultTitle.textContent = title;
+      if (resultBody) resultBody.textContent = body;
+      if (resultCta) {
+        resultCta.setAttribute('href', href);
+        resultCta.textContent = cta;
+      }
+
+      var steps = root.querySelectorAll('.roos-step');
+      steps.forEach(function (s) {
+        s.classList.add('is-hidden');
+      });
+      if (resultWrap) resultWrap.classList.remove('is-hidden');
+      if (fill) fill.style.width = '100%';
+      if (stepNumEl) stepNumEl.textContent = '5';
+    }
+
+    root.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!(t instanceof HTMLElement)) return;
+
+      if (t.hasAttribute('data-next')) {
+        var stepEl = t.closest('.roos-step');
+        if (!stepEl) return;
+        var step = parseInt(stepEl.getAttribute('data-step') || '0', 10);
+        if (t.hasAttribute('data-brand')) state.brand = t.getAttribute('data-brand');
+        if (t.hasAttribute('data-value')) state.valueKey = t.getAttribute('data-value');
+        if (t.hasAttribute('data-repair')) state.repairKey = t.getAttribute('data-repair');
+        if (t.hasAttribute('data-issue')) state.issue = t.getAttribute('data-issue');
+        showStep(step + 1);
+        return;
+      }
+
+      if (t.hasAttribute('data-finish')) {
+        state.sentimental = t.getAttribute('data-sentimental');
+        finish();
+      }
+    });
+
+    if (restartBtn) {
+      restartBtn.addEventListener('click', function () {
+        state = { brand: null, valueKey: null, repairKey: null, issue: null, sentimental: null };
+        showStep(1);
+      });
+    }
+
+    showStep(1);
+  })();
+</script>

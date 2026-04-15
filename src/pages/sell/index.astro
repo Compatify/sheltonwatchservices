@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteChrome from '../../components/SiteChrome.astro';
+import SellForm from '../../components/SellForm.astro';
+import { faqPageSchema } from '../../utils/faqSchema';
+import { jsonLd } from '../../utils/schema';
+
+const title = 'Sell Your Watch | Shelton | Lehigh Valley PA';
+const description =
+  'Get a fair offer for your watch within 24 hours. Rolex, Omega, vintage and more. No obligation. Same-day payment available. Bethlehem PA or mail-in.';
+const faqs = [
+  {
+    q: 'How do you determine the value of my watch?',
+    a: 'Reference, condition, included materials, service history signals, and current market depth — explained in plain language, not black-box algorithms.',
+  },
+  {
+    q: 'How quickly do I get paid?',
+    a: 'Many local transactions move fast once a price is agreed; mail-in deals settle after intake and authentication steps are complete.',
+  },
+  {
+    q: 'Do you buy watches that aren’t working?',
+    a: 'Often yes — non-running pieces are evaluated for parts value, restoration cost, and realistic resale paths before we commit to a number.',
+  },
+];
+const faqLd = faqPageSchema(faqs);
+---
+
+<BaseLayout {title} {description}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(faqLd)} />
+  <SiteChrome>
+    <main id="main">
+      <article class="section section--ivory">
+        <div class="container sell-page">
+          <h1>Sell Your Timepiece</h1>
+          <p class="muted">
+            Fair pricing, 24-hour response on most submissions, and zero obligation — whether you are
+            downsizing, upgrading, or settling an estate. Lehigh Valley appointments pair well with insured
+            mail-in if you are not local.
+          </p>
+          <ol class="sell-steps">
+            <li>
+              <span class="sell-num">1.</span>
+              <div>
+                <strong>Submit details</strong>
+                <p class="muted">Reference photos, condition notes, and what is included in the sale.</p>
+              </div>
+            </li>
+            <li>
+              <span class="sell-num">2.</span>
+              <div>
+                <strong>Receive offer within 24 hours</strong>
+                <p class="muted">Straight talk — what moves the number up or down.</p>
+              </div>
+            </li>
+            <li>
+              <span class="sell-num">3.</span>
+              <div>
+                <strong>Get paid fast</strong>
+                <p class="muted">Local handoff or documented mail-in settlement.</p>
+              </div>
+            </li>
+          </ol>
+          <h2>Submit for your offer</h2>
+          <div class="sell-form-wrap">
+            <SellForm idSuffix="-hub" />
+          </div>
+          <section class="consignment section-block" id="consignment">
+            <h2>Consignment — sell it on your timeline</h2>
+            <p class="muted">
+              Sometimes the right move is not an immediate buyout. Consignment means Shelton Watch Services
+              markets the watch on your behalf for a commission, targeting a higher net than a same-day
+              purchase price. Ideal when you can wait for the right buyer and want professional photos,
+              authentication narrative, and vetting without listing it yourself.
+            </p>
+          </section>
+          <section class="section-block" id="vintage">
+            <h2>Vintage &amp; estate pieces</h2>
+            <p class="muted">
+              Pocket watches, mid-century oddballs, and “I found this in a drawer” stories welcome — bring
+              whatever paperwork exists. If you are weighing restoration vs. sale, start with a{' '}
+              <a href="/service/watch-appraisal/">written appraisal</a> conversation.
+            </p>
+          </section>
+          <section class="section-block">
+            <h2>Brand quick links</h2>
+            <ul class="muted cross">
+              <li><a href="/sell/rolex/">Selling a Rolex?</a></li>
+              <li>
+                <a href="/sell/">Selling Omega, Cartier, or vintage?</a> — you are already in the right
+                place.
+              </li>
+              <li><a href="/sell-my-watch-today/">Need a same-day path?</a></li>
+              <li><a href="/cash-for-watches/">Exploring cash offers?</a></li>
+              <li><a href="/service/watch-appraisal/">Need documentation first?</a></li>
+            </ul>
+          </section>
+          <h2>Frequently Asked Questions</h2>
+          <dl class="faq-list">
+            {faqs.map((f) => (
+              <>
+                <dt>{f.q}</dt>
+                <dd>{f.a}</dd>
+              </>
+            ))}
+          </dl>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .sell-page h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 300;
+    margin: 36px 0 14px;
+  }
+
+  .sell-steps {
+    list-style: none;
+    margin: 28px 0;
+  }
+
+  .sell-steps li {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .sell-num {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--ink5);
+    line-height: 1;
+    min-width: 48px;
+  }
+
+  .sell-form-wrap {
+    max-width: 560px;
+  }
+
+  .section-block {
+    max-width: 720px;
+    margin-top: 28px;
+  }
+
+  .cross {
+    list-style: none;
+    margin: 0;
+  }
+
+  .cross li {
+    margin-bottom: 10px;
+  }
+
+  .cross a {
+    color: var(--ink3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cross a:hover {
+    color: var(--gold);
+  }
+
+  .faq-list dt {
+    font-weight: 500;
+    margin-top: 18px;
+    color: var(--ink2);
+  }
+
+  .faq-list dd {
+    margin: 8px 0 0;
+    color: var(--ink3);
+  }
+</style>
