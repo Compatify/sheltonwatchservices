@@ -1,719 +1,1262 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SiteChrome from '../components/SiteChrome.astro';
-import Eyebrow from '../components/Eyebrow.astro';
-import TrustBar from '../components/TrustBar.astro';
-import WatchCard from '../components/WatchCard.astro';
-import ServiceCard from '../components/ServiceCard.astro';
-import GuideCard from '../components/GuideCard.astro';
-import SellForm from '../components/SellForm.astro';
-import heroImg from '../assets/watches/photo-1702865053708-be5f974d5e05.jpeg';
-import sellImg from '../assets/watches/premium_photo-1682097578070-901d10cabc5b.jpeg';
-import servicePreviewCtaBg from '../assets/watches/photo-1606744188285-d0a49e58f538.jpeg';
-import { watches } from '../data/watches';
-import { guideCoverByHref } from '../data/guideCovers';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import InquiryModal from '../components/InquiryModal.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { watches, watchDetailPath } from '../data/watches';
 import { localBusinessSchema } from '../data/schema/localBusiness';
 import { jsonLd } from '../utils/schema';
 import { productSchemaForWatch } from '../utils/productSchema';
 
-const title = 'Shelton Watch Services | Buy, Sell & Service | Lehigh Valley';
-const description =
+import heroBg from '../assets/watches/photo-1702865053708-be5f974d5e05.jpeg';
+import photoRolex from '../assets/watches/photo-1610006329898-2a4f12019450.jpeg';
+import photoOmega from '../assets/watches/photo-1773755060442-6d128b70dd20.jpeg';
+import photoTudor from '../assets/watches/photo-1767009951352-a271b6155eeb.jpeg';
+import photoIWC from '../assets/watches/premium_photo-1723561230205-3a8f566f8ba9.jpeg';
+import photoLongines from '../assets/watches/hunters-race-MQwdj_ZyJAk-unsplash.jpeg';
+import photoSeiko from '../assets/watches/premium_photo-1728249572934-f56a637a92a4.jpeg';
+
+import journalPhoto1 from '../assets/watches/photo-1767009951352-a271b6155eeb.jpeg';
+import journalPhoto2 from '../assets/watches/premium_photo-1682097578070-901d10cabc5b.jpeg';
+import journalPhoto3 from '../assets/watches/photo-1606744188285-d0a49e58f538.jpeg';
+
+const watchPhotos: Record<string, ImageMetadata> = {
+  'rolex-datejust-41-126334': photoRolex,
+  'omega-seamaster-300m': photoOmega,
+  'tudor-black-bay-58-navy': photoTudor,
+  'iwc-portofino-iw356504': photoIWC,
+  'longines-master-collection-40': photoLongines,
+  'seiko-sarb033-cocktail-time': photoSeiko,
+};
+
+const pageTitle = 'Shelton Watch Services | Buy, Sell & Service Fine Watches | Lehigh Valley PA';
+const pageDescription =
   'Expert watch repair, buying, and selling in the Lehigh Valley. Transparent pricing, 12+ years experience. Rolex, Omega, Seiko, vintage and more. Bethlehem PA.';
 
-const heroWatches = watches.slice(0, 3);
 const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" slot="head" set:html={jsonLd(localBusinessSchema)} />
   <script type="application/ld+json" slot="head" set:html={jsonLd(productGraph)} />
-  <SiteChrome showInquiryModal>
-    <main id="main">
-      <section class="hero section section--ivory">
-        <div class="hero-grid container">
-          <div class="hero-copy">
-            <Eyebrow label="Bethlehem, Pennsylvania" />
-            <h1 class="hero-h1">Watchmaker. Collector. <em>Your guy in the Valley.</em></h1>
-            <p class="hero-sub muted">
-              I've been servicing and buying watches in the Lehigh Valley for over 12 years. Every watch I
-              touch gets treated like it matters — because to someone, it does.
+
+  <Nav />
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-photo-col">
+        <Image
+          src={heroBg}
+          alt="Watchmaker at work in the Lehigh Valley"
+          class="hero-img"
+          loading="eager"
+          width={1600}
+          height={1067}
+          widths={[800, 1200, 1600]}
+          sizes="45vw"
+        />
+        <div class="hero-photo-gradient"></div>
+      </div>
+      <div class="hero-content">
+        <p class="eyebrow-hero">Bethlehem, Pennsylvania</p>
+        <h1 class="hero-h1">
+          Watchmaker.<br />Collector.<br /><em>Your guy<br />in the Valley.</em>
+        </h1>
+        <p class="hero-sub">
+          12 years servicing and buying fine timepieces across the Lehigh Valley. Expert repair, transparent
+          pricing, personal service.
+        </p>
+        <div class="hero-btns">
+          <a href="/shop/" class="btn-primary">Browse Watches</a>
+          <a href="/contact/" class="btn-ghost-light">Book a Service</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-watches">
+      <div class="container">
+        <div class="section-hd">
+          <h2 class="section-title">Available Now</h2>
+          <a href="/shop/" class="section-link">View all watches →</a>
+        </div>
+        <div class="watch-grid">
+          {
+            watches.map((watch) => (
+              <a href={watchDetailPath(watch.slug)} class="watch-card">
+                <div class="watch-card-img">
+                  {watchPhotos[watch.slug] && (
+                    <Image
+                      src={watchPhotos[watch.slug]}
+                      alt={`${watch.brand} ${watch.model}`}
+                      class="watch-photo"
+                      width={400}
+                      height={280}
+                      loading="lazy"
+                    />
+                  )}
+                  <span class="watch-badge">Available</span>
+                </div>
+                <div class="watch-card-info">
+                  <div class="watch-brand">{watch.brand}</div>
+                  <div class="watch-model">{watch.model}</div>
+                  <div class="watch-ref">{watch.reference}</div>
+                  <div class="watch-card-footer">
+                    <div class="watch-price">{watch.priceDisplay}</div>
+                    <div class="watch-cond">{watch.condition}</div>
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section-service">
+      <div class="container">
+        <div class="section-hd-light">
+          <h2 class="section-title-light">Watch Service & Repair</h2>
+          <a href="/service/" class="section-link-light">All services →</a>
+        </div>
+        <div class="service-grid">
+          <div class="service-card">
+            <div class="service-num">01</div>
+            <h3 class="service-name">Battery & Quartz Care</h3>
+            <p class="service-desc">
+              Correct cell selection, pressure-tested resealing, coil inspection for running issues.
             </p>
-            <div class="hero-actions">
-              <a class="btn-primary" href="/shop/">Browse Watches</a>
-              <a class="btn-secondary" href="/service/">Book Service</a>
-              <a class="btn-ghost" href="/sell/">Sell Your Watch</a>
+            <div class="service-price">From $25</div>
+            <div class="service-tags">
+              <span>Same week</span>
+              <span>While you wait</span>
             </div>
           </div>
-          <div class="hero-right-stack">
-            <div class="hero-right-top" aria-hidden="true"></div>
-            <div class="hero-right-bottom">
-              <div class="hero-cards">
-                {heroWatches.map((w) => <WatchCard watch={w} stacked showFloat />)}
+          <div class="service-card">
+            <div class="service-num">02</div>
+            <h3 class="service-name">Crystal & Case Work</h3>
+            <p class="service-desc">Sapphire and acrylic replacements, bezel alignment, careful refinishing.</p>
+            <div class="service-price">From $80</div>
+            <div class="service-tags">
+              <span>OEM parts</span>
+              <span>Detail-first</span>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-num">03</div>
+            <h3 class="service-name">Full Mechanical Service</h3>
+            <p class="service-desc">
+              Disassembly, ultrasonic cleaning, lubrication, regulation, documented report.
+            </p>
+            <div class="service-price">From $250</div>
+            <div class="service-tags">
+              <span>Timegrapher</span>
+              <span>Written report</span>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-num">04</div>
+            <h3 class="service-name">Vintage Restoration</h3>
+            <p class="service-desc">
+              Pocket watches to mid-century pieces — conservative approach with collector judgment.
+            </p>
+            <div class="service-price">From $350+</div>
+            <div class="service-tags">
+              <span>Pocket watches</span>
+              <span>Heritage pieces</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-sell">
+      <div class="container">
+        <div class="sell-grid">
+          <div class="sell-left">
+            <p class="eyebrow-light">Get an Offer</p>
+            <h2 class="sell-h2">Sell Your Timepiece</h2>
+            <p class="sell-intro">
+              Fair market offers from a specialist who understands what your watch is actually worth. Not a pawn
+              shop. Not an algorithm.
+            </p>
+            <div class="sell-steps">
+              <div class="sell-step">
+                <div class="sell-step-num">1</div>
+                <div class="sell-step-body">
+                  <strong>Submit Details</strong>
+                  Brand, reference, condition, and what's included.
+                </div>
+              </div>
+              <div class="sell-step">
+                <div class="sell-step-num">2</div>
+                <div class="sell-step-body">
+                  <strong>Receive Offer</strong>
+                  Direct response within 24 hours. No obligation.
+                </div>
+              </div>
+              <div class="sell-step">
+                <div class="sell-step-num">3</div>
+                <div class="sell-step-body">
+                  <strong>Get Paid</strong>
+                  Local drop-off or insured mail-in. Fast payment.
+                </div>
               </div>
             </div>
           </div>
+          <div class="sell-right">
+            <form data-netlify="true" name="sell-quote" method="POST" action="/sell/">
+              <input type="hidden" name="form-name" value="sell-quote" />
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-brand-home">Watch Brand</label>
+                <select class="form-field-dark" id="sell-brand-home" name="brand" required>
+                  <option value="">Select brand</option>
+                  <option>Rolex</option>
+                  <option>Omega</option>
+                  <option>Seiko</option>
+                  <option>Cartier</option>
+                  <option>Tudor</option>
+                  <option>Tag Heuer</option>
+                  <option>Hamilton</option>
+                  <option>Citizen</option>
+                  <option>Other Luxury</option>
+                  <option>Vintage</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-model-home">Model / Reference</label>
+                <input
+                  class="form-field-dark"
+                  type="text"
+                  id="sell-model-home"
+                  name="model_reference"
+                  placeholder="e.g. Submariner, Ref. 116610"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-condition-home">Condition</label>
+                <select class="form-field-dark" id="sell-condition-home" name="condition" required>
+                  <option value="">Select condition</option>
+                  <option>Mint / Unworn</option>
+                  <option>Excellent</option>
+                  <option>Very Good</option>
+                  <option>Good</option>
+                  <option>Fair</option>
+                  <option>Not Working</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-box-home">Included with watch</label>
+                <select class="form-field-dark" id="sell-box-home" name="included" required>
+                  <option value="">Select</option>
+                  <option>Full Box &amp; Papers</option>
+                  <option>Box Only</option>
+                  <option>Papers Only</option>
+                  <option>No Box or Papers</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-consign-home">Interested in consignment?</label>
+                <select class="form-field-dark" id="sell-consign-home" name="consignment" required>
+                  <option value="">Select</option>
+                  <option>No, I want to sell outright</option>
+                  <option>Yes, tell me about consignment</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-name-home">Your Name</label>
+                <input
+                  class="form-field-dark"
+                  type="text"
+                  id="sell-name-home"
+                  name="name"
+                  placeholder="Full name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-email-home">Email Address</label>
+                <input
+                  class="form-field-dark"
+                  type="email"
+                  id="sell-email-home"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-phone-home">Phone</label>
+                <input
+                  class="form-field-dark"
+                  type="tel"
+                  id="sell-phone-home"
+                  name="phone"
+                  placeholder="Best number to reach you"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label-dark" for="sell-notes-home">Additional notes</label>
+                <textarea
+                  class="form-field-dark form-field-dark--textarea"
+                  id="sell-notes-home"
+                  name="notes"
+                  rows={4}
+                ></textarea>
+              </div>
+              <button type="submit" class="sell-submit">Submit for Offer →</button>
+              <p class="sell-note">No obligation. We respond within 24 hours.</p>
+            </form>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <TrustBar variant="forest" />
-
-      <section class="section section--ivory">
-        <div class="container">
-          <Eyebrow label="Curated Inventory" />
-          <h2>Shop <em>Timepieces</em></h2>
-          <div class="card-grid shop-grid">
-            {watches.map((w) => <WatchCard watch={w} />)}
-          </div>
-          <div class="shop-footer">
-            <p class="muted">New pieces added regularly. Inventory changes frequently.</p>
-            <a class="btn-ghost" href="/shop/">View All Inventory</a>
-          </div>
+    <section class="section-journal">
+      <div class="container">
+        <div class="section-hd">
+          <h2 class="section-title">The Watch Journal</h2>
+          <a href="/guide/" class="section-link">All articles →</a>
         </div>
-      </section>
-
-      <section class="section section--ivory2">
-        <div class="container">
-          <Eyebrow label="Expert Care" />
-          <div class="service-preview-head">
-            <div>
-              <h2>Watch Service <em>&amp; Repair</em></h2>
-              <p class="muted stack-sm">
-                From battery swaps to full mechanical overhauls, every job gets the same careful
-                diagnosis — and a written estimate before any work begins.
-              </p>
-            </div>
-            <aside class="callout">
-              <p>
-                Mail-in service nationwide · Local drop-off Bethlehem, PA · Free written estimate before
-                any work begins
-              </p>
-            </aside>
-          </div>
-          <div class="card-grid service-preview-grid">
-            <ServiceCard
-              num="01"
-              title="Battery &amp; Quartz Care"
-              description="Pressure-tested resealing when needed, correct cell selection, and coil checks for running issues."
-              price="From $25"
-              tags={['Same-week', 'While you wait when possible']}
-            />
-            <ServiceCard
-              num="02"
-              title="Crystal &amp; Case Work"
-              description="Sapphire and acrylic replacements, bezel alignment, and careful refinishing that respects original lines."
-              price="From $80"
-              tags={['OEM-style parts', 'Detail-first']}
-            />
-            <ServiceCard
-              num="03"
-              title="Full Mechanical Service"
-              description="Disassembly, cleaning, lubrication, regulation, and testing — documented for modern and vintage calibers."
-              price="From $250"
-              tags={['Timegrapher', 'Written report']}
-            />
-            <ServiceCard
-              num="04"
-              title="Vintage Restoration"
-              description="American pocket watches to mid-century wristwatches — conservative restoration with collector judgment."
-              price="From $350+"
-              tags={['Pocket watches', 'Heritage pieces']}
-            />
-          </div>
-        </div>
-        <div class="service-preview-cta section--forest service-preview-cta--banner">
-          <div class="container service-preview-cta-inner">
-            <p class="service-preview-cta-quote">
-              <em>Every watch we touch gets a written estimate first.</em>
-            </p>
-            <a class="btn-secondary" href="/service/">Book Service</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section--ivory">
-        <div class="container sell-layout">
-          <div class="sell-copy">
-            <Eyebrow label="Get an Offer" />
-            <h2>Sell Your <em>Timepiece</em></h2>
-            <ol class="sell-steps">
-              <li>
-                <span class="sell-num">1.</span>
-                <div>
-                  <strong>Submit details</strong>
-                  <p class="muted">Brand, reference, condition, and what’s included.</p>
-                </div>
-              </li>
-              <li>
-                <span class="sell-num">2.</span>
-                <div>
-                  <strong>Receive offer within 24hrs</strong>
-                  <p class="muted">Straightforward numbers — no obligation.</p>
-                </div>
-              </li>
-              <li>
-                <span class="sell-num">3.</span>
-                <div>
-                  <strong>Get paid fast</strong>
-                  <p class="muted">Local appointment or insured mail-in options.</p>
-                </div>
-              </li>
-            </ol>
-            <p class="consignment-callout">
-              <span class="badge">Consignment</span> Prefer consignment? We offer that too — ask on your
-              submission.
-            </p>
-          </div>
-          <div class="sell-aside">
-            <div class="sell-photo-wrap">
+        <div class="journal-grid">
+          <a href="/guide/how-often-service-rolex/" class="journal-card">
+            <div class="journal-img">
               <Image
-                src={sellImg}
-                alt="Luxury wristwatch — sell or consign with Shelton Watch Services"
-                width={900}
-                height={1200}
-                class="sell-photo"
-                sizes="(max-width: 900px) 100vw, 40vw"
+                src={journalPhoto1}
+                alt="Rolex watch service guide"
+                width={600}
+                height={300}
+                loading="lazy"
+                class="journal-photo"
               />
+              <span class="journal-cat">Rolex</span>
             </div>
-            <div class="sell-form-wrap">
-              <SellForm idSuffix="-home" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section--ivory2">
-        <div class="container">
-          <Eyebrow label="Free Resources" />
-          <h2>Watch <em>Tools</em></h2>
-          <div class="card-grid tools-grid">
-            <a class="tool-card" href="/sell/">
-              <p class="tool-icon" aria-hidden="true">⌁</p>
-              <h3>Watch Value Estimator</h3>
-              <p class="tool-hook"><em>What might my watch be worth?</em></p>
-              <p class="muted">Ballpark guidance before you sell or trade.</p>
-              <span class="text-link">Coming soon — Sell hub →</span>
-            </a>
-            <a class="tool-card" href="/service/">
-              <p class="tool-icon" aria-hidden="true">◷</p>
-              <h3>Service Due Calculator</h3>
-              <p class="tool-hook"><em>When is my watch due?</em></p>
-              <p class="muted">Intervals by brand and wear pattern.</p>
-              <span class="text-link">Coming soon — Service hub →</span>
-            </a>
-            <a class="tool-card" href="/tools/repair-or-sell/">
-              <p class="tool-icon" aria-hidden="true">⚖</p>
-              <h3>Repair or Sell?</h3>
-              <p class="tool-hook"><em>Which path makes sense?</em></p>
-              <p class="muted">Five quick questions — clear guidance.</p>
-              <span class="text-link">Use tool →</span>
-            </a>
-            <a class="tool-card" href="/guide/">
-              <p class="tool-icon" aria-hidden="true">⌕</p>
-              <h3>Movement Lookup</h3>
-              <p class="tool-hook"><em>What caliber is inside?</em></p>
-              <p class="muted">Decode references and calibers.</p>
-              <span class="text-link">Coming soon — Guide →</span>
-            </a>
-            <a class="tool-card" href="/service/">
-              <p class="tool-icon" aria-hidden="true">✎</p>
-              <h3>Instant Service Quote</h3>
-              <p class="tool-hook"><em>What should I budget?</em></p>
-              <p class="muted">Transparent starting points by service type.</p>
-              <span class="text-link">Coming soon — Service hub →</span>
-            </a>
-            <a class="tool-card" href="/sell/">
-              <p class="tool-icon" aria-hidden="true">◆</p>
-              <h3>Condition Grader</h3>
-              <p class="tool-hook"><em>How do dealers grade condition?</em></p>
-              <p class="muted">Understand mint vs. excellent vs. daily wear.</p>
-              <span class="text-link">Coming soon — Sell hub →</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section--ivory">
-        <div class="container">
-          <Eyebrow label="Knowledge Base" />
-          <h2>The Watch <em>Guide</em></h2>
-          <div class="card-grid guide-grid">
-            <GuideCard
-              category="Rolex"
-              title="How Often Should You Service a Rolex Watch?"
-              excerpt="Official intervals vs. what independent specialists recommend for daily wear in real life."
-              href="/guide/how-often-service-rolex/"
-              coverPhoto={guideCoverByHref['/guide/how-often-service-rolex/']}
-            />
-            <GuideCard
-              category="Decision guide"
-              title="Is My Watch Worth Repairing?"
-              excerpt="A practical rule of thumb using repair cost, value, and sentimental importance."
-              href="/guide/is-my-watch-worth-repairing/"
-              coverPhoto={guideCoverByHref['/guide/is-my-watch-worth-repairing/']}
-            />
-            <GuideCard
-              category="Rolex"
-              title="How Much Does a Rolex Service Cost?"
-              excerpt="Authorized service vs. independent pricing — what to expect line by line."
-              href="/guide/rolex-service-cost/"
-              coverPhoto={guideCoverByHref['/guide/rolex-service-cost/']}
-            />
-            <GuideCard
-              category="Troubleshooting"
-              title="My Watch Stopped Working — What Should I Do?"
-              excerpt="Battery, winding, and when it’s time for a professional assessment."
-              href="/guide/watch-stopped-working/"
-              coverPhoto={guideCoverByHref['/guide/watch-stopped-working/']}
-            />
-            <GuideCard
-              category="Accuracy"
-              title="Why Is My Watch Losing Time?"
-              excerpt="Magnetism, lubrication, regulation — the usual suspects explained plainly."
-              href="/guide/why-is-my-watch-losing-time/"
-              coverPhoto={guideCoverByHref['/guide/why-is-my-watch-losing-time/']}
-            />
-            <GuideCard
-              category="DIY"
-              title="How to Service a Watch at Home"
-              excerpt="What you can safely maintain at home — and what belongs on the bench."
-              href="/guide/how-to-service-watch-at-home/"
-              coverPhoto={guideCoverByHref['/guide/how-to-service-watch-at-home/']}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section class="location-strip section section--forest">
-        <div class="container location-grid">
-          <div>
-            <p class="location-lead"><em>Bethlehem, Pennsylvania.</em></p>
-            <p class="location-sub muted">
-              Serving the Lehigh Valley and all of PA by appointment. Mail-in watch service accepted
-              nationwide.
-            </p>
-          </div>
-          <div class="location-divider" aria-hidden="true"></div>
-          <div class="location-contact">
-            <div class="loc-row">
-              <p class="loc-label">Local</p>
-              <p>By appointment — Bethlehem, PA 18017</p>
-            </div>
-            <div class="loc-row">
-              <p class="loc-label">Mail-In</p>
-              <p>Insured shipping accepted nationwide</p>
-            </div>
-            <div class="loc-row">
-              <p class="loc-label">Hours</p>
-              <p>Mon–Fri 9am–5pm · Saturday by appointment</p>
-            </div>
-            <div class="loc-row">
-              <p class="loc-label">Email</p>
-              <p>
-                <a href="mailto:info@sheltonwatchservices.com">info@sheltonwatchservices.com</a>
+            <div class="journal-body">
+              <h3 class="journal-title">How Often Should You Service a Rolex?</h3>
+              <p class="journal-excerpt">
+                Official intervals vs. what independent specialists recommend for real daily wear.
               </p>
+              <span class="journal-link">Read article →</span>
             </div>
-            <a class="btn-secondary" href="/contact/">Book a Service</a>
+          </a>
+          <a href="/guide/is-my-watch-worth-repairing/" class="journal-card">
+            <div class="journal-img">
+              <Image
+                src={journalPhoto2}
+                alt="Is my watch worth repairing guide"
+                width={600}
+                height={300}
+                loading="lazy"
+                class="journal-photo"
+              />
+              <span class="journal-cat">Decision Guide</span>
+            </div>
+            <div class="journal-body">
+              <h3 class="journal-title">Is My Watch Worth Repairing?</h3>
+              <p class="journal-excerpt">
+                A practical framework using repair cost, watch value, and sentimental importance.
+              </p>
+              <span class="journal-link">Read article →</span>
+            </div>
+          </a>
+          <a href="/guide/rolex-service-cost/" class="journal-card">
+            <div class="journal-img">
+              <Image
+                src={journalPhoto3}
+                alt="Rolex service cost guide"
+                width={600}
+                height={300}
+                loading="lazy"
+                class="journal-photo"
+              />
+              <span class="journal-cat">Pricing</span>
+            </div>
+            <div class="journal-body">
+              <h3 class="journal-title">How Much Does a Rolex Service Cost?</h3>
+              <p class="journal-excerpt">
+                Authorized service vs. independent pricing — what to expect line by line.
+              </p>
+              <span class="journal-link">Read article →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-process">
+      <div class="container">
+        <p class="process-hd">How it works</p>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-icon">◷</div>
+            <div class="process-step-num">Step 1</div>
+            <div class="process-step-label">Find Your Watch</div>
+            <div class="process-step-sub">Browse our curated pre-owned inventory</div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="process-icon">✉</div>
+            <div class="process-step-num">Step 2</div>
+            <div class="process-step-label">Send an Inquiry</div>
+            <div class="process-step-sub">We respond personally within 24 hours</div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="process-icon">⊕</div>
+            <div class="process-step-num">Step 3</div>
+            <div class="process-step-label">Inspect in Person</div>
+            <div class="process-step-sub">Local pickup or insured mail delivery</div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="process-icon">✓</div>
+            <div class="process-step-num">Step 4</div>
+            <div class="process-step-label">Enjoy Your Watch</div>
+            <div class="process-step-sub">Every piece backed by our care and expertise</div>
           </div>
         </div>
-      </section>
-    </main>
-  </SiteChrome>
+      </div>
+    </section>
+
+    <section class="section-stats">
+      <div class="container">
+        <div class="stats-hd">
+          <h2 class="stats-title">Shelton Watch Services</h2>
+          <p class="stats-sub">Serving the Lehigh Valley since 2012</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-num">500<span class="stat-accent">+</span></div>
+            <div class="stat-label">watches serviced across every brand and price point</div>
+          </div>
+          <div class="stat-item stat-divider">
+            <div class="stat-num">12<span class="stat-accent">+</span></div>
+            <div class="stat-label">years of independent watchmaking experience in the Lehigh Valley</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">50<span class="stat-accent">+</span></div>
+            <div class="stat-label">watch brands serviced from Casio to Rolex and everything between</div>
+          </div>
+        </div>
+        <div class="stats-grid stats-grid-row2">
+          <div class="stat-item">
+            <div class="stat-num">4.9<span class="stat-accent">★</span></div>
+            <div class="stat-label">average Google rating from verified customers</div>
+          </div>
+          <div class="stat-item stat-divider">
+            <div class="stat-num"><span class="stat-accent">$</span>0</div>
+            <div class="stat-label">cost for an estimate — no work begins without your written approval</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">24<span class="stat-accent">hr</span></div>
+            <div class="stat-label">response time on all sell quotes and service inquiries</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <InquiryModal />
+  <Footer />
 </BaseLayout>
 
-<style
-  define:vars={{
-    heroTopBgUrl: `url(${heroImg.src})`,
-    serviceCtaBgUrl: `url(${servicePreviewCtaBg.src})`,
-  }}
->
-  .hero-grid {
+<style>
+  .hero {
+    position: relative;
+    min-height: calc(100vh - 72px);
+    background: var(--forest);
     display: grid;
     grid-template-columns: 55% 45%;
-    gap: 0;
-    align-items: stretch;
-    min-height: calc(100vh - 72px);
+    overflow: hidden;
   }
-
-  .hero-copy {
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    background: linear-gradient(to right, #0d1f18 0%, var(--forest) 50%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero-photo-col {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .hero-photo-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--forest) 0%, rgba(30, 51, 40, 0.35) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero-content {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 80px 64px;
   }
-
-  @media (max-width: 960px) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-      min-height: 0;
-    }
-
-    .hero-copy {
-      padding: 48px 24px 32px;
-    }
-  }
-
-  .hero-sub {
-    font-size: 15px;
-    max-width: 520px;
-    margin: 20px 0 28px;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .hero-right-stack {
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
-    min-height: min(72vh, 720px);
-  }
-
-  .hero-right-top {
-    flex: 6;
-    min-height: 200px;
-    background-image: linear-gradient(rgba(30, 51, 40, 0.3), rgba(30, 51, 40, 0.3)), var(--heroTopBgUrl);
-    background-size: cover;
-    background-position: center;
-  }
-
-  .hero-right-bottom {
-    flex: 4;
-    min-height: 0;
-    background: var(--ivory2);
-    padding: 20px 20px 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .hero-cards {
-    display: grid;
-    gap: 16px;
-  }
-
-  @media (max-width: 960px) {
-    .hero-right-stack {
-      min-height: 0;
-    }
-
-    .hero-right-top {
-      flex: 0 0 min(40vh, 320px);
-      min-height: min(40vh, 320px);
-    }
-
-    .hero-right-bottom {
-      flex: 1 1 auto;
-      padding: 20px 0 32px;
-    }
-  }
-
-  .shop-grid {
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 40px;
-  }
-
-  @media (max-width: 900px) {
-    .shop-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 560px) {
-    .shop-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .shop-footer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 32px;
-  }
-
-  .service-preview-head {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 32px;
-    align-items: start;
-    margin-bottom: 36px;
-  }
-
-  @media (max-width: 900px) {
-    .service-preview-head {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .callout {
-    background: var(--ivory);
-    border-left: 3px solid var(--gold);
-    padding: 16px 20px;
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--ink3);
-  }
-
-  .service-preview-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 768px) {
-    .service-preview-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .service-preview-cta {
-    margin-top: 48px;
-    padding: 28px 0 32px;
-  }
-
-  .service-preview-cta--banner {
-    position: relative;
-    background:
-      linear-gradient(rgba(30, 51, 40, 0.5), rgba(30, 51, 40, 0.5)),
-      var(--serviceCtaBgUrl);
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
-    min-height: 280px;
-    padding: 48px 24px;
+  .eyebrow-hero {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
     display: flex;
     align-items: center;
-    justify-content: center;
-  }
-
-  .service-preview-cta-inner {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 22px;
-  }
-
-  .service-preview-cta-quote {
-    font-family: var(--sans);
-    font-weight: 300;
-    font-size: 24px;
-    font-style: italic;
-    color: rgba(250, 247, 242, 0.95);
-    max-width: 560px;
-    line-height: 1.45;
-    margin: 0;
-  }
-
-  .sell-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: start;
-  }
-
-  .sell-aside {
-    display: grid;
-    grid-template-columns: 40% 60%;
-    gap: 28px;
-    align-items: stretch;
-    min-height: 0;
-  }
-
-  .sell-photo-wrap {
-    min-height: 220px;
-    overflow: hidden;
-    align-self: stretch;
-  }
-
-  .sell-photo-wrap :global(.sell-photo),
-  .sell-photo-wrap :global(img) {
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  .sell-form-wrap {
-    min-width: 0;
-  }
-
-  @media (max-width: 900px) {
-    .sell-layout {
-      grid-template-columns: 1fr;
-    }
-
-    .sell-aside {
-      grid-template-columns: 1fr;
-    }
-
-    .sell-photo-wrap {
-      order: -1;
-      height: 260px;
-      min-height: 260px;
-    }
-  }
-
-  .sell-steps {
-    list-style: none;
-    margin: 28px 0 24px;
-  }
-
-  .sell-steps li {
-    display: flex;
-    gap: 16px;
+    gap: 10px;
     margin-bottom: 20px;
   }
-
-  .sell-num {
-    font-family: var(--sans);
-    font-weight: 300;
-    font-size: 32px;
-    color: var(--ink5);
-    line-height: 1;
-    min-width: 48px;
-  }
-
-  .consignment-callout {
-    font-size: 13.5px;
-    color: var(--ink3);
-    border: 0.5px solid var(--rule);
-    padding: 14px 16px;
-    display: inline-block;
-    max-width: 480px;
-  }
-
-  .tools-grid {
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 36px;
-  }
-
-  @media (max-width: 900px) {
-    .tools-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 560px) {
-    .tools-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .tool-card {
+  .eyebrow-hero::before {
+    content: '';
     display: block;
-    text-decoration: none;
-    color: inherit;
-    background: var(--ivory);
-    padding: 24px 22px;
-    border: 0.5px solid var(--rule-lt);
-    transition:
-      background 0.2s ease,
-      border-color 0.2s ease;
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
   }
-
-  .tool-card:hover {
-    background: var(--ivory3);
-    border-top: 2px solid var(--gold);
-    border-left: 0.5px solid var(--rule-lt);
-    border-right: 0.5px solid var(--rule-lt);
-    border-bottom: 0.5px solid var(--rule-lt);
+  .hero-h1 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: clamp(36px, 4.5vw, 68px);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fafaf5;
+    margin-bottom: 22px;
   }
-
-  .tool-icon {
+  .hero-h1 em {
+    font-style: italic;
+    font-weight: 300;
     color: var(--gold);
-    font-size: 22px;
-    margin-bottom: 10px;
+    text-transform: none;
   }
-
-  .tool-hook {
-    font-size: 13px;
-    margin: 8px 0 10px;
+  .hero-sub {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(245, 240, 232, 0.55);
+    margin-bottom: 32px;
+    max-width: 400px;
   }
-
-  .guide-grid {
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 36px;
+  .hero-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-
-  @media (max-width: 900px) {
-    .guide-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .btn-ghost-light {
+    background: none;
+    color: rgba(245, 240, 232, 0.7);
+    padding: 12px 26px;
+    border: 0.5px solid rgba(245, 240, 232, 0.2);
+    font-family: 'Raleway', sans-serif;
+    font-size: 9.5px;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
   }
-
-  @media (max-width: 560px) {
-    .guide-grid {
+  .btn-ghost-light:hover {
+    border-color: rgba(245, 240, 232, 0.5);
+    color: #fafaf5;
+  }
+  @media (max-width: 768px) {
+    .hero {
       grid-template-columns: 1fr;
+      min-height: auto;
     }
-  }
-
-  .location-grid {
-    display: grid;
-    grid-template-columns: 1fr auto 1.1fr;
-    gap: 40px;
-    align-items: center;
-  }
-
-  @media (max-width: 900px) {
-    .location-grid {
-      grid-template-columns: 1fr;
+    .hero-photo-col {
+      grid-column: 1;
+      grid-row: 1;
+      height: 300px;
     }
-    .location-divider {
+    .hero-content {
+      grid-column: 1;
+      grid-row: 2;
+      padding: 48px 24px;
+    }
+    .hero-overlay {
       display: none;
     }
   }
 
-  .location-lead {
-    color: rgba(250, 247, 242, 0.92);
+  .section-watches {
+    background: var(--ivory);
+    padding: 56px 0;
+  }
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 24px;
+    }
+  }
+  .section-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .section-link {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(197, 160, 40, 0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+  .section-link:hover {
+    border-color: var(--gold);
+  }
+  .watch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  @media (max-width: 960px) {
+    .watch-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 480px) {
+    .watch-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .watch-card {
+    background: #fff;
+    border: 0.5px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.2s;
+  }
+  .watch-card:hover {
+    border-color: rgba(197, 160, 40, 0.5);
+  }
+  .watch-card-img {
+    width: 100%;
+    height: 200px;
+    background: var(--ivory2);
+    position: relative;
+    overflow: hidden;
+  }
+  .watch-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+  .watch-card:hover .watch-photo {
+    transform: scale(1.03);
+  }
+  .watch-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 7.5px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    background: var(--forest);
+    color: rgba(245, 240, 232, 0.8);
+    padding: 3px 8px;
+    z-index: 1;
+  }
+  .watch-card-info {
+    padding: 14px 16px 16px;
+  }
+  .watch-brand {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 8.5px;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 5px;
+  }
+  .watch-model {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-weight: 400;
+    font-size: 17px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .watch-ref {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: 11px;
+    color: var(--ink4);
     margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .watch-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 0.5px solid var(--rule);
+    padding-top: 10px;
+  }
+  .watch-price {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--ink);
+  }
+  .watch-cond {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink4);
   }
 
-  .location-sub {
-    color: rgba(250, 247, 242, 0.55);
-    font-size: 13.5px;
-    max-width: 420px;
+  .section-service {
+    background: var(--forest);
+    padding: 56px 0;
   }
-
-  .location-divider {
-    width: 1px;
-    align-self: stretch;
-    background: var(--gold);
-    opacity: 0.45;
+  .section-hd-light {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
   }
-
-  .location-contact .loc-row {
+  .section-title-light {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.85);
+  }
+  .section-link-light {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(197, 160, 40, 0.3);
+    padding-bottom: 1px;
+  }
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  @media (max-width: 960px) {
+    .service-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 480px) {
+    .service-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .service-card {
+    background: var(--forest2);
+    padding: 28px 24px;
+    border-left: 3px solid var(--gold);
+    transition: background 0.2s;
+  }
+  .service-card:hover {
+    background: #344f43;
+  }
+  .service-num {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-weight: 300;
+    font-size: 64px;
+    color: rgba(245, 240, 232, 0.06);
+    line-height: 1;
     margin-bottom: 14px;
   }
-
-  .loc-label {
+  .service-name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.88);
+    margin-bottom: 10px;
+  }
+  .service-desc {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(245, 240, 232, 0.42);
+    margin-bottom: 14px;
+  }
+  .service-price {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .service-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .service-tags span {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
     font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.3);
+    border: 0.5px solid rgba(245, 240, 232, 0.12);
+    padding: 3px 8px;
+  }
+
+  .section-sell {
+    background: var(--forest2);
+    padding: 72px 0;
+  }
+  .sell-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .sell-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  .eyebrow-light {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .eyebrow-light::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .sell-h2 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: clamp(22px, 3vw, 34px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fafaf5;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .sell-intro {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: rgba(245, 240, 232, 0.5);
+    margin-bottom: 32px;
+  }
+  .sell-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .sell-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .sell-step-num {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+  }
+  .sell-step-body {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: rgba(245, 240, 232, 0.5);
+  }
+  .sell-step-body strong {
+    font-weight: 400;
+    color: rgba(245, 240, 232, 0.85);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .sell-right {
+    background: rgba(20, 40, 28, 0.5);
+    padding: 32px;
+    border: 0.5px solid rgba(245, 240, 232, 0.08);
+  }
+  .form-label-dark {
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 8.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.38);
+    margin-bottom: 6px;
+  }
+  .form-field-dark {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(245, 240, 232, 0.05);
+    border: 0.5px solid rgba(245, 240, 232, 0.12);
+    color: rgba(245, 240, 232, 0.75);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+  .form-field-dark--textarea {
+    min-height: 88px;
+    resize: vertical;
+  }
+  .form-field-dark:focus {
+    border-color: rgba(197, 160, 40, 0.5);
+  }
+  .form-group {
+    margin-bottom: 14px;
+  }
+  .sell-submit {
+    width: 100%;
+    padding: 15px;
+    background: var(--gold);
+    color: var(--forest);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 9.5px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background 0.2s;
+    border-radius: 0;
+  }
+  .sell-submit:hover {
+    background: var(--gold2);
+  }
+  .sell-note {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: 10.5px;
+    color: rgba(245, 240, 232, 0.25);
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .section-journal {
+    padding: 56px 0;
+    background: var(--ivory2);
+  }
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  @media (max-width: 768px) {
+    .journal-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .journal-card {
+    background: #fff;
+    border: 0.5px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.2s;
+    overflow: hidden;
+  }
+  .journal-card:hover {
+    border-color: rgba(197, 160, 40, 0.4);
+  }
+  .journal-img {
+    width: 100%;
+    height: 200px;
+    background: var(--ivory3);
+    position: relative;
+    overflow: hidden;
+  }
+  .journal-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+  .journal-card:hover .journal-photo {
+    transform: scale(1.03);
+  }
+  .journal-cat {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 7.5px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    background: rgba(30, 51, 40, 0.88);
+    color: var(--gold);
+    padding: 3px 9px;
+    z-index: 1;
+  }
+  .journal-body {
+    padding: 18px 20px 20px;
+  }
+  .journal-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 14.5px;
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .journal-excerpt {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink4);
+    margin-bottom: 14px;
+  }
+  .journal-link {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(197, 160, 40, 0.3);
+    padding-bottom: 1px;
+  }
+
+  .section-process {
+    background: var(--ivory);
+    padding: 48px 0;
+    border-top: 0.5px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
+  }
+  .process-hd {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink4);
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .process-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .process-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    padding: 0 12px;
+  }
+  .process-arrow {
+    font-size: 16px;
+    color: rgba(197, 160, 40, 0.35);
+    flex-shrink: 0;
+    padding-bottom: 20px;
+  }
+  .process-icon {
+    width: 52px;
+    height: 52px;
+    border: 0.5px solid var(--rule);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    background: var(--ivory2);
+  }
+  .process-step-num {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 8px;
     letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--gold);
+    margin-bottom: 5px;
+  }
+  .process-step-label {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
     margin-bottom: 4px;
   }
-
-  .location-contact {
-    color: rgba(250, 247, 242, 0.78);
-    font-size: 14px;
+  .process-step-sub {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: 11px;
+    color: var(--ink4);
+    line-height: 1.5;
+  }
+  @media (max-width: 768px) {
+    .process-steps {
+      flex-direction: column;
+      gap: 24px;
+    }
+    .process-arrow {
+      display: none;
+    }
   }
 
-  .location-contact a {
-    color: rgba(250, 247, 242, 0.85);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+  .section-stats {
+    background: var(--ivory);
+    padding: 80px 0;
+    border-top: 0.5px solid var(--rule);
   }
-
-  .location-contact .btn-secondary {
-    margin-top: 18px;
+  .stats-hd {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .stats-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .stats-sub {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    color: var(--ink4);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .stats-grid-row2 {
+    border-top: 0.5px solid var(--rule);
+  }
+  .stat-item {
+    text-align: center;
+    padding: 40px 24px;
+  }
+  .stat-divider {
+    border-left: 0.5px solid var(--rule);
+    border-right: 0.5px solid var(--rule);
+  }
+  .stat-num {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-weight: 300;
+    font-size: 80px;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .stat-accent {
+    color: var(--gold);
+    font-size: 0.6em;
+    vertical-align: super;
+  }
+  .stat-label {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink4);
+    max-width: 180px;
+    margin: 0 auto;
+  }
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    .stat-divider {
+      border: none;
+      border-top: 0.5px solid var(--rule);
+      border-bottom: 0.5px solid var(--rule);
+    }
+    .stat-num {
+      font-size: 56px;
+    }
   }
 </style>
