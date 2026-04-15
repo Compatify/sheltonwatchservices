@@ -24,8 +24,6 @@ function isActive(href: string): boolean {
         src="/SWS-logo.PNG"
         alt="Shelton Watch Services"
         class="logo-img"
-        width="280"
-        height="63"
         loading="eager"
       />
     </a>
@@ -88,6 +86,14 @@ function isActive(href: string): boolean {
   .nav-logo {
     display: flex;
     align-items: center;
+  }
+
+  .logo-img {
+    height: 44px;
+    width: auto;
+    filter: brightness(0) invert(1) sepia(0.2) saturate(0.5);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 
   .nav-links {
