@@ -21,7 +21,7 @@ function isActive(href: string): boolean {
     <a class="nav-logo" href="/">
       <!-- OWNER: If logo still appears small, the PNG may have excess transparent padding — crop it tighter in Preview or Photoshop -->
       <img
-        src="/SWS-logo.PNG"
+        src="/SWS-logo.svg"
         alt="Shelton Watch Services"
         class="logo-img"
         loading="eager"
@@ -89,11 +89,9 @@ function isActive(href: string): boolean {
   }
 
   .logo-img {
-    height: 44px;
+    height: 46px;
     width: auto;
     filter: brightness(0) invert(1) sepia(0.2) saturate(0.5);
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
   }
 
   .nav-links {
