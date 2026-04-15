@@ -1,5 +1,6 @@
 ---
 import type { Watch } from '../data/watches';
+import { watchDetailPath } from '../data/watches';
 import WatchFaceSvg from './WatchFaceSvg.astro';
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const { watch, stacked = false, showFloat = false } = Astro.props;
+const detailHref = watchDetailPath(watch.slug);
 const data = JSON.stringify({
   brand: watch.brand,
   model: watch.model,
@@ -20,14 +22,16 @@ const data = JSON.stringify({
 
 <article class:list={['watch-card', { 'watch-card--stacked': stacked }]}>
   {showFloat && <div class="watch-card-float" aria-hidden="true">Now Available</div>}
-  <WatchFaceSvg />
-  <p class="eyebrow watch-card-brand">{watch.brand}</p>
-  <h3 class="watch-card-model">{watch.model}</h3>
-  <p class="meta muted watch-card-ref">{watch.reference}</p>
-  <p class="meta muted watch-card-extras">{watch.extras}</p>
-  <p class="price">{watch.priceDisplay}</p>
-  <span class="badge">{watch.condition}</span>
-  <button type="button" class="btn-primary watch-inquire" data-watch={data}>Inquire to Purchase</button>
+  <a class="watch-card-link" href={detailHref}>
+    <WatchFaceSvg />
+    <p class="eyebrow watch-card-brand">{watch.brand}</p>
+    <h3 class="watch-card-model">{watch.model}</h3>
+    <p class="meta muted watch-card-ref">{watch.reference}{watch.bezel && ` · ${watch.bezel}`}</p>
+    <p class="meta muted watch-card-extras">{watch.includes}</p>
+    <p class="price">{watch.priceDisplay}</p>
+    <span class="badge">{watch.condition}</span>
+  </a>
+  <button type="button" class="watch-inquire quick-inquire" data-watch={data}>Quick Inquire</button>
 </article>
 
 <style>
@@ -49,6 +53,12 @@ const data = JSON.stringify({
     border-bottom: 0.5px solid var(--rule-lt);
   }
 
+  .watch-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
   .watch-card--stacked {
     transform: rotate(-1.5deg);
   }
@@ -67,6 +77,7 @@ const data = JSON.stringify({
     letter-spacing: 0.22em;
     text-transform: uppercase;
     padding: 6px 10px;
+    z-index: 1;
   }
 
   .watch-card-brand {
@@ -87,12 +98,26 @@ const data = JSON.stringify({
   }
 
   .watch-card .badge {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
+    display: inline-block;
   }
 
-  .watch-inquire {
+  .quick-inquire {
     width: 100%;
     text-align: center;
+    background: none;
     border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    padding: 10px 0 0;
+    transition: color 0.2s ease;
+  }
+
+  .quick-inquire:hover {
+    color: var(--gold);
   }
 </style>

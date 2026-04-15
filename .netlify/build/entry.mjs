@@ -1,6 +1,6 @@
 import { renderers } from './renderers.mjs';
 import { s as serverEntrypointModule } from './chunks/_@astrojs-ssr-adapter_CvSoi7hX.mjs';
-import { manifest } from './manifest_CX_aNSuj.mjs';
+import { manifest } from './manifest_CdJtzlT-.mjs';
 import { createExports } from '@astrojs/netlify/ssr-function.js';
 
 const serverIslandMap = new Map();;
@@ -36,17 +36,18 @@ const _page27 = () => import('./pages/service.astro.mjs');
 const _page28 = () => import('./pages/shop/omega.astro.mjs');
 const _page29 = () => import('./pages/shop/rolex.astro.mjs');
 const _page30 = () => import('./pages/shop/seiko.astro.mjs');
-const _page31 = () => import('./pages/shop.astro.mjs');
-const _page32 = () => import('./pages/sitemap.astro.mjs');
-const _page33 = () => import('./pages/tools/repair-or-sell.astro.mjs');
-const _page34 = () => import('./pages/tools.astro.mjs');
-const _page35 = () => import('./pages/watch-repair-allentown-pa.astro.mjs');
-const _page36 = () => import('./pages/watch-repair-bethlehem-pa.astro.mjs');
-const _page37 = () => import('./pages/watch-repair-lehigh-valley.astro.mjs');
-const _page38 = () => import('./pages/watches-for-sale-allentown-pa.astro.mjs');
-const _page39 = () => import('./pages/watches-for-sale-bethlehem-pa.astro.mjs');
-const _page40 = () => import('./pages/watches-for-sale-lehigh-valley.astro.mjs');
-const _page41 = () => import('./pages/index.astro.mjs');
+const _page31 = () => import('./pages/shop/watches/_slug_.astro.mjs');
+const _page32 = () => import('./pages/shop.astro.mjs');
+const _page33 = () => import('./pages/sitemap.astro.mjs');
+const _page34 = () => import('./pages/tools/repair-or-sell.astro.mjs');
+const _page35 = () => import('./pages/tools.astro.mjs');
+const _page36 = () => import('./pages/watch-repair-allentown-pa.astro.mjs');
+const _page37 = () => import('./pages/watch-repair-bethlehem-pa.astro.mjs');
+const _page38 = () => import('./pages/watch-repair-lehigh-valley.astro.mjs');
+const _page39 = () => import('./pages/watches-for-sale-allentown-pa.astro.mjs');
+const _page40 = () => import('./pages/watches-for-sale-bethlehem-pa.astro.mjs');
+const _page41 = () => import('./pages/watches-for-sale-lehigh-valley.astro.mjs');
+const _page42 = () => import('./pages/index.astro.mjs');
 const pageMap = new Map([
     ["src/pages/404/index.astro", _page0],
     ["src/pages/about.astro", _page1],
@@ -79,17 +80,18 @@ const pageMap = new Map([
     ["src/pages/shop/omega.astro", _page28],
     ["src/pages/shop/rolex.astro", _page29],
     ["src/pages/shop/seiko.astro", _page30],
-    ["src/pages/shop/index.astro", _page31],
-    ["src/pages/sitemap.astro", _page32],
-    ["src/pages/tools/repair-or-sell.astro", _page33],
-    ["src/pages/tools/index.astro", _page34],
-    ["src/pages/watch-repair-allentown-pa.astro", _page35],
-    ["src/pages/watch-repair-bethlehem-pa.astro", _page36],
-    ["src/pages/watch-repair-lehigh-valley.astro", _page37],
-    ["src/pages/watches-for-sale-allentown-pa.astro", _page38],
-    ["src/pages/watches-for-sale-bethlehem-pa.astro", _page39],
-    ["src/pages/watches-for-sale-lehigh-valley.astro", _page40],
-    ["src/pages/index.astro", _page41]
+    ["src/pages/shop/watches/[slug].astro", _page31],
+    ["src/pages/shop/index.astro", _page32],
+    ["src/pages/sitemap.astro", _page33],
+    ["src/pages/tools/repair-or-sell.astro", _page34],
+    ["src/pages/tools/index.astro", _page35],
+    ["src/pages/watch-repair-allentown-pa.astro", _page36],
+    ["src/pages/watch-repair-bethlehem-pa.astro", _page37],
+    ["src/pages/watch-repair-lehigh-valley.astro", _page38],
+    ["src/pages/watches-for-sale-allentown-pa.astro", _page39],
+    ["src/pages/watches-for-sale-bethlehem-pa.astro", _page40],
+    ["src/pages/watches-for-sale-lehigh-valley.astro", _page41],
+    ["src/pages/index.astro", _page42]
 ]);
 
 const _manifest = Object.assign(manifest, {
@@ -100,7 +102,7 @@ const _manifest = Object.assign(manifest, {
     middleware: () => import('./_noop-middleware.mjs')
 });
 const _args = {
-    "middlewareSecret": "f369e032-0478-41ae-833b-795935bf9ddc"
+    "middlewareSecret": "c46c9789-5efb-4972-bac2-1b052336b941"
 };
 const _exports = createExports(_manifest, _args);
 const __astrojsSsrVirtualEntry = _exports.default;

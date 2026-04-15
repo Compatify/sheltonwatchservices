@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteChrome from '../components/SiteChrome.astro';
+import { watches, watchDetailPath } from '../data/watches';
 
 const title = 'Sitemap | Shelton Watch Services';
 const description =
@@ -49,6 +50,15 @@ const description =
             <li><a href="/shop/rolex/">Rolex watches</a></li>
             <li><a href="/shop/omega/">Omega watches</a></li>
             <li><a href="/shop/seiko/">Seiko watches</a></li>
+            {
+              watches.map((w) => (
+                <li>
+                  <a href={watchDetailPath(w.slug)}>
+                    {w.brand} {w.model} (detail)
+                  </a>
+                </li>
+              ))
+            }
           </ul>
         </section>
 

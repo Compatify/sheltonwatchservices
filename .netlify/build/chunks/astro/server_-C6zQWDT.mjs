@@ -42,6 +42,54 @@ const InvalidComponentArgs = {
   message: (name) => `Invalid arguments passed to${name ? ` <${name}>` : ""} component.`,
   hint: "Astro components cannot be rendered directly via function call, such as `Component()` or `{items.map(Component)}`."
 };
+const ImageMissingAlt = {
+  name: "ImageMissingAlt",
+  title: 'Image missing required "alt" property.',
+  message: 'Image missing "alt" property. "alt" text is required to describe important images on the page.',
+  hint: 'Use an empty string ("") for decorative images.'
+};
+const InvalidImageService = {
+  name: "InvalidImageService",
+  title: "Error while loading image service.",
+  message: "There was an error loading the configured image service. Please see the stack trace for more information."
+};
+const FailedToFetchRemoteImageDimensions = {
+  name: "FailedToFetchRemoteImageDimensions",
+  title: "Failed to retrieve remote image dimensions",
+  message: (imageURL) => `Failed to get the dimensions for ${imageURL}.`,
+  hint: "Verify your remote image URL is accurate, and that you are not using `inferSize` with a file located in your `public/` folder."
+};
+const RemoteImageNotAllowed = {
+  name: "RemoteImageNotAllowed",
+  title: "Remote image is not allowed",
+  message: (imageURL) => `Remote image ${imageURL} is not allowed by your image configuration.`,
+  hint: "Update `image.domains` or `image.remotePatterns`, or remove `inferSize` for this image."
+};
+const ExpectedImage = {
+  name: "ExpectedImage",
+  title: "Expected src to be an image.",
+  message: (src, typeofOptions, fullOptions) => `Expected \`src\` property for \`getImage\` or \`<Image />\` to be either an ESM imported image or a string with the path of a remote image. Received \`${src}\` (type: \`${typeofOptions}\`).
+
+Full serialized options received: \`${fullOptions}\`.`,
+  hint: "This error can often happen because of a wrong path. Make sure the path to your image is correct. If you're passing an async function, make sure to call and await it."
+};
+const ExpectedImageOptions = {
+  name: "ExpectedImageOptions",
+  title: "Expected image options.",
+  message: (options) => `Expected getImage() parameter to be an object. Received \`${options}\`.`
+};
+const ExpectedNotESMImage = {
+  name: "ExpectedNotESMImage",
+  title: "Expected image options, not an ESM-imported image.",
+  message: "An ESM-imported image cannot be passed directly to `getImage()`. Instead, pass an object with the image in the `src` property.",
+  hint: "Try changing `getImage(myImage)` to `getImage({ src: myImage })`"
+};
+const NoImageMetadata = {
+  name: "NoImageMetadata",
+  title: "Could not process image metadata.",
+  message: (imagePath) => `Could not process image metadata${imagePath ? ` for \`${imagePath}\`` : ""}.`,
+  hint: "This is often caused by a corrupted or malformed image. Re-exporting the image from your image editor may fix this issue."
+};
 const AstroGlobUsedOutside = {
   name: "AstroGlobUsedOutside",
   title: "Astro.glob() used outside of an Astro file.",
@@ -53,6 +101,18 @@ const AstroGlobNoMatch = {
   title: "Astro.glob() did not match any files.",
   message: (globStr) => `\`Astro.glob(${globStr})\` did not return any matching files.`,
   hint: "Check the pattern for typos."
+};
+const ExperimentalFontsNotEnabled = {
+  name: "ExperimentalFontsNotEnabled",
+  title: "Experimental fonts are not enabled",
+  message: "The Font component is used but experimental fonts have not been registered in the config.",
+  hint: "Check that you have enabled experimental fonts and also configured your preferred fonts."
+};
+const FontFamilyNotFound = {
+  name: "FontFamilyNotFound",
+  title: "Font family not found",
+  message: (family) => `No data was found for the \`"${family}"\` family passed to the \`<Font>\` component.`,
+  hint: "This is often caused by a typo. Check that the `<Font />` component is using a `cssVariable` specified in your config."
 };
 
 function normalizeLF(code) {
@@ -1908,4 +1968,21 @@ function normalizeProps(props) {
 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_".split("").reduce((v, c) => (v[c.charCodeAt(0)] = c, v), []);
 "-0123456789_".split("").reduce((v, c) => (v[c.charCodeAt(0)] = c, v), []);
 
-export { Fragment as F, NOOP_MIDDLEWARE_HEADER as N, renderTemplate as a, addAttribute as b, createComponent as c, createAstro as d, renderSlot as e, decodeKey as f, renderHead as g, maybeRenderHead as m, renderComponent as r, unescapeHTML as u };
+function spreadAttributes(values = {}, _name, { class: scopedClassName } = {}) {
+  let output = "";
+  if (scopedClassName) {
+    if (typeof values.class !== "undefined") {
+      values.class += ` ${scopedClassName}`;
+    } else if (typeof values["class:list"] !== "undefined") {
+      values["class:list"] = [values["class:list"], scopedClassName];
+    } else {
+      values.class = scopedClassName;
+    }
+  }
+  for (const [key, value] of Object.entries(values)) {
+    output += addAttribute(value, key, true, _name);
+  }
+  return markHTMLString(output);
+}
+
+export { AstroError as A, ExpectedImageOptions as E, Fragment as F, InvalidImageService as I, NOOP_MIDDLEWARE_HEADER as N, RemoteImageNotAllowed as R, renderTemplate as a, addAttribute as b, createComponent as c, createAstro as d, renderSlot as e, decodeKey as f, renderHead as g, NoImageMetadata as h, FailedToFetchRemoteImageDimensions as i, ExpectedImage as j, ExpectedNotESMImage as k, ImageMissingAlt as l, maybeRenderHead as m, ExperimentalFontsNotEnabled as n, FontFamilyNotFound as o, renderComponent as r, spreadAttributes as s, toStyleString as t, unescapeHTML as u };

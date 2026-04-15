@@ -1,0 +1,282 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SiteChrome from '../../../components/SiteChrome.astro';
+import { watches, watchDetailPath } from '../../../data/watches';
+import { productSchemaForWatch } from '../../../utils/productSchema';
+import { jsonLd } from '../../../utils/schema';
+
+export function getStaticPaths() {
+  return watches.map((watch) => ({
+    params: { slug: watch.slug },
+    props: { watch },
+  }));
+}
+
+const { watch } = Astro.props;
+
+const title = `${watch.brand} ${watch.model} | Pre-Owned | Shelton Watch`.slice(0, 60);
+const description = `Pre-owned ${watch.brand} ${watch.model}. ${watch.reference}. ${watch.condition} condition. Inquiry-based purchase — ${watch.priceDisplay}.`;
+const canonicalURL = `https://sheltonwatchservices.com${watchDetailPath(watch.slug)}`;
+const productLd = productSchemaForWatch(watch);
+
+const inquiryPayload = JSON.stringify({
+  brand: watch.brand,
+  model: watch.model,
+  reference: watch.reference,
+  priceDisplay: watch.priceDisplay,
+  slug: watch.slug,
+});
+---
+
+<BaseLayout title={title} description={description.slice(0, 159)} canonical={canonicalURL}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(productLd)} />
+  <SiteChrome showInquiryModal>
+    <main id="main">
+      <article class="section section--ivory watch-detail">
+        <div class="container watch-detail-inner">
+          <p class="back">
+            <a href="/shop/">← Back to Shop</a>
+          </p>
+
+          <div class="watch-detail-grid">
+            <div class="watch-gallery">
+              <!-- OWNER: Replace SVG placeholders with real watch photos — shoot in natural light, clean ivory background -->
+              <div class="gallery-primary">
+                <p class="gallery-placeholder-label">
+                  Primary photo — {watch.brand} {watch.model}
+                </p>
+              </div>
+              <div class="gallery-thumbs" aria-label="Additional angles">
+                <div class="gallery-thumb">
+                  <span class="gallery-thumb-label">Crystal close-up</span>
+                </div>
+                <div class="gallery-thumb">
+                  <span class="gallery-thumb-label">Caseback</span>
+                </div>
+                <div class="gallery-thumb">
+                  <span class="gallery-thumb-label">Bracelet</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="watch-detail-copy">
+              <p class="eyebrow">{watch.brand}</p>
+              <h1>{watch.model}</h1>
+              <p class="ref-line muted">
+                {watch.reference}
+                {watch.bezel && ` · ${watch.bezel}`}
+              </p>
+              <p class="detail-price">{watch.priceDisplay}</p>
+              <span class="badge">{watch.condition}</span>
+
+              <hr class="rule" />
+
+              <table class="detail-table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Reference Number</th>
+                    <td>{watch.reference}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Year</th>
+                    <td>{watch.year}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Case size</th>
+                    <td>{watch.caseSize}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Movement type</th>
+                    <td>{watch.movement}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Condition</th>
+                    <td>{watch.condition}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Includes</th>
+                    <td>{watch.includes}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Serial range</th>
+                    <td>{watch.serialRange ?? '—'}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <hr class="rule" />
+
+              <div class="detail-description muted">
+                <p>{watch.description}</p>
+              </div>
+
+              <hr class="rule" />
+
+              <button type="button" class="btn-primary watch-inquire detail-inquire" data-watch={inquiryPayload}>
+                Inquire to Purchase
+              </button>
+              <p class="ask-wrap">
+                <button type="button" class="text-link watch-inquire" data-watch={inquiryPayload}>
+                  Ask a question
+                </button>
+              </p>
+              <p class="trust-note muted">
+                Every watch personally inspected. Accurate descriptions. Local pickup available.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .watch-detail-inner {
+    max-width: var(--max);
+  }
+
+  .back {
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .back a {
+    color: var(--ink3);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back a:hover {
+    color: var(--gold);
+  }
+
+  .watch-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .watch-detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .gallery-primary {
+    background: var(--ivory3);
+    border: 0.5px solid var(--rule-lt);
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .gallery-placeholder-label {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--ink4);
+    max-width: 280px;
+    line-height: 1.6;
+  }
+
+  .gallery-thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 2px;
+  }
+
+  .gallery-thumb {
+    background: var(--ivory2);
+    border: 0.5px solid var(--rule-lt);
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .gallery-thumb-label {
+    font-size: 11px;
+    color: var(--ink4);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .watch-detail-copy .eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .watch-detail-copy h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .ref-line {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .detail-price {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--gold);
+    margin: 12px 0 14px;
+  }
+
+  .rule {
+    border: none;
+    border-top: 0.5px solid var(--rule);
+    margin: 22px 0;
+  }
+
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .detail-table th,
+  .detail-table td {
+    text-align: left;
+    padding: 10px 12px 10px 0;
+    border-bottom: 0.5px solid var(--rule-lt);
+    vertical-align: top;
+  }
+
+  .detail-table th {
+    font-weight: 400;
+    color: var(--ink4);
+    width: 42%;
+  }
+
+  .detail-description p {
+    line-height: 1.85;
+  }
+
+  .detail-inquire {
+    width: 100%;
+    text-align: center;
+    border: none;
+  }
+
+  .ask-wrap {
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .trust-note {
+    font-size: 12px;
+    margin-top: 20px;
+    line-height: 1.65;
+  }
+</style>
