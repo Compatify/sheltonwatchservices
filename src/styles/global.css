@@ -15,9 +15,8 @@
   --gold2: #d4b23a;
   --rule: rgba(30, 51, 40, 0.12);
   --rule-lt: rgba(30, 51, 40, 0.06);
-  --serif: 'Cormorant Garamond', Georgia, serif;
-  --sans: 'DM Sans', sans-serif;
-  --display: 'Outfit', sans-serif;
+  --serif: 'Cormorant SC', Georgia, serif;
+  --sans: 'Raleway', sans-serif;
   --max: 1180px;
 }
 
@@ -34,12 +33,13 @@ html {
 }
 
 body {
-  background: var(--ivory);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 14.5px;
+  font-family: 'Raleway', sans-serif;
   font-weight: 300;
+  font-size: 14.5px;
   line-height: 1.85;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--ivory);
   padding-top: 72px;
   -webkit-font-smoothing: antialiased;
 }
@@ -79,46 +79,59 @@ img {
 }
 
 h1,
-.hero-h1 {
-  font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(48px, 5vw, 72px);
+h2,
+h3,
+h4 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   line-height: 1.1;
+  color: var(--ink);
 }
 
-.hero-h1 {
-  font-size: clamp(58px, 7vw, 96px);
-}
-
-h1 em,
-.hero-h1 em,
-h2 em {
-  font-style: italic;
+h1 {
+  font-size: clamp(36px, 5vw, 68px);
 }
 
 h2 {
-  font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(32px, 4vw, 52px);
-  line-height: 1.15;
+  font-size: clamp(26px, 4vw, 48px);
 }
 
 h3 {
-  font-family: var(--serif);
+  font-size: clamp(18px, 2.5vw, 24px);
+}
+
+h4 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.hero-h1 {
+  font-size: clamp(40px, 5.5vw, 80px);
+}
+
+em {
+  font-style: italic;
   font-weight: 300;
-  font-size: 23px;
-  line-height: 1.2;
+}
+
+p {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 14.5px;
+  line-height: 1.85;
 }
 
 .eyebrow {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gold);
   display: flex;
   align-items: center;
   gap: 11px;
-  font-family: var(--sans);
-  font-size: 9.5px;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: var(--gold);
   margin-bottom: 16px;
 }
 
@@ -155,19 +168,16 @@ h3 {
 }
 
 .section--forest h2,
-.section--forest h3 {
+.section--forest h3,
+.section--forest h4 {
   color: rgba(250, 247, 242, 0.95);
 }
 
 .meta {
-  font-size: 12.5px;
-}
-
-.price {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--gold);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
 }
 
 .btn-primary {
@@ -176,11 +186,6 @@ h3 {
   padding: 13px 28px;
   border: none;
   border-radius: 0;
-  font-family: var(--sans);
-  font-size: 10.5px;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
@@ -197,11 +202,6 @@ h3 {
   padding: 12px 26px;
   border: 1px solid rgba(197, 160, 40, 0.45);
   border-radius: 0;
-  font-family: var(--sans);
-  font-size: 10.5px;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
   transition: all 0.2s ease;
@@ -228,11 +228,6 @@ h3 {
   padding: 12px 26px;
   border: 0.5px solid var(--rule);
   border-radius: 0;
-  font-family: var(--sans);
-  font-size: 10.5px;
-  font-weight: 300;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
   transition: all 0.2s ease;
@@ -258,9 +253,6 @@ h3 {
   background: var(--ivory);
   border: 0.5px solid var(--rule);
   color: var(--ink);
-  font-family: var(--sans);
-  font-size: 13.5px;
-  font-weight: 300;
   padding: 11px 13px;
   outline: none;
   border-radius: 0;
@@ -275,12 +267,8 @@ h3 {
 
 .form-label {
   display: block;
-  font-size: 9px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
   color: var(--ink4);
   margin-bottom: 7px;
-  font-family: var(--sans);
 }
 
 .form-group {
@@ -292,11 +280,6 @@ h3 {
   padding: 15px;
   background: var(--forest);
   color: var(--ivory);
-  font-family: var(--sans);
-  font-size: 10.5px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
   border: none;
   cursor: pointer;
   border-radius: 0;
@@ -317,6 +300,7 @@ h3 {
   line-height: 1.75;
   color: var(--ink3);
   border-radius: 0;
+  font-family: var(--sans);
 }
 
 .card-grid {
@@ -329,6 +313,7 @@ h3 {
   padding: 4px 10px;
   border: 0.5px solid var(--rule);
   border-radius: 99px;
+  font-family: var(--sans);
   font-size: 9px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -342,6 +327,7 @@ h3 {
 }
 
 .text-link {
+  font-family: var(--sans);
   font-size: 10.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -364,4 +350,143 @@ h3 {
 
 .stack-md > * + * {
   margin-top: 20px;
+}
+
+/* Eyebrow labels — base rules above; component-specific */
+
+/* Watch model names — Cormorant SC */
+.watch-model,
+.watch-card .model,
+[class*='model'] {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+}
+
+.watch-detail-copy h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 44px);
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+/* Prices — Cormorant SC */
+.price,
+[class*='price'] {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+}
+
+/* Trust bar numbers */
+.trust-number,
+.trust-num,
+[class*='trust'] h3,
+[class*='trust'] strong {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 32px;
+  color: var(--gold);
+}
+
+/* Trust bar labels */
+.trust-label {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.45);
+}
+
+/* Navigation links */
+.nav-link,
+.nav-panel-link {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.6);
+}
+
+/* All buttons */
+.btn-primary,
+.btn-secondary,
+.btn-ghost,
+.form-submit,
+.quick-inquire,
+[class*='btn-'] {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* Form labels */
+.form-label,
+[class*='form-label'] {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* Form inputs */
+.form-field,
+input,
+textarea,
+select {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 13.5px;
+}
+
+/* Small meta text */
+.reference,
+.condition,
+[class*='ref'],
+[class*='condition'],
+[class*='extras'],
+[class*='includes'] {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+}
+
+/* Footer */
+footer,
+[class*='footer'] {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+
+/* Copyright */
+[class*='copyright'],
+[class*='bottom-bar'] {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+/* Location strip headings */
+[class*='location'] h2,
+[class*='location'] p.city,
+.location-lead {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 32px;
+  letter-spacing: 0.08em;
+  font-style: italic;
 }
