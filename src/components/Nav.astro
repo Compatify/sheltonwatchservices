@@ -19,8 +19,8 @@ function isActive(href: string): boolean {
 }
 ---
 
-<header class="site-header">
-  <nav class="nav-inner container" aria-label="Primary">
+<nav class="site-nav" aria-label="Primary">
+  <div class="nav-inner">
     <a class="nav-logo" href="/">
       <!-- OWNER: If logo still appears small, the PNG may have excess transparent padding — crop it tighter in Preview or Photoshop -->
       <Image
@@ -46,9 +46,9 @@ function isActive(href: string): boolean {
     </ul>
     <a class="btn-secondary nav-cta" href="/book/">Book</a>
     <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
-      ☰
+      &#9776;
     </button>
-  </nav>
+  </div>
   <div id="nav-panel" class="nav-panel" hidden>
     <ul class="nav-panel-list">
       {
@@ -65,10 +65,10 @@ function isActive(href: string): boolean {
       </li>
     </ul>
   </div>
-</header>
+</nav>
 
 <style>
-  .site-header {
+  .site-nav {
     position: fixed;
     top: 0;
     left: 0;
@@ -76,27 +76,30 @@ function isActive(href: string): boolean {
     z-index: 100;
     background: var(--forest);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    height: 68px;
   }
 
   .nav-inner {
-    height: 68px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 48px;
+    height: 72px;
     display: flex;
     align-items: center;
-    gap: 28px;
+    justify-content: space-between;
+    width: 100%;
   }
 
   .nav-logo {
     display: flex;
     align-items: center;
-    margin-right: auto;
   }
 
   .nav-links {
     list-style: none;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 22px;
+    gap: 40px;
   }
 
   .nav-link {
@@ -144,7 +147,7 @@ function isActive(href: string): boolean {
   .nav-panel-list {
     list-style: none;
     padding: 24px 48px 32px;
-    max-width: var(--max);
+    max-width: 1180px;
     margin: 0 auto;
   }
 
@@ -172,7 +175,21 @@ function isActive(href: string): boolean {
     display: inline-block;
   }
 
+  @media (max-width: 1179px) {
+    .nav-inner {
+      padding: 0 32px;
+    }
+
+    .nav-panel-list {
+      padding: 24px 32px 32px;
+    }
+  }
+
   @media (max-width: 960px) {
+    .nav-inner {
+      padding: 0 24px;
+    }
+
     .nav-links,
     .nav-cta {
       display: none;
@@ -184,6 +201,16 @@ function isActive(href: string): boolean {
 
     .nav-panel-list {
       padding: 24px 24px 32px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nav-inner {
+      padding: 0 16px;
+    }
+
+    .nav-panel-list {
+      padding: 24px 16px 32px;
     }
   }
 
