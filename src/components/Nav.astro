@@ -1,7 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-import logo from '../assets/SWS-logo.PNG';
-
 const pathname = Astro.url.pathname;
 const links = [
   { href: '/shop/', label: 'Shop' },
@@ -23,14 +20,13 @@ function isActive(href: string): boolean {
   <div class="nav-inner">
     <a class="nav-logo" href="/">
       <!-- OWNER: If logo still appears small, the PNG may have excess transparent padding — crop it tighter in Preview or Photoshop -->
-      <Image
-        class="logo-img"
-        src={logo}
+      <img
+        src="/SWS-logo.PNG"
         alt="Shelton Watch Services"
-        width={220}
-        height={48}
+        class="logo-img"
+        width="280"
+        height="63"
         loading="eager"
-        decoding="async"
       />
     </a>
     <ul class="nav-links">

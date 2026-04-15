@@ -1,20 +1,14 @@
----
-import { Image } from 'astro:assets';
-import logo from '../assets/SWS-logo.PNG';
----
-
 <footer class="site-footer">
   <div class="footer-inner container">
     <div class="footer-col">
       <a class="footer-logo" href="/">
-        <Image
-          class="logo-img"
-          src={logo}
+        <img
+          src="/SWS-logo.PNG"
           alt="Shelton Watch Services"
-          width={220}
-          height={48}
+          class="logo-img"
+          width="240"
+          height="54"
           loading="lazy"
-          decoding="async"
         />
       </a>
       <p class="footer-tagline">
