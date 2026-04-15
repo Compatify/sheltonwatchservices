@@ -1,8 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
-import Eyebrow from '../../components/Eyebrow.astro';
 import ServiceRequestForm from '../../components/ServiceRequestForm.astro';
+import serviceImg from '../../assets/watches/photo-1606744188285-d0a49e58f538.jpeg';
 import { localBusinessSchema } from '../../data/schema/localBusiness';
 import { serviceSchema } from '../../utils/serviceSchema';
 import { faqPageSchema } from '../../utils/faqSchema';
@@ -50,6 +51,16 @@ const brands = [
       <article class="section section--ivory">
         <div class="container">
           <h1>Watch Service &amp; Repair</h1>
+          <div class="service-hero-strip">
+            <Image
+              src={serviceImg}
+              alt="Watch servicing and repair at the bench"
+              width={1600}
+              height={640}
+              class="service-hero-img"
+            />
+            <div class="service-hero-strip-overlay"></div>
+          </div>
           <div class="service-hero">
             <div>
               <p class="muted">
@@ -111,6 +122,40 @@ const brands = [
 </BaseLayout>
 
 <style>
+  .service-hero-strip {
+    position: relative;
+    width: calc(100% + 96px);
+    max-width: none;
+    margin: 20px -48px 28px;
+    height: 320px;
+    overflow: hidden;
+  }
+
+  .service-hero-strip :global(.service-hero-img),
+  .service-hero-strip :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .service-hero-strip-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 51, 40, 0.45);
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .service-hero-strip {
+      width: calc(100% + 48px);
+      margin-left: -24px;
+      margin-right: -24px;
+      height: 260px;
+    }
+  }
+
   .service-hero {
     display: grid;
     grid-template-columns: 1fr 300px;

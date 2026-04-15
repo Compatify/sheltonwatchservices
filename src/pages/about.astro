@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteChrome from '../components/SiteChrome.astro';
 import TrustBar from '../components/TrustBar.astro';
+import aboutImg from '../assets/watches/photo-1593019079637-ac824a5e6330.jpeg';
 import { localBusinessSchema } from '../data/schema/localBusiness';
 import { jsonLd } from '../utils/schema';
 ---
@@ -20,11 +22,14 @@ import { jsonLd } from '../utils/schema';
             <em>I've been opening watches since before most people knew what a movement was.</em>
           </p>
           <div class="about-grid">
-            <div class="photo-placeholder">
-              <p>
-                Your photo here — at your bench, warm natural light<br />
-                <span class="muted">[OWNER: Replace with portrait or workshop photo]</span>
-              </p>
+            <div class="about-photo">
+              <Image
+                src={aboutImg}
+                alt="Watchmaker at work — Shelton Watch Services"
+                width={900}
+                height={700}
+                class="about-photo-img"
+              />
             </div>
             <div class="about-copy muted">
               <p>
@@ -96,17 +101,20 @@ import { jsonLd } from '../utils/schema';
     }
   }
 
-  .photo-placeholder {
+  .about-photo {
     min-height: 280px;
-    background: var(--ivory3);
     border: 0.5px solid var(--rule-lt);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 24px;
-    font-size: 14px;
-    line-height: 1.65;
+    overflow: hidden;
+  }
+
+  .about-photo :global(.about-photo-img),
+  .about-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
   }
 
   .about-copy p + p {

@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import SiteChrome from '../../../components/SiteChrome.astro';
 import { watches, watchDetailPath } from '../../../data/watches';
+import { getWatchCoverImage } from '../../../data/watchCoverImages';
 import { productSchemaForWatch } from '../../../utils/productSchema';
 import { jsonLd } from '../../../utils/schema';
 
@@ -26,6 +28,9 @@ const inquiryPayload = JSON.stringify({
   priceDisplay: watch.priceDisplay,
   slug: watch.slug,
 });
+
+const primaryPhoto = getWatchCoverImage(watch.slug);
+const primaryAlt = `${watch.brand} ${watch.model}`;
 ---
 
 <BaseLayout title={title} description={description.slice(0, 159)} canonical={canonicalURL}>
@@ -42,9 +47,22 @@ const inquiryPayload = JSON.stringify({
             <div class="watch-gallery">
               <!-- OWNER: Replace SVG placeholders with real watch photos — shoot in natural light, clean ivory background -->
               <div class="gallery-primary">
-                <p class="gallery-placeholder-label">
-                  Primary photo — {watch.brand} {watch.model}
-                </p>
+                {
+                  primaryPhoto ? (
+                    <Image
+                      src={primaryPhoto}
+                      alt={primaryAlt}
+                      width={1200}
+                      height={900}
+                      class="gallery-primary-img"
+                      sizes="(max-width: 900px) 100vw, 50vw"
+                    />
+                  ) : (
+                    <p class="gallery-placeholder-label">
+                      Primary photo — {watch.brand} {watch.model}
+                    </p>
+                  )
+                }
               </div>
               <div class="gallery-thumbs" aria-label="Additional angles">
                 <div class="gallery-thumb">
@@ -171,8 +189,19 @@ const inquiryPayload = JSON.stringify({
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
+    padding: 0;
     text-align: center;
+    overflow: hidden;
+  }
+
+  .gallery-primary :global(.gallery-primary-img),
+  .gallery-primary :global(img) {
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
   }
 
   .gallery-placeholder-label {
