@@ -468,7 +468,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
 <style>
   .hero {
     position: relative;
-    min-height: 480px;
+    min-height: 320px;
     background: var(--forest);
     display: grid;
     grid-template-columns: 55% 45%;
@@ -488,6 +488,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     grid-row: 1;
     position: relative;
     overflow: hidden;
+    align-self: stretch;
   }
   .hero-img {
     width: 100%;
@@ -508,10 +509,12 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     grid-row: 1;
     position: relative;
     z-index: 3;
+    align-self: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 48px 64px;
+    align-items: flex-start;
+    padding: 40px 64px;
   }
   .eyebrow-hero {
     font-family: var(--sans);
@@ -594,6 +597,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     .hero-content {
       grid-column: 1;
       grid-row: 2;
+      align-self: stretch;
       padding: 48px 24px;
     }
     .hero-overlay {
