@@ -32,13 +32,13 @@ const faqs = [
 ];
 const faqLd = faqPageSchema(faqs);
 
-const brands = [
-  { href: '/service/rolex/', label: 'Rolex' },
-  { href: '/service/omega/', label: 'Omega' },
-  { href: '/service/seiko/', label: 'Seiko' },
-  { href: '/service/cartier/', label: 'Cartier' },
-  { href: '/service/tudor/', label: 'Tudor' },
-  { href: '/service/tag-heuer/', label: 'TAG Heuer' },
+const brandLogos = [
+  { src: '/brands/rolex.svg', href: '/service/rolex/', label: 'Rolex service' },
+  { src: '/brands/omega.svg', href: '/service/omega/', label: 'Omega service' },
+  { src: '/brands/tudor.svg', href: '/service/tudor/', label: 'Tudor service' },
+  { src: '/brands/seiko.svg', href: '/service/seiko/', label: 'Seiko service' },
+  { src: '/brands/tagheuer.svg', href: '/service/tag-heuer/', label: 'TAG Heuer service' },
+  { src: '/brands/cartier.svg', href: '/service/cartier/', label: 'Cartier service' },
 ];
 ---
 
@@ -81,14 +81,66 @@ const brands = [
             Rolex · Omega · Seiko · Cartier · Tudor · TAG Heuer · Hamilton · Citizen · Bulova · Longines ·
             Waltham · Elgin — plus many more, including vintage wristwatches and American pocket watches.
           </p>
-          <div class="brand-grid">
-            {brands.map((b) => (
-              <a class="brand-card" href={b.href}>
-                <span class="brand-label">{b.label}</span>
-                <span class="text-link">Service overview →</span>
-              </a>
-            ))}
+        </div>
+
+        <div class="brand-ticker-wrap" data-brand-ticker>
+          <button
+            type="button"
+            class="brand-ticker-arrow brand-ticker-arrow--prev"
+            data-brand-ticker-prev
+            aria-label="Scroll brands backward"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m15 18-6-6 6-6"></path>
+            </svg>
+          </button>
+          <div class="brand-ticker-viewport">
+            <div class="brand-ticker-track brand-ticker-track--css" data-brand-ticker-track>
+              <ul class="brand-ticker-set">
+                {
+                  brandLogos.map((b) => (
+                    <li class="brand-ticker-item">
+                      <a class="brand-ticker-link" href={b.href} data-brand-ticker-logo>
+                        <img src={b.src} alt="" width="120" height="36" loading="lazy" decoding="async" />
+                        <span class="visually-hidden">{b.label}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+                <li class="brand-ticker-item">
+                  <a class="brand-ticker-more" href="/service/" data-brand-ticker-logo>&amp; More</a>
+                </li>
+              </ul>
+              <ul class="brand-ticker-set" aria-hidden="true">
+                {
+                  brandLogos.map((b) => (
+                    <li class="brand-ticker-item">
+                      <a class="brand-ticker-link" href={b.href} tabindex="-1" data-brand-ticker-logo>
+                        <img src={b.src} alt="" width="120" height="36" loading="lazy" decoding="async" />
+                        <span class="visually-hidden">{b.label}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+                <li class="brand-ticker-item">
+                  <a class="brand-ticker-more" href="/service/" tabindex="-1" data-brand-ticker-logo>&amp; More</a>
+                </li>
+              </ul>
+            </div>
           </div>
+          <button
+            type="button"
+            class="brand-ticker-arrow brand-ticker-arrow--next"
+            data-brand-ticker-next
+            aria-label="Scroll brands forward"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="container">
           <h2>Service types &amp; starting prices</h2>
           <ul class="price-list muted">
             <li>Battery replacement from $25</li>
@@ -121,7 +173,142 @@ const brands = [
   </SiteChrome>
 </BaseLayout>
 
+<script>
+  (function () {
+    const root = document.querySelector('[data-brand-ticker]');
+    const track = document.querySelector('[data-brand-ticker-track]');
+    const prevBtn = document.querySelector('[data-brand-ticker-prev]');
+    const nextBtn = document.querySelector('[data-brand-ticker-next]');
+    const logoLinks = document.querySelectorAll('[data-brand-ticker-logo]');
+    if (!root || !track || !prevBtn || !nextBtn) return;
+
+    const DURATION_MS = 52000;
+    let anim = null;
+    let touchActive = false;
+    let lastTouchX = 0;
+
+    function loopWidthPx() {
+      return Math.max(1, track.scrollWidth / 2);
+    }
+
+    function startAnim() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        track.classList.add('brand-ticker-track--css');
+        if (anim) {
+          anim.cancel();
+          anim = null;
+        }
+        return;
+      }
+      track.classList.remove('brand-ticker-track--css');
+      if (anim) anim.cancel();
+      anim = track.animate(
+        [{ transform: 'translateX(0)' }, { transform: 'translateX(-50%)' }],
+        {
+          duration: DURATION_MS,
+          iterations: Infinity,
+          easing: 'linear',
+        },
+      );
+    }
+
+    function nudge(deltaPx) {
+      if (!anim) return;
+      const w = loopWidthPx();
+      anim.pause();
+      const t = anim.currentTime;
+      const shift = (deltaPx / w) * DURATION_MS;
+      anim.currentTime = Math.max(0, t + shift);
+      anim.play();
+    }
+
+    function pauseAnim() {
+      if (anim) anim.pause();
+    }
+
+    function playAnim() {
+      if (anim && !touchActive) anim.play();
+    }
+
+    startAnim();
+    window.addEventListener('resize', function () {
+      startAnim();
+    });
+
+    prevBtn.addEventListener('click', function () {
+      nudge(-140);
+    });
+    nextBtn.addEventListener('click', function () {
+      nudge(140);
+    });
+
+    logoLinks.forEach(function (el) {
+      el.addEventListener('mouseenter', pauseAnim);
+      el.addEventListener('mouseleave', playAnim);
+      el.addEventListener('focus', pauseAnim);
+      el.addEventListener('blur', playAnim);
+    });
+
+    root.addEventListener(
+      'touchstart',
+      function (e) {
+        if (e.touches.length !== 1) return;
+        touchActive = true;
+        lastTouchX = e.touches[0].clientX;
+        pauseAnim();
+      },
+      { passive: true },
+    );
+
+    root.addEventListener(
+      'touchmove',
+      function (e) {
+        if (!touchActive || e.touches.length !== 1 || !anim) return;
+        const w = loopWidthPx();
+        const x = e.touches[0].clientX;
+        const dx = x - lastTouchX;
+        lastTouchX = x;
+        anim.pause();
+        const t = anim.currentTime;
+        const shift = (dx / w) * DURATION_MS;
+        anim.currentTime = Math.max(0, t + shift);
+      },
+      { passive: true },
+    );
+
+    root.addEventListener(
+      'touchend',
+      function () {
+        touchActive = false;
+        playAnim();
+      },
+      { passive: true },
+    );
+
+    root.addEventListener(
+      'touchcancel',
+      function () {
+        touchActive = false;
+        playAnim();
+      },
+      { passive: true },
+    );
+  })();
+</script>
+
 <style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .service-hero-strip {
     position: relative;
     width: calc(100% + 96px);
@@ -179,44 +366,160 @@ const brands = [
     color: var(--ink3);
   }
 
-  .brand-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    margin: 20px 0 32px;
+  /* —— Brand logo ticker —— */
+  .brand-ticker-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 28px 16px 32px;
+    background: var(--ivory);
+    border-top: 0.5px solid var(--rule-lt);
+    border-bottom: 0.5px solid var(--rule-lt);
+    box-sizing: border-box;
   }
 
-  @media (max-width: 768px) {
-    .brand-grid {
-      grid-template-columns: repeat(2, 1fr);
+  .brand-ticker-viewport {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    touch-action: pan-x pinch-zoom;
+  }
+
+  .brand-ticker-track {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    will-change: transform;
+  }
+
+  @keyframes brand-ticker-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
     }
   }
 
-  .brand-card {
-    display: block;
+  .brand-ticker-track--css {
+    animation: brand-ticker-marquee 52s linear infinite;
+  }
+
+  .brand-ticker-wrap:has(.brand-ticker-link:hover) .brand-ticker-track--css,
+  .brand-ticker-wrap:has(.brand-ticker-more:hover) .brand-ticker-track--css,
+  .brand-ticker-wrap:has(.brand-ticker-link:focus-visible) .brand-ticker-track--css,
+  .brand-ticker-wrap:has(.brand-ticker-more:focus-visible) .brand-ticker-track--css {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-ticker-track--css {
+      animation: none;
+    }
+  }
+
+  .brand-ticker-set {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: clamp(32px, 5vw, 56px);
+    flex-shrink: 0;
+  }
+
+  .brand-ticker-item {
+    flex-shrink: 0;
+  }
+
+  .brand-ticker-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
-    color: inherit;
-    padding: 22px 20px;
-    background: var(--ivory2);
-    border: 0.5px solid var(--rule-lt);
-    transition:
-      background 0.2s ease,
-      border-color 0.2s ease;
+    transition: opacity 0.2s ease;
   }
 
-  .brand-card:hover {
-    background: var(--ivory3);
-    border-top: 2px solid var(--gold);
-    border-left: 0.5px solid var(--rule-lt);
-    border-right: 0.5px solid var(--rule-lt);
-    border-bottom: 0.5px solid var(--rule-lt);
-  }
-
-  .brand-label {
-    font-family: var(--sans);
-    font-size: 24px;
+  .brand-ticker-link img {
     display: block;
-    margin-bottom: 10px;
+    height: 36px;
+    width: auto;
+    max-width: none;
+    filter: brightness(0) invert(1) sepia(0.2) saturate(0.4);
+    transition: filter 0.25s ease;
+  }
+
+  .brand-ticker-link:hover img,
+  .brand-ticker-link:focus-visible img {
+    filter: brightness(0) invert(0.88) sepia(1) saturate(4) hue-rotate(15deg);
+  }
+
+  .brand-ticker-more {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 8px 4px;
+    transition: color 0.25s ease;
+  }
+
+  .brand-ticker-more:hover,
+  .brand-ticker-more:focus-visible {
+    color: var(--gold);
+  }
+
+  .brand-ticker-arrow {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0.5px solid rgba(197, 160, 40, 0.35);
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .brand-ticker-arrow:hover {
+    border-color: var(--gold);
+    color: var(--gold2);
+    background: rgba(197, 160, 40, 0.06);
+  }
+
+  .brand-ticker-arrow:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 560px) {
+    .brand-ticker-wrap {
+      padding: 22px 8px 26px;
+      gap: 4px;
+    }
+
+    .brand-ticker-arrow {
+      width: 36px;
+      height: 36px;
+    }
+
+    .brand-ticker-set {
+      gap: 28px;
+    }
   }
 
   .price-list {
