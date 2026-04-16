@@ -102,7 +102,7 @@ const brandLogos = [
                       <a class="brand-ticker-link" href={b.href} data-brand-ticker-logo>
                         <span class="brand-ticker-logo-cell">
                           <span class="brand-ticker-logo-vignette" aria-hidden="true"></span>
-                          <img src={b.src} alt="" width="120" height="48" loading="lazy" decoding="async" />
+                          <img src={b.src} alt="" width="160" height="64" loading="lazy" decoding="async" />
                         </span>
                         <span class="brand-ticker-learn" aria-hidden="true">Learn More</span>
                         <span class="visually-hidden">{b.label}</span>
@@ -111,7 +111,14 @@ const brandLogos = [
                   ))
                 }
                 <li class="brand-ticker-item">
-                  <a class="brand-ticker-more" href="/service/" data-brand-ticker-logo>&amp; More</a>
+                  <a class="brand-ticker-link" href="/service/" data-brand-ticker-logo>
+                    <span class="brand-ticker-logo-cell">
+                      <span class="brand-ticker-logo-vignette" aria-hidden="true"></span>
+                      <span class="brand-ticker-slot-text">&amp; More</span>
+                    </span>
+                    <span class="brand-ticker-learn" aria-hidden="true">Learn More</span>
+                    <span class="visually-hidden">View all brands we service</span>
+                  </a>
                 </li>
               </ul>
               <ul class="brand-ticker-set" aria-hidden="true">
@@ -121,7 +128,7 @@ const brandLogos = [
                       <a class="brand-ticker-link" href={b.href} tabindex="-1" data-brand-ticker-logo>
                         <span class="brand-ticker-logo-cell">
                           <span class="brand-ticker-logo-vignette" aria-hidden="true"></span>
-                          <img src={b.src} alt="" width="120" height="48" loading="lazy" decoding="async" />
+                          <img src={b.src} alt="" width="160" height="64" loading="lazy" decoding="async" />
                         </span>
                         <span class="brand-ticker-learn" aria-hidden="true">Learn More</span>
                         <span class="visually-hidden">{b.label}</span>
@@ -130,7 +137,14 @@ const brandLogos = [
                   ))
                 }
                 <li class="brand-ticker-item">
-                  <a class="brand-ticker-more" href="/service/" tabindex="-1" data-brand-ticker-logo>&amp; More</a>
+                  <a class="brand-ticker-link" href="/service/" tabindex="-1" data-brand-ticker-logo>
+                    <span class="brand-ticker-logo-cell">
+                      <span class="brand-ticker-logo-vignette" aria-hidden="true"></span>
+                      <span class="brand-ticker-slot-text">&amp; More</span>
+                    </span>
+                    <span class="brand-ticker-learn" aria-hidden="true">Learn More</span>
+                    <span class="visually-hidden">View all brands we service</span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -416,9 +430,7 @@ const brandLogos = [
   }
 
   .brand-ticker-wrap:has(.brand-ticker-link:hover) .brand-ticker-track--css,
-  .brand-ticker-wrap:has(.brand-ticker-more:hover) .brand-ticker-track--css,
-  .brand-ticker-wrap:has(.brand-ticker-link:focus-visible) .brand-ticker-track--css,
-  .brand-ticker-wrap:has(.brand-ticker-more:focus-visible) .brand-ticker-track--css {
+  .brand-ticker-wrap:has(.brand-ticker-link:focus-visible) .brand-ticker-track--css {
     animation-play-state: paused;
   }
 
@@ -435,7 +447,7 @@ const brandLogos = [
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: clamp(28px, 4vw, 48px);
+    gap: 44px;
     flex-shrink: 0;
   }
 
@@ -450,27 +462,27 @@ const brandLogos = [
     justify-content: flex-start;
     text-decoration: none;
     color: inherit;
-    min-height: 78px;
+    min-height: 102px;
     padding: 2px 0 0;
   }
 
   .brand-ticker-logo-cell {
     position: relative;
-    width: 118px;
-    height: 50px;
-    padding: 9px 10px;
+    width: 156px;
+    height: 72px;
+    padding: 14px 16px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
+    border-radius: 8px;
     flex-shrink: 0;
   }
 
   .brand-ticker-logo-vignette {
     position: absolute;
     inset: 0;
-    border-radius: 6px;
+    border-radius: 8px;
     pointer-events: none;
     z-index: 0;
     opacity: 0;
@@ -531,23 +543,26 @@ const brandLogos = [
     transform: translateY(0);
   }
 
-  .brand-ticker-more {
+  .brand-ticker-slot-text {
+    position: relative;
+    z-index: 1;
     font-family: var(--sans);
-    font-size: 13px;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    font-size: 11px;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--ink3);
-    text-decoration: none;
-    white-space: nowrap;
-    padding: 8px 4px;
-    opacity: 1;
-    transition: opacity 0.22s ease;
+    color: var(--ink2);
+    text-align: center;
+    line-height: 1.35;
+    max-width: 100%;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .brand-ticker-more:hover,
-  .brand-ticker-more:focus-visible {
-    opacity: 0.78;
+  .brand-ticker-link:hover .brand-ticker-slot-text,
+  .brand-ticker-link:focus-visible .brand-ticker-slot-text {
+    transform: scale(1.09);
   }
 
   .brand-ticker-arrow {
@@ -591,7 +606,7 @@ const brandLogos = [
     }
 
     .brand-ticker-set {
-      gap: 28px;
+      gap: 36px;
     }
   }
 
