@@ -17,6 +17,7 @@
   --rule-lt: rgba(30, 51, 40, 0.06);
   --serif: 'Cormorant SC', Georgia, serif;
   --sans: 'Raleway', sans-serif;
+  --ui: 'Inter', sans-serif;
   --max: 1180px;
 }
 
@@ -33,7 +34,7 @@ html {
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 400;
   font-size: 14.5px;
   line-height: 1.85;
@@ -116,7 +117,7 @@ em {
 }
 
 p {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 400;
   font-size: 14.5px;
   line-height: 1.85;
@@ -174,7 +175,7 @@ p {
 }
 
 .meta {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 400;
   font-size: 11.5px;
   letter-spacing: 0.05em;
@@ -300,7 +301,7 @@ p {
   line-height: 1.75;
   color: var(--ink3);
   border-radius: 0;
-  font-family: var(--sans);
+  font-family: var(--ui);
 }
 
 .card-grid {
@@ -313,7 +314,7 @@ p {
   padding: 4px 10px;
   border: 0.5px solid var(--rule);
   border-radius: 99px;
-  font-family: var(--sans);
+  font-family: var(--ui);
   font-size: 9px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -328,7 +329,7 @@ p {
 }
 
 .text-link {
-  font-family: var(--sans);
+  font-family: var(--ui);
   font-size: 10.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -398,7 +399,7 @@ p {
 
 /* Trust bar labels */
 .trust-label {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 500;
   font-size: 9px;
   letter-spacing: 0.3em;
@@ -409,7 +410,7 @@ p {
 /* Navigation links */
 .nav-link,
 .nav-panel-link {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 500;
   font-size: 11px;
   letter-spacing: 0.28em;
@@ -424,7 +425,7 @@ p {
 .form-submit,
 .quick-inquire,
 [class*='btn-'] {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 500;
   font-size: 9.5px;
   letter-spacing: 0.28em;
@@ -434,7 +435,7 @@ p {
 /* Form labels */
 .form-label,
 [class*='form-label'] {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 500;
   font-size: 9px;
   letter-spacing: 0.3em;
@@ -446,7 +447,7 @@ p {
 input,
 textarea,
 select {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 400;
   font-size: 13.5px;
 }
@@ -458,7 +459,7 @@ select {
 [class*='condition'],
 [class*='extras'],
 [class*='includes'] {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 400;
   font-size: 11.5px;
   letter-spacing: 0.05em;
@@ -467,7 +468,7 @@ select {
 /* Footer */
 footer,
 [class*='footer'] {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 400;
   font-size: 13px;
   letter-spacing: 0.03em;
@@ -476,7 +477,7 @@ footer,
 /* Copyright */
 [class*='copyright'],
 [class*='bottom-bar'] {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--ui);
   font-weight: 400;
   font-size: 11px;
   letter-spacing: 0.08em;
