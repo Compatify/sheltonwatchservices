@@ -61,17 +61,15 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
         <div class="hero-photo-gradient"></div>
       </div>
       <div class="hero-content">
-        <p class="eyebrow-hero">Bethlehem, Pennsylvania</p>
-        <h1 class="hero-h1">
-          Watchmaker.<br />Collector.<br /><em>Your guy<br />in the Valley.</em>
-        </h1>
-        <p class="hero-sub">
-          12 years servicing and buying fine timepieces across the Lehigh Valley. Expert repair, transparent
-          pricing, personal service.
-        </p>
-        <div class="hero-btns">
-          <a href="/shop/" class="btn-primary">Browse Watches</a>
-          <a href="/contact/" class="btn-ghost-light">Book a Service</a>
+        <div class="container">
+          <p class="eyebrow-hero">Bethlehem, Pennsylvania</p>
+          <h1 class="hero-h1">
+            Watchmaker.<br />Collector.<br /><em>Your guy<br />in the Valley.</em>
+          </h1>
+          <div class="hero-btns">
+            <a href="/shop/" class="btn-primary">Browse Watches</a>
+            <a href="/contact/" class="btn-ghost-light">Book a Service</a>
+          </div>
         </div>
       </div>
     </section>
@@ -471,23 +469,28 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     min-height: 320px;
     background: var(--forest);
     display: grid;
-    grid-template-columns: 55% 45%;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(320px, auto);
     overflow: hidden;
   }
   .hero-overlay {
     position: absolute;
     inset: 0;
-    grid-column: 1 / -1;
+    grid-column: 1;
     grid-row: 1;
     background: linear-gradient(to right, #0d1f18 0%, var(--forest) 50%, transparent 100%);
     z-index: 2;
     pointer-events: none;
   }
   .hero-photo-col {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
     position: relative;
     overflow: hidden;
+    justify-self: end;
+    width: 45%;
+    min-height: 320px;
+    height: 100%;
     align-self: stretch;
   }
   .hero-img {
@@ -510,11 +513,13 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     position: relative;
     z-index: 3;
     align-self: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 40px 64px;
+    width: 100%;
+    padding-block: 40px;
+    padding-inline: 0;
+    pointer-events: none;
+  }
+  .hero-content .container {
+    pointer-events: auto;
   }
   .eyebrow-hero {
     font-family: var(--sans);
@@ -544,22 +549,13 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #fafaf5;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
   .hero-h1 em {
     font-style: italic;
     font-weight: 500;
     color: var(--gold);
     text-transform: none;
-  }
-  .hero-sub {
-    font-family: var(--ui);
-    font-weight: 400;
-    font-size: 13.5px;
-    line-height: 1.75;
-    color: rgba(245, 240, 232, 0.65);
-    margin-bottom: 24px;
-    max-width: 400px;
   }
   .hero-btns {
     display: flex;
@@ -586,19 +582,23 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
   }
   @media (max-width: 768px) {
     .hero {
-      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
       min-height: auto;
     }
     .hero-photo-col {
       grid-column: 1;
       grid-row: 1;
+      width: 100%;
+      justify-self: stretch;
       height: 300px;
+      min-height: unset;
     }
     .hero-content {
       grid-column: 1;
       grid-row: 2;
       align-self: stretch;
-      padding: 48px 24px;
+      padding-block: 48px;
+      padding-inline: 0;
     }
     .hero-overlay {
       display: none;
