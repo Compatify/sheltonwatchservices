@@ -34,13 +34,13 @@ html {
 
 body {
   font-family: 'Raleway', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14.5px;
   line-height: 1.85;
   letter-spacing: 0.02em;
   color: var(--ink);
   background: var(--ivory);
-  padding-top: 72px;
+  padding-top: 96px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -55,7 +55,7 @@ body {
     padding: 0 24px;
   }
   body {
-    padding-top: 72px;
+    padding-top: 96px;
   }
 }
 
@@ -70,7 +70,7 @@ img {
 
 .logo-img {
   filter: brightness(0) invert(1) sepia(0.2) saturate(0.5);
-  height: 48px;
+  height: 64px;
   width: auto;
 }
 
@@ -83,7 +83,7 @@ h2,
 h3,
 h4 {
   font-family: 'Raleway', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.06em;
   line-height: 1.1;
   color: var(--ink);
@@ -103,7 +103,7 @@ h3 {
 
 h4 {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .hero-h1 {
@@ -112,19 +112,19 @@ h4 {
 
 em {
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 p {
   font-family: 'Raleway', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14.5px;
   line-height: 1.85;
 }
 
 .eyebrow {
   font-family: 'Raleway', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 9px;
   letter-spacing: 0.45em;
   text-transform: uppercase;
@@ -175,7 +175,7 @@ p {
 
 .meta {
   font-family: 'Raleway', sans-serif;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 11.5px;
   letter-spacing: 0.05em;
 }
@@ -317,6 +317,7 @@ p {
   font-size: 9px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  font-weight: 500;
   color: var(--ink3);
 }
 
@@ -332,6 +333,7 @@ p {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-decoration: none;
+  font-weight: 500;
   color: var(--ink3);
   transition: color 0.2s ease;
 }
@@ -359,14 +361,14 @@ p {
 .watch-card .model,
 [class*='model'] {
   font-family: var(--serif);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 18px;
   letter-spacing: 0.05em;
 }
 
 .watch-detail-copy h1 {
   font-family: var(--serif);
-  font-weight: 400;
+  font-weight: 500;
   font-size: clamp(28px, 3.5vw, 44px);
   letter-spacing: 0.05em;
   line-height: 1.15;
@@ -377,7 +379,7 @@ p {
 .price,
 [class*='price'] {
   font-family: var(--serif);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 22px;
   color: var(--gold);
   letter-spacing: 0.03em;
@@ -389,7 +391,7 @@ p {
 [class*='trust'] h3,
 [class*='trust'] strong {
   font-family: var(--serif);
-  font-weight: 300;
+  font-weight: 500;
   font-size: 32px;
   color: var(--gold);
 }
@@ -397,7 +399,7 @@ p {
 /* Trust bar labels */
 .trust-label {
   font-family: 'Raleway', sans-serif;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -408,7 +410,7 @@ p {
 .nav-link,
 .nav-panel-link {
   font-family: 'Raleway', sans-serif;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 11px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -423,7 +425,7 @@ p {
 .quick-inquire,
 [class*='btn-'] {
   font-family: 'Raleway', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 9.5px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -433,7 +435,7 @@ p {
 .form-label,
 [class*='form-label'] {
   font-family: 'Raleway', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -445,7 +447,7 @@ input,
 textarea,
 select {
   font-family: 'Raleway', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13.5px;
 }
 
@@ -457,7 +459,7 @@ select {
 [class*='extras'],
 [class*='includes'] {
   font-family: 'Raleway', sans-serif;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 11.5px;
   letter-spacing: 0.05em;
 }
@@ -466,7 +468,7 @@ select {
 footer,
 [class*='footer'] {
   font-family: 'Raleway', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13px;
   letter-spacing: 0.03em;
 }
@@ -475,7 +477,7 @@ footer,
 [class*='copyright'],
 [class*='bottom-bar'] {
   font-family: 'Raleway', sans-serif;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 11px;
   letter-spacing: 0.08em;
 }
@@ -485,7 +487,7 @@ footer,
 [class*='location'] p.city,
 .location-lead {
   font-family: 'Raleway', sans-serif;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 32px;
   letter-spacing: 0.08em;
   font-style: italic;
