@@ -9,6 +9,7 @@ import { watches, watchDetailPath } from '../data/watches';
 import { localBusinessSchema } from '../data/schema/localBusiness';
 import { jsonLd } from '../utils/schema';
 import { productSchemaForWatch } from '../utils/productSchema';
+import { Battery, Sparkles, Cog, Clock } from 'lucide';
 
 import heroBg from '../assets/watches/photo-1702865053708-be5f974d5e05.jpeg';
 import photoRolex from '../assets/watches/photo-1610006329898-2a4f12019450.jpeg';
@@ -36,6 +37,19 @@ const pageDescription =
   'Expert watch repair, buying, and selling in the Lehigh Valley. Transparent pricing, 12+ years experience. Rolex, Omega, Seiko, vintage and more. Bethlehem PA.';
 
 const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
+
+/** Serialize Lucide icon node to inline SVG (npm `lucide`). */
+function lucideToSvg(icon: readonly (readonly [string, Record<string, string | number>])[]) {
+  const inner = icon
+    .map(([tag, attrs]) => {
+      const attrStr = Object.entries(attrs)
+        .map(([k, v]) => `${k}="${String(v).replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"`)
+        .join(' ');
+      return `<${tag} ${attrStr} />`;
+    })
+    .join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="service-lucide-icon" aria-hidden="true">${inner}</svg>`;
+}
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -121,20 +135,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
         </div>
         <div class="service-grid">
           <div class="service-card">
-            <div class="service-icon" aria-hidden="true">
-              <svg class="service-icon-svg" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="32" cy="34" r="17" />
-                  <circle cx="32" cy="34" r="11.5" />
-                  <path d="M 15.5 34 h-2.5 M 48.5 34 h2.5" />
-                  <path d="M 32 16.5 v-2.5 M 32 51.5 v2.5" />
-                  <path d="M 30.5 15 h3 v3.5 h-3z" />
-                  <path
-                    d="M 35 23 L 27.5 35.5 h5 L 26.5 46 L 39 30.5 h-4.5 L 38 23 Z"
-                  />
-                </g>
-              </svg>
-            </div>
+            <div class="service-icon" set:html={lucideToSvg(Battery)} />
             <h3 class="service-name">Battery & Quartz Care</h3>
             <p class="service-desc">
               Correct cell selection, pressure-tested resealing, coil inspection for running issues.
@@ -146,18 +147,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
             </div>
           </div>
           <div class="service-card">
-            <div class="service-icon" aria-hidden="true">
-              <svg class="service-icon-svg" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="32" cy="32" r="18" />
-                  <circle cx="32" cy="32" r="12.5" />
-                  <path d="M 32 19 v2 M 45 32 h-2 M 32 45 v-2 M 19 32 h2" />
-                  <path d="M 23.5 25.5 L 40.5 38.5" opacity="0.95" />
-                  <path d="M 44.5 20.5 v4 M 42.5 22.5 h4" />
-                  <path d="M 47.5 17.5 v3 M 46 19 h3" />
-                </g>
-              </svg>
-            </div>
+            <div class="service-icon" set:html={lucideToSvg(Sparkles)} />
             <h3 class="service-name">Crystal & Case Work</h3>
             <p class="service-desc">Sapphire and acrylic replacements, bezel alignment, careful refinishing.</p>
             <div class="service-price">From $80</div>
@@ -167,26 +157,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
             </div>
           </div>
           <div class="service-card">
-            <div class="service-icon" aria-hidden="true">
-              <svg class="service-icon-svg" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="32" cy="32" r="17.5" />
-                  <circle cx="32" cy="32" r="13" />
-                  <path d="M 21.5 31.5 h21" />
-                  <path d="M 24.5 27.5 h14" />
-                  <circle cx="25.5" cy="37" r="4.5" />
-                  <circle cx="25.5" cy="37" r="1.75" />
-                  <path d="M 25.5 32.5 v1.2 M 29.7 37 h-1.2 M 25.5 41.5 v-1.2 M 21.3 37 h1.2" />
-                  <circle cx="38.5" cy="37" r="3.8" />
-                  <circle cx="38.5" cy="37" r="1.4" />
-                  <path d="M 38.5 33.2 v1 M 41.8 37 h-1 M 38.5 40.8 v-1 M 35.2 37 h1" />
-                  <circle cx="32" cy="26.5" r="3.2" />
-                  <circle cx="32" cy="26.5" r="1.2" />
-                  <path d="M 32 23.3 v1 M 34.7 26.5 h-1 M 32 29.7 v-1 M 29.3 26.5 h1" />
-                  <circle cx="32" cy="32" r="1.3" />
-                </g>
-              </svg>
-            </div>
+            <div class="service-icon" set:html={lucideToSvg(Cog)} />
             <h3 class="service-name">Full Mechanical Service</h3>
             <p class="service-desc">
               Disassembly, ultrasonic cleaning, lubrication, regulation, documented report.
@@ -198,23 +169,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
             </div>
           </div>
           <div class="service-card">
-            <div class="service-icon" aria-hidden="true">
-              <svg class="service-icon-svg" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M 27 10 Q 32 6.5 37 10" />
-                  <path d="M 32 10 v5.5" />
-                  <path d="M 29.5 17.5 Q 32 20.5 34.5 17.5 M 29.5 20.5 Q 32 23.5 34.5 20.5" />
-                  <circle cx="32" cy="39" r="14.5" />
-                  <circle cx="32" cy="39" r="11.8" />
-                  <path d="M 17.2 34.5 Q 15 39 17.2 43.5" />
-                  <path d="M 18 31.5 Q 25.5 23.5 33 27.5" />
-                  <circle cx="32" cy="39" r="9.5" />
-                  <circle cx="32" cy="39" r="1.35" />
-                  <path d="M 32 31 v2.2 M 39.5 39 h-2.2 M 32 47 v-2.2 M 24.5 39 h2.2" />
-                  <path d="M 35.2 32.2 L 40.5 35.5 M 28.8 32.2 L 23.5 35.5 M 35.2 45.8 L 40.5 42.5 M 28.8 45.8 L 23.5 42.5" />
-                </g>
-              </svg>
-            </div>
+            <div class="service-icon" set:html={lucideToSvg(Clock)} />
             <h3 class="service-name">Vintage Restoration</h3>
             <p class="service-desc">
               Pocket watches to mid-century pieces — conservative approach with collector judgment.
@@ -450,28 +405,28 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
         <p class="process-hd">How it works</p>
         <div class="process-steps">
           <div class="process-step">
-            <div class="process-icon">◷</div>
+            <div class="process-step-big-num">1</div>
             <div class="process-step-num">Step 1</div>
             <div class="process-step-label">Find Your Watch</div>
             <div class="process-step-sub">Browse our curated pre-owned inventory</div>
           </div>
-          <div class="process-arrow">→</div>
+          <span class="process-sep" aria-hidden="true"></span>
           <div class="process-step">
-            <div class="process-icon">✉</div>
+            <div class="process-step-big-num">2</div>
             <div class="process-step-num">Step 2</div>
             <div class="process-step-label">Send an Inquiry</div>
             <div class="process-step-sub">We respond personally within 24 hours</div>
           </div>
-          <div class="process-arrow">→</div>
+          <span class="process-sep" aria-hidden="true"></span>
           <div class="process-step">
-            <div class="process-icon">⊕</div>
+            <div class="process-step-big-num">3</div>
             <div class="process-step-num">Step 3</div>
             <div class="process-step-label">Inspect in Person</div>
             <div class="process-step-sub">Local pickup or insured mail delivery</div>
           </div>
-          <div class="process-arrow">→</div>
+          <span class="process-sep" aria-hidden="true"></span>
           <div class="process-step">
-            <div class="process-icon">✓</div>
+            <div class="process-step-big-num">4</div>
             <div class="process-step-num">Step 4</div>
             <div class="process-step-label">Enjoy Your Watch</div>
             <div class="process-step-sub">Every piece backed by our care and expertise</div>
@@ -870,10 +825,10 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     margin-bottom: 14px;
     line-height: 0;
   }
-  .service-icon-svg {
+  .service-icon :global(.service-lucide-icon) {
     display: block;
-    width: 64px;
-    height: 64px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
   }
   .service-name {
@@ -1183,6 +1138,7 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     max-width: 900px;
     margin: 0 auto;
   }
@@ -1193,25 +1149,22 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
     text-align: center;
     flex: 1;
     padding: 0 12px;
+    min-width: 0;
   }
-  .process-arrow {
-    font-size: 16px;
-    color: rgba(197, 160, 40, 0.48);
-    flex-shrink: 0;
-    padding-bottom: 20px;
+  .process-sep {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 1px;
+    background: var(--rule);
+    align-self: center;
   }
-  .process-icon {
-    width: 52px;
-    height: 52px;
-    border: 0.5px solid var(--rule);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
+  .process-step-big-num {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 1;
     color: var(--gold);
     margin-bottom: 12px;
-    background: var(--ivory2);
   }
   .process-step-num {
     font-family: var(--ui);
@@ -1240,9 +1193,9 @@ const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(p
   @media (max-width: 768px) {
     .process-steps {
       flex-direction: column;
-      gap: 24px;
+      gap: 28px;
     }
-    .process-arrow {
+    .process-sep {
       display: none;
     }
   }
