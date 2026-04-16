@@ -31,7 +31,7 @@
 
 html {
   scroll-behavior: smooth;
-  --announcement-h: 40px;
+  --announcement-h: 30px;
 }
 
 html.announcement-dismissed {
@@ -76,7 +76,7 @@ img {
 }
 
 .logo-img {
-  filter: brightness(0) invert(1) sepia(0.2) saturate(0.5);
+  filter: none;
   height: 64px;
   width: auto;
 }

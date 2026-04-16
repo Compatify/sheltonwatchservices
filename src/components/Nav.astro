@@ -68,8 +68,9 @@ function isActive(href: string): boolean {
     left: 0;
     width: 100%;
     z-index: 100;
-    background: var(--forest);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #fff;
+    border-bottom: 1px solid var(--rule-lt);
+    box-shadow: 0 1px 0 rgba(30, 51, 40, 0.04);
     transition: top 0.22s ease;
   }
 
@@ -103,31 +104,46 @@ function isActive(href: string): boolean {
   }
 
   .nav-link {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(30, 51, 40, 0.82);
     text-decoration: none;
     transition: color 0.2s;
   }
 
   .nav-link:hover,
   .nav-link.active {
-    color: rgba(197, 160, 40, 0.9);
+    color: var(--forest);
   }
 
   .nav-cta {
     flex-shrink: 0;
   }
 
-  .nav-cta.btn-secondary,
-  .nav-panel-cta.btn-secondary {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    padding: 12px 22px;
+  .site-nav .nav-cta.btn-secondary,
+  .site-nav .nav-panel-cta.btn-secondary {
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    padding: 11px 20px;
+    color: var(--forest);
+    border-color: rgba(30, 51, 40, 0.32);
+  }
+
+  .site-nav .nav-cta.btn-secondary:hover,
+  .site-nav .nav-panel-cta.btn-secondary:hover {
+    color: var(--forest);
+    border-color: var(--forest2);
+    background: rgba(30, 51, 40, 0.06);
   }
 
   .nav-toggle {
     display: none;
     background: none;
     border: none;
-    color: rgba(245, 240, 232, 0.85);
+    color: rgba(30, 51, 40, 0.78);
     font-size: 22px;
     cursor: pointer;
     padding: 8px;
@@ -136,12 +152,12 @@ function isActive(href: string): boolean {
   }
 
   .nav-toggle:hover {
-    color: var(--gold);
+    color: var(--forest);
   }
 
   .nav-panel {
-    background: var(--forest);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #fff;
+    border-bottom: 1px solid var(--rule-lt);
   }
 
   .nav-panel-list {
@@ -153,6 +169,12 @@ function isActive(href: string): boolean {
 
   .nav-panel-link {
     display: block;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(30, 51, 40, 0.82);
     text-decoration: none;
     padding: 10px 0;
     transition: color 0.2s;
@@ -160,7 +182,7 @@ function isActive(href: string): boolean {
 
   .nav-panel-link:hover,
   .nav-panel-link.active {
-    color: rgba(197, 160, 40, 0.9);
+    color: var(--forest);
   }
 
   .nav-panel-cta {
