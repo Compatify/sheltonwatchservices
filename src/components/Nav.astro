@@ -38,7 +38,7 @@ function isActive(href: string): boolean {
         ))
       }
     </ul>
-    <a class="btn-secondary nav-cta" href="/book/">Book</a>
+    <a class="btn-secondary nav-cta" href="/contact/">Get in Touch</a>
     <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
       &#9776;
     </button>
@@ -113,6 +113,13 @@ function isActive(href: string): boolean {
 
   .nav-cta {
     flex-shrink: 0;
+  }
+
+  .nav-cta.btn-secondary,
+  .nav-panel-cta.btn-secondary {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    padding: 12px 22px;
   }
 
   .nav-toggle {

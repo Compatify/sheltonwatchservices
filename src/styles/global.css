@@ -412,8 +412,8 @@ p {
 .nav-panel-link {
   font-family: var(--ui);
   font-weight: 500;
-  font-size: 11px;
-  letter-spacing: 0.28em;
+  font-size: 13px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(245, 240, 232, 0.65);
 }
