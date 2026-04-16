@@ -81,9 +81,8 @@ const brandLogos = [
             Rolex · Omega · Seiko · Cartier · Tudor · TAG Heuer · Hamilton · Citizen · Bulova · Longines ·
             Waltham · Elgin — plus many more, including vintage wristwatches and American pocket watches.
           </p>
-        </div>
 
-        <div class="brand-ticker-wrap" data-brand-ticker>
+          <div class="brand-ticker-wrap" data-brand-ticker>
           <button
             type="button"
             class="brand-ticker-arrow brand-ticker-arrow--prev"
@@ -138,6 +137,7 @@ const brandLogos = [
               <path d="m9 18 6-6-6-6"></path>
             </svg>
           </button>
+          </div>
         </div>
 
         <div class="container">
@@ -370,16 +370,14 @@ const brandLogos = [
   .brand-ticker-wrap {
     display: flex;
     align-items: center;
-    gap: 8px;
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding: 28px 16px 32px;
-    background: var(--ivory);
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin: 8px 0 8px;
+    padding: 22px 0 28px;
+    box-sizing: border-box;
     border-top: 0.5px solid var(--rule-lt);
     border-bottom: 0.5px solid var(--rule-lt);
-    box-sizing: border-box;
   }
 
   .brand-ticker-viewport {
@@ -442,7 +440,13 @@ const brandLogos = [
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    opacity: 1;
+    transition: opacity 0.22s ease;
+  }
+
+  .brand-ticker-link:hover,
+  .brand-ticker-link:focus-visible {
+    opacity: 0.78;
   }
 
   .brand-ticker-link img {
@@ -450,13 +454,6 @@ const brandLogos = [
     height: 36px;
     width: auto;
     max-width: none;
-    filter: brightness(0) invert(1) sepia(0.2) saturate(0.4);
-    transition: filter 0.25s ease;
-  }
-
-  .brand-ticker-link:hover img,
-  .brand-ticker-link:focus-visible img {
-    filter: brightness(0) invert(0.88) sepia(1) saturate(4) hue-rotate(15deg);
   }
 
   .brand-ticker-more {
@@ -469,12 +466,13 @@ const brandLogos = [
     text-decoration: none;
     white-space: nowrap;
     padding: 8px 4px;
-    transition: color 0.25s ease;
+    opacity: 1;
+    transition: opacity 0.22s ease;
   }
 
   .brand-ticker-more:hover,
   .brand-ticker-more:focus-visible {
-    color: var(--gold);
+    opacity: 0.78;
   }
 
   .brand-ticker-arrow {
@@ -508,8 +506,8 @@ const brandLogos = [
 
   @media (max-width: 560px) {
     .brand-ticker-wrap {
-      padding: 22px 8px 26px;
-      gap: 4px;
+      padding: 18px 0 22px;
+      gap: 8px;
     }
 
     .brand-ticker-arrow {
