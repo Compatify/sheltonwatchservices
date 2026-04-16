@@ -13,15 +13,12 @@ const description =
   'Shop authenticated pre-owned and used watches. Rolex, Omega, Seiko, Tudor, Cartier and more. Every watch personally inspected. Inquiry-based — no checkout needed.';
 const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
 
-const filters = [
-  { href: '/shop/rolex/', label: 'Rolex' },
-  { href: '/shop/omega/', label: 'Omega' },
-  { href: '/shop/seiko/', label: 'Seiko' },
-  { href: '/shop/', label: 'Tudor' },
-  { href: '/shop/', label: 'Cartier' },
-  { href: '/shop/', label: 'TAG Heuer' },
-  { href: '/pre-owned-watches-for-sale/', label: 'Vintage' },
-];
+const prices = watches.map((w) => w.price);
+const priceFloor = prices.length ? Math.min(...prices) : 0;
+const priceCeil = prices.length ? Math.max(...prices) : 0;
+
+const brands = [...new Set(watches.map((w) => w.brand))].sort((a, b) => a.localeCompare(b));
+const conditions = [...new Set(watches.map((w) => w.condition))].sort((a, b) => a.localeCompare(b));
 ---
 
 <BaseLayout {title} {description}>
@@ -51,18 +48,163 @@ const filters = [
             No auction risk. No mystery condition — and <strong>no checkout</strong>: purchases start with a
             conversation, not a cart.
           </p>
-          <div class="filter-row" aria-label="Shop by brand">
-            {filters.map((f) => (
-              <a class="filter-pill" href={f.href}>
-                {f.label}
-              </a>
-            ))}
+
+          <div class="shop-browse" data-shop-browse>
+            <aside class="shop-filters" aria-label="Filter watches">
+              <div class="shop-filters-head">
+                <h2 class="shop-filters-title">Filters</h2>
+                <button type="button" class="shop-clear" data-shop-clear hidden>
+                  Clear all
+                </button>
+              </div>
+
+              <details class="shop-filter-block" open>
+                <summary class="shop-filter-summary">Brand</summary>
+                <div class="shop-filter-options" data-filter-group="brand">
+                  {
+                    brands.map((b) => (
+                      <label class="shop-check">
+                        <input type="checkbox" name="brand" value={b} data-shop-brand />
+                        <span class="shop-check-ui" aria-hidden="true" />
+                        <span class="shop-check-label">{b}</span>
+                      </label>
+                    ))
+                  }
+                </div>
+              </details>
+
+              <details class="shop-filter-block" open>
+                <summary class="shop-filter-summary">Condition</summary>
+                <div class="shop-filter-options" data-filter-group="condition">
+                  {
+                    conditions.map((c) => (
+                      <label class="shop-check">
+                        <input type="checkbox" name="condition" value={c} data-shop-condition />
+                        <span class="shop-check-ui" aria-hidden="true" />
+                        <span class="shop-check-label">{c}</span>
+                      </label>
+                    ))
+                  }
+                </div>
+              </details>
+
+              <details class="shop-filter-block" open>
+                <summary class="shop-filter-summary">Price</summary>
+                <div class="shop-price-panel" data-price-panel data-floor={priceFloor} data-ceil={priceCeil}>
+                  <div class="shop-price-fields">
+                    <label class="shop-price-field">
+                      <span class="shop-price-field-label">Min</span>
+                      <span class="shop-price-input-wrap">
+                        <span class="shop-price-prefix" aria-hidden="true">$</span>
+                        <input
+                          type="number"
+                          class="shop-price-input"
+                          data-price-input="min"
+                          min={priceFloor}
+                          max={priceCeil}
+                          step="1"
+                          value={priceFloor}
+                          aria-label="Minimum price"
+                        />
+                      </span>
+                    </label>
+                    <span class="shop-price-sep" aria-hidden="true">–</span>
+                    <label class="shop-price-field">
+                      <span class="shop-price-field-label">Max</span>
+                      <span class="shop-price-input-wrap">
+                        <span class="shop-price-prefix" aria-hidden="true">$</span>
+                        <input
+                          type="number"
+                          class="shop-price-input"
+                          data-price-input="max"
+                          min={priceFloor}
+                          max={priceCeil}
+                          step="1"
+                          value={priceCeil}
+                          aria-label="Maximum price"
+                        />
+                      </span>
+                    </label>
+                  </div>
+                  <div class="shop-dual-range" aria-hidden="true">
+                    <div class="shop-dual-track">
+                      <div class="shop-dual-fill" data-range-fill></div>
+                    </div>
+                    <input
+                      type="range"
+                      class="shop-range shop-range--min"
+                      data-range="min"
+                      min={priceFloor}
+                      max={priceCeil}
+                      step="1"
+                      value={priceFloor}
+                      aria-label="Minimum price slider"
+                    />
+                    <input
+                      type="range"
+                      class="shop-range shop-range--max"
+                      data-range="max"
+                      min={priceFloor}
+                      max={priceCeil}
+                      step="1"
+                      value={priceCeil}
+                      aria-label="Maximum price slider"
+                    />
+                  </div>
+                </div>
+              </details>
+            </aside>
+
+            <div class="shop-main">
+              <div class="shop-toolbar">
+                <p class="shop-results">
+                  <span class="shop-results-count" data-results-count>{watches.length}</span>
+                  <span class="shop-results-label">
+                    {watches.length === 1 ? 'watch' : 'watches'}
+                  </span>
+                </p>
+                <label class="shop-sort-wrap">
+                  <span class="shop-sort-label">Sort</span>
+                  <select class="shop-sort" data-shop-sort aria-label="Sort watches">
+                    <option value="newest">Newest listed</option>
+                    <option value="price-asc">Price: Low to high</option>
+                    <option value="price-desc">Price: High to low</option>
+                  </select>
+                </label>
+              </div>
+
+              <div
+                class="card-grid shop-grid"
+                data-shop-grid
+                data-total={watches.length}
+                data-price-floor={priceFloor}
+                data-price-ceil={priceCeil}
+              >
+                {
+                  watches.map((w, listIndex) => (
+                    <div
+                      class="shop-grid-item"
+                      data-brand={w.brand}
+                      data-condition={w.condition}
+                      data-price={w.price}
+                      data-list-index={listIndex}
+                    >
+                      <WatchCard watch={w} />
+                    </div>
+                  ))
+                }
+              </div>
+
+              <div class="shop-empty" data-shop-empty hidden>
+                <p class="shop-empty-title">No watches match these filters</p>
+                <p class="shop-empty-sub muted">Try widening the price range or clearing a brand or condition.</p>
+                <button type="button" class="btn-secondary shop-empty-clear" data-shop-clear-empty>
+                  Clear all filters
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="card-grid shop-grid">
-            {watches.map((w) => (
-              <WatchCard watch={w} />
-            ))}
-          </div>
+
           <section class="looking">
             <h2>Looking for something specific?</h2>
             <form data-netlify="true" name="contact" method="POST" action="/shop/">
@@ -101,6 +243,192 @@ const filters = [
     </main>
   </SiteChrome>
 </BaseLayout>
+
+<script>
+  (function () {
+    const root = document.querySelector('[data-shop-browse]');
+    const grid = document.querySelector('[data-shop-grid]');
+    if (!root || !grid) return;
+
+    const items = [...grid.querySelectorAll('.shop-grid-item')];
+    const countEl = document.querySelector('[data-results-count]');
+    const labelEl = document.querySelector('.shop-results-label');
+    const emptyEl = document.querySelector('[data-shop-empty]');
+    const clearBtns = document.querySelectorAll('[data-shop-clear], [data-shop-clear-empty]');
+    const sortEl = document.querySelector('[data-shop-sort]');
+    const brandInputs = Array.prototype.slice.call(document.querySelectorAll('[data-shop-brand]'));
+    const conditionInputs = Array.prototype.slice.call(document.querySelectorAll('[data-shop-condition]'));
+
+    const floor = Number(grid.dataset.priceFloor || 0);
+    const ceil = Number(grid.dataset.priceCeil || 0);
+    const samePrice = floor === ceil;
+
+    const inputMin = document.querySelector('[data-price-input="min"]');
+    const inputMax = document.querySelector('[data-price-input="max"]');
+    const rangeMin = document.querySelector('[data-range="min"]');
+    const rangeMax = document.querySelector('[data-range="max"]');
+    const rangeFill = document.querySelector('[data-range-fill]');
+
+    function clamp(n, a, b) {
+      return Math.min(b, Math.max(a, n));
+    }
+
+    function parsePriceState() {
+      let lo = inputMin ? Number(inputMin.value) : floor;
+      let hi = inputMax ? Number(inputMax.value) : ceil;
+      if (Number.isNaN(lo)) lo = floor;
+      if (Number.isNaN(hi)) hi = ceil;
+      lo = clamp(lo, floor, ceil);
+      hi = clamp(hi, floor, ceil);
+      if (lo > hi) {
+        const t = lo;
+        lo = hi;
+        hi = t;
+      }
+      return { lo: lo, hi: hi };
+    }
+
+    function syncInputsFromState(lo, hi) {
+      if (inputMin) inputMin.value = String(Math.round(lo));
+      if (inputMax) inputMax.value = String(Math.round(hi));
+      if (rangeMin && !samePrice) {
+        rangeMin.value = String(Math.round(lo));
+        rangeMax.value = String(Math.round(hi));
+      }
+      updateFill(lo, hi);
+    }
+
+    function updateFill(lo, hi) {
+      if (!rangeFill || samePrice || ceil === floor) return;
+      const p0 = ((lo - floor) / (ceil - floor)) * 100;
+      const p1 = ((hi - floor) / (ceil - floor)) * 100;
+      rangeFill.style.left = `${p0}%`;
+      rangeFill.style.width = `${Math.max(0, p1 - p0)}%`;
+    }
+
+    function selectedValues(inputs) {
+      const s = new Set();
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].checked) s.add(inputs[i].value);
+      }
+      return s;
+    }
+
+    function isDirty() {
+      const brandsOn = selectedValues(brandInputs).size > 0;
+      const condOn = selectedValues(conditionInputs).size > 0;
+      const { lo, hi } = parsePriceState();
+      const priceDirty = !samePrice && (lo > floor || hi < ceil);
+      return brandsOn || condOn || priceDirty;
+    }
+
+    function updateClearVisibility() {
+      const show = isDirty();
+      for (let i = 0; i < clearBtns.length; i++) {
+        const btn = clearBtns[i];
+        if (btn.hasAttribute('data-shop-clear')) btn.hidden = !show;
+      }
+    }
+
+    function applyFiltersAndSort() {
+      const brandSel = selectedValues(brandInputs);
+      const condSel = selectedValues(conditionInputs);
+      const { lo, hi } = parsePriceState();
+      const sort = sortEl ? sortEl.value : 'newest';
+
+      const matched = [];
+      for (let i = 0; i < items.length; i++) {
+        const el = items[i];
+        const brand = el.dataset.brand || '';
+        const condition = el.dataset.condition || '';
+        const price = Number(el.dataset.price || 0);
+        let ok = true;
+        if (brandSel.size > 0 && !brandSel.has(brand)) ok = false;
+        if (condSel.size > 0 && !condSel.has(condition)) ok = false;
+        if (price < lo || price > hi) ok = false;
+        el.hidden = !ok;
+        if (ok) matched.push(el);
+      }
+
+      matched.sort(function (a, b) {
+        if (sort === 'price-asc') return Number(a.dataset.price) - Number(b.dataset.price);
+        if (sort === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
+        return Number(b.dataset.listIndex) - Number(a.dataset.listIndex);
+      });
+
+      for (let j = 0; j < matched.length; j++) grid.appendChild(matched[j]);
+
+      const n = matched.length;
+      if (countEl) countEl.textContent = String(n);
+      if (labelEl) labelEl.textContent = n === 1 ? 'watch' : 'watches';
+      if (emptyEl) emptyEl.hidden = n > 0;
+      grid.hidden = n === 0;
+      updateClearVisibility();
+    }
+
+    function onRangeInput(which) {
+      if (!rangeMin || !rangeMax || !inputMin || !inputMax || samePrice) return;
+      let lo = Number(rangeMin.value);
+      let hi = Number(rangeMax.value);
+      if (which === 'min' && lo > hi) {
+        lo = hi;
+        rangeMin.value = String(lo);
+      }
+      if (which === 'max' && hi < lo) {
+        hi = lo;
+        rangeMax.value = String(hi);
+      }
+      syncInputsFromState(lo, hi);
+      applyFiltersAndSort();
+    }
+
+    function onNumberInput() {
+      if (!rangeMin || !rangeMax || samePrice) {
+        applyFiltersAndSort();
+        return;
+      }
+      let { lo, hi } = parsePriceState();
+      if (inputMin && document.activeElement === inputMin && lo > hi) hi = lo;
+      if (inputMax && document.activeElement === inputMax && hi < lo) lo = hi;
+      syncInputsFromState(lo, hi);
+      rangeMin.value = String(Math.round(lo));
+      rangeMax.value = String(Math.round(hi));
+      applyFiltersAndSort();
+    }
+
+    function resetAll() {
+      for (let i = 0; i < brandInputs.length; i++) brandInputs[i].checked = false;
+      for (let i = 0; i < conditionInputs.length; i++) conditionInputs[i].checked = false;
+      syncInputsFromState(floor, ceil);
+      if (sortEl) sortEl.value = 'newest';
+      applyFiltersAndSort();
+    }
+
+    if (samePrice && rangeMin && rangeMax) {
+      rangeMin.disabled = true;
+      rangeMax.disabled = true;
+    }
+
+    syncInputsFromState(floor, ceil);
+
+    for (let i = 0; i < brandInputs.length; i++) brandInputs[i].addEventListener('change', applyFiltersAndSort);
+    for (let i = 0; i < conditionInputs.length; i++) conditionInputs[i].addEventListener('change', applyFiltersAndSort);
+    if (sortEl) sortEl.addEventListener('change', applyFiltersAndSort);
+    if (inputMin) {
+      inputMin.addEventListener('input', onNumberInput);
+      inputMin.addEventListener('change', onNumberInput);
+    }
+    if (inputMax) {
+      inputMax.addEventListener('input', onNumberInput);
+      inputMax.addEventListener('change', onNumberInput);
+    }
+    if (rangeMin) rangeMin.addEventListener('input', function () { onRangeInput('min'); });
+    if (rangeMax) rangeMax.addEventListener('input', function () { onRangeInput('max'); });
+    for (let i = 0; i < clearBtns.length; i++) clearBtns[i].addEventListener('click', resetAll);
+
+    applyFiltersAndSort();
+  })();
+</script>
 
 <style>
   .shop-hero {
@@ -170,7 +498,7 @@ const filters = [
   }
 
   .shop-intro {
-    margin-bottom: 8px;
+    margin-bottom: 28px;
   }
 
   @media (max-width: 768px) {
@@ -179,36 +507,419 @@ const filters = [
     }
   }
 
-  .filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 24px 0 28px;
+  /* —— Browse layout —— */
+  .shop-browse {
+    display: grid;
+    grid-template-columns: minmax(240px, 272px) 1fr;
+    gap: 40px 48px;
+    align-items: start;
+    margin-bottom: 48px;
   }
 
-  .filter-pill {
-    font-family: var(--ui);
-    font-size: 9.5px;
+  @media (max-width: 960px) {
+    .shop-browse {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+
+  .shop-filters {
+    position: sticky;
+    top: calc(96px + 20px);
+    padding: 24px 22px 26px;
+    background: var(--ivory2);
+    border: 0.5px solid var(--rule-lt);
+    border-top: 2px solid var(--forest);
+  }
+
+  @media (max-width: 960px) {
+    .shop-filters {
+      position: static;
+    }
+  }
+
+  .shop-filters-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .shop-filters-title {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    padding: 8px 12px;
-    border-radius: 99px;
-    border: 0.5px solid var(--rule);
-    text-decoration: none;
-    color: var(--ink3);
-    transition:
-      color 0.2s ease,
-      border-color 0.2s ease;
+    color: var(--forest);
+    margin: 0;
   }
 
-  .filter-pill:hover {
+  .shop-clear {
+    font-family: var(--ui);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--gold);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .shop-clear:hover {
+    color: var(--gold2);
+  }
+
+  .shop-filter-block {
+    border-bottom: 0.5px solid var(--rule-lt);
+    padding: 0 0 18px;
+    margin-bottom: 18px;
+  }
+
+  .shop-filter-block:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .shop-filter-summary {
+    font-family: var(--ui);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    cursor: pointer;
+    list-style: none;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .shop-filter-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .shop-filter-summary::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-right: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    transform: rotate(45deg);
+    margin-left: auto;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .shop-filter-block[open] .shop-filter-summary::after {
+    transform: rotate(-135deg);
+    margin-top: 4px;
+  }
+
+  .shop-filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .shop-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: var(--ui);
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .shop-check input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .shop-check-ui {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    border: 0.5px solid var(--ink3);
+    background: var(--ivory);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .shop-check input:focus-visible + .shop-check-ui {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .shop-check input:checked + .shop-check-ui {
+    background: var(--forest);
+    border-color: var(--forest);
+    box-shadow: inset 0 0 0 2px var(--ivory);
+  }
+
+  .shop-check:hover .shop-check-ui {
+    border-color: var(--gold);
+  }
+
+  .shop-check-label {
+    letter-spacing: 0.02em;
+  }
+
+  .shop-price-panel {
+    padding-top: 2px;
+  }
+
+  .shop-price-fields {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .shop-price-field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .shop-price-field-label {
+    display: block;
+    font-family: var(--ui);
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 6px;
+  }
+
+  .shop-price-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 0.5px solid var(--rule);
+    background: var(--ivory);
+    transition: border-color 0.2s ease;
+  }
+
+  .shop-price-input-wrap:focus-within {
+    border-color: rgba(197, 160, 40, 0.55);
+  }
+
+  .shop-price-prefix {
+    font-family: var(--ui);
+    font-size: 13px;
+    color: var(--ink3);
+    padding-left: 10px;
+  }
+
+  .shop-price-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-family: var(--ui);
+    font-size: 13px;
+    color: var(--ink);
+    padding: 9px 10px 9px 4px;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+
+  .shop-price-input::-webkit-outer-spin-button,
+  .shop-price-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .shop-price-sep {
+    font-family: var(--ui);
+    color: var(--ink4);
+    padding-bottom: 9px;
+    flex-shrink: 0;
+  }
+
+  .shop-dual-range {
+    position: relative;
+    height: 28px;
+    margin-top: 4px;
+  }
+
+  .shop-dual-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    background: rgba(30, 51, 40, 0.12);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .shop-dual-fill {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--forest2), var(--forest));
+    border-radius: 2px;
+    pointer-events: none;
+    left: 0;
+    width: 100%;
+  }
+
+  .shop-range {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    pointer-events: none;
+  }
+
+  .shop-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--ivory);
+    border: 2px solid var(--gold);
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 1px 4px rgba(30, 51, 40, 0.2);
+    transition:
+      transform 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .shop-range::-webkit-slider-thumb:hover {
+    transform: scale(1.06);
+    border-color: var(--gold2);
+  }
+
+  .shop-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--ivory);
+    border: 2px solid var(--gold);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .shop-range::-webkit-slider-runnable-track {
+    height: 4px;
+    background: transparent;
+  }
+
+  .shop-range::-moz-range-track {
+    height: 4px;
+    background: transparent;
+  }
+
+  .shop-range--max {
+    z-index: 2;
+  }
+
+  .shop-range--min {
+    z-index: 1;
+  }
+
+  .shop-main {
+    min-width: 0;
+  }
+
+  .shop-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .shop-results {
+    font-family: var(--ui);
+    font-size: 13px;
+    color: var(--ink2);
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .shop-results-count {
+    font-weight: 600;
+    color: var(--forest);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .shop-sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .shop-sort-label {
+    font-family: var(--ui);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink3);
+  }
+
+  .shop-sort {
+    font-family: var(--ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    background: var(--ivory);
+    border: 0.5px solid var(--rule);
+    padding: 10px 36px 10px 14px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 0;
+    min-width: 200px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%234a6155' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.2s ease;
+  }
+
+  .shop-sort:hover,
+  .shop-sort:focus {
     border-color: rgba(197, 160, 40, 0.45);
   }
 
   .shop-grid {
     grid-template-columns: repeat(3, 1fr);
-    margin-bottom: 48px;
+  }
+
+  .shop-grid-item[hidden] {
+    display: none !important;
   }
 
   @media (max-width: 900px) {
@@ -221,6 +932,51 @@ const filters = [
     .shop-grid {
       grid-template-columns: 1fr;
     }
+
+    .shop-sort {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .shop-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .shop-sort-wrap {
+      width: 100%;
+    }
+  }
+
+  .shop-empty {
+    text-align: center;
+    padding: 56px 24px 48px;
+    background: var(--ivory2);
+    border: 0.5px solid var(--rule-lt);
+    border-top: 2px solid var(--forest);
+    margin-bottom: 8px;
+  }
+
+  .shop-empty-title {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin: 0 0 10px;
+  }
+
+  .shop-empty-sub {
+    font-size: 14px;
+    margin: 0 0 22px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .shop-empty-clear {
+    cursor: pointer;
   }
 
   .looking {
