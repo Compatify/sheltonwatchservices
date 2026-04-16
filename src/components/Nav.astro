@@ -64,12 +64,13 @@ function isActive(href: string): boolean {
 <style>
   .site-nav {
     position: fixed;
-    top: 0;
+    top: var(--announcement-h);
     left: 0;
     width: 100%;
     z-index: 100;
     background: var(--forest);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: top 0.22s ease;
   }
 
   .nav-inner {

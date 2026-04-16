@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import AnnouncementBar from '../components/AnnouncementBar.astro';
 
 interface Props {
   title: string;
@@ -39,9 +40,17 @@ const canonicalURL = canonical || `https://sheltonwatchservices.com${Astro.url.p
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      try {
+        if (localStorage.getItem('sws-announcement-dismissed') === '1') {
+          document.documentElement.classList.add('announcement-dismissed');
+        }
+      } catch (e) {}
+    </script>
     <slot name="head" />
   </head>
   <body>
+    <AnnouncementBar />
     <slot />
   </body>
 </html>

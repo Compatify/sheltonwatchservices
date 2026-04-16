@@ -525,7 +525,8 @@ const conditions = [...new Set(watches.map((w) => w.condition))].sort((a, b) => 
 
   .shop-filters {
     position: sticky;
-    top: calc(96px + 20px);
+    top: calc(96px + var(--announcement-h) + 20px);
+    transition: top 0.22s ease;
     padding: 24px 22px 26px;
     background: var(--ivory2);
     border: 0.5px solid var(--rule-lt);

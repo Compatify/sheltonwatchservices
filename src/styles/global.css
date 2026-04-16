@@ -31,6 +31,11 @@
 
 html {
   scroll-behavior: smooth;
+  --announcement-h: 40px;
+}
+
+html.announcement-dismissed {
+  --announcement-h: 0px;
 }
 
 body {
@@ -41,7 +46,8 @@ body {
   letter-spacing: 0.02em;
   color: var(--ink);
   background: var(--ivory);
-  padding-top: 96px;
+  padding-top: calc(96px + var(--announcement-h));
+  transition: padding-top 0.22s ease;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -56,7 +62,7 @@ body {
     padding: 0 24px;
   }
   body {
-    padding-top: 96px;
+    padding-top: calc(96px + var(--announcement-h));
   }
 }
 
