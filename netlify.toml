@@ -1,3 +1,12 @@
+# IMPORTANT — TinaCMS environment variables.
+# These two variables MUST be set in the Netlify dashboard
+# (Site settings → Environment variables) before deploying.
+# Without them, `tinacms build` (run via `npm run build`) will fail.
+#
+#   PUBLIC_TINA_CLIENT_ID  = the Tina Cloud project Client ID
+#   TINA_TOKEN             = the Tina Cloud Read/Write Token
+#
+# Locally these live in `.env` (which is .gitignored).
 [build]
   command = "npm run build"
   publish = "dist"

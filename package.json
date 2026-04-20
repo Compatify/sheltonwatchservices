@@ -4,14 +4,19 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "tinacms dev -c \"astro dev\"",
+    "build": "tinacms build && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.6.0",
     "@astrojs/sitemap": "^3.6.0",
+    "@tinacms/auth": "^1.1.2",
     "astro": "^5.16.0",
-    "lucide": "^1.8.0"
+    "lucide": "^1.8.0",
+    "tinacms": "^3.7.2"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^2.2.2"
   }
 }

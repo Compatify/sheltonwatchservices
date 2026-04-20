@@ -8,3 +8,7 @@ dist/
 
 # Local Netlify folder
 .netlify
+
+# TinaCMS — generated each build
+public/admin
+tina/__generated__
