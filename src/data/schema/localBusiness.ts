@@ -17,18 +17,11 @@ export const localBusinessSchema = {
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
-      closes: '17:00',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Saturday',
-      opens: '09:00',
-      closes: '17:00',
-      description: 'By appointment only',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      description: 'Available by appointment; reach out anytime, response within 24 hours.',
     },
   ],
+  hoursAvailable: 'By appointment',
   priceRange: '$$',
   areaServed: ['Bethlehem PA', 'Allentown PA', 'Lehigh Valley PA', 'Easton PA'],
 };
