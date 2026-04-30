@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import type { Watch } from '../data/watches';
-import { watchDetailPath } from '../data/watches';
+import type { Watch } from '../utils/watchEntries';
+import { watchDetailPath } from '../utils/watchEntries';
 import { getWatchCoverImage } from '../data/watchCoverImages';
 
 interface Props {
@@ -12,7 +12,10 @@ interface Props {
 
 const { watch, stacked = false, showFloat = false } = Astro.props;
 const detailHref = watchDetailPath(watch.slug);
-const cover = getWatchCoverImage(watch.slug);
+
+const cmsPhoto = typeof watch.photo === 'string' && watch.photo.trim() !== '' ? watch.photo : null;
+const legacyCover = !cmsPhoto ? getWatchCoverImage(watch.slug) : undefined;
+
 const data = JSON.stringify({
   brand: watch.brand,
   model: watch.model,
@@ -20,18 +23,22 @@ const data = JSON.stringify({
   priceDisplay: watch.priceDisplay,
   slug: watch.slug,
 });
-const alt = `${watch.brand} ${watch.model}`;
+const alt = `${watch.brand} ${watch.model}`.trim();
 ---
 
 <article class:list={['watch-card', { 'watch-card--stacked': stacked }]}>
   {showFloat && <div class="watch-card-float" aria-hidden="true">Now Available</div>}
   <a class="watch-card-link" href={detailHref}>
     {
-      cover ? (
+      cmsPhoto ? (
+        <div class="watch-card-photo-wrap">
+          <img class="watch-card-photo" src={cmsPhoto} alt={alt} loading="lazy" />
+        </div>
+      ) : legacyCover ? (
         <div class="watch-card-photo-wrap">
           <Image
             class="watch-card-photo"
-            src={cover}
+            src={legacyCover}
             alt={alt}
             width={800}
             height={440}

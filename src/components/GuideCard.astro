@@ -7,22 +7,27 @@ interface Props {
   title: string;
   excerpt: string;
   href: string;
-  coverPhoto: ImageMetadata;
+  coverPhoto: ImageMetadata | string;
 }
 
 const { category, title, excerpt, href, coverPhoto } = Astro.props;
+const coverIsUrl = typeof coverPhoto === 'string';
 ---
 
 <article class="guide-card">
   <a class="guide-card-link" href={href}>
     <div class="guide-card-cover">
-      <Image
-        src={coverPhoto}
-        alt=""
-        width={640}
-        height={360}
-        class="guide-card-cover-img"
-      />
+      {coverIsUrl ? (
+        <img src={coverPhoto as string} alt="" class="guide-card-cover-img" loading="lazy" />
+      ) : (
+        <Image
+          src={coverPhoto as ImageMetadata}
+          alt=""
+          width={640}
+          height={360}
+          class="guide-card-cover-img"
+        />
+      )}
     </div>
     <div class="guide-card-body">
       <p class="guide-card-cat">{category}</p>

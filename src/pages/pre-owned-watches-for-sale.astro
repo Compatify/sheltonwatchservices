@@ -2,13 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteChrome from '../components/SiteChrome.astro';
 import WatchCard from '../components/WatchCard.astro';
-import { watches } from '../data/watches';
+import { getWatches } from '../utils/watchEntries';
 import { productSchemaForWatch } from '../utils/productSchema';
 import { jsonLd } from '../utils/schema';
 
 const title = 'Pre-Owned Watches For Sale | Shelton Watch PA';
 const description =
   'Browse pre-owned and used watches for sale. Rolex, Omega, Seiko, Tudor, Cartier and more. Every used watch personally inspected and authenticated.';
+const watches = await getWatches();
 const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
 ---
 

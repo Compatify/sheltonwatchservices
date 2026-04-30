@@ -2,14 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
 import WatchCard from '../../components/WatchCard.astro';
-import { watchesByBrand } from '../../data/watches';
+import { watchesByBrand } from '../../utils/watchEntries';
 import { productSchemaForWatch } from '../../utils/productSchema';
 import { jsonLd } from '../../utils/schema';
 
 const title = 'Seiko Watches For Sale | Shelton Watch PA';
 const description =
   'Shop pre-owned Seiko watches. Personally inspected, accurately described. Inquiry-based purchasing from a specialist watchmaker in Bethlehem PA.';
-const list = watchesByBrand('Seiko');
+const list = await watchesByBrand('Seiko');
 const productGraph = { '@context': 'https://schema.org', '@graph': list.map(productSchemaForWatch) };
 ---
 

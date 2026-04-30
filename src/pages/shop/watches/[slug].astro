@@ -2,16 +2,22 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import SiteChrome from '../../../components/SiteChrome.astro';
-import { watches, watchDetailPath } from '../../../data/watches';
+import { getWatchEntries, watchDetailPath } from '../../../utils/watchEntries';
+import type { Watch } from '../../../utils/watchEntries';
 import { getWatchCoverImage } from '../../../data/watchCoverImages';
 import { productSchemaForWatch } from '../../../utils/productSchema';
 import { jsonLd } from '../../../utils/schema';
 
-export function getStaticPaths() {
-  return watches.map((watch) => ({
-    params: { slug: watch.slug },
-    props: { watch },
+export async function getStaticPaths() {
+  const entries = await getWatchEntries();
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { watch: entry.data },
   }));
+}
+
+interface Props {
+  watch: Watch;
 }
 
 const { watch } = Astro.props;
@@ -29,7 +35,8 @@ const inquiryPayload = JSON.stringify({
   slug: watch.slug,
 });
 
-const primaryPhoto = getWatchCoverImage(watch.slug);
+const cmsPhoto = typeof watch.photo === 'string' && watch.photo.trim() !== '' ? watch.photo : null;
+const legacyCover = !cmsPhoto ? getWatchCoverImage(watch.slug) : undefined;
 const primaryAlt = `${watch.brand} ${watch.model}`;
 ---
 
@@ -48,9 +55,16 @@ const primaryAlt = `${watch.brand} ${watch.model}`;
               <!-- OWNER: Replace SVG placeholders with real watch photos — shoot in natural light, clean ivory background -->
               <div class="gallery-primary">
                 {
-                  primaryPhoto ? (
+                  cmsPhoto ? (
+                    <img
+                      src={cmsPhoto}
+                      alt={primaryAlt}
+                      class="gallery-primary-img"
+                      loading="eager"
+                    />
+                  ) : legacyCover ? (
                     <Image
-                      src={primaryPhoto}
+                      src={legacyCover}
                       alt={primaryAlt}
                       width={1200}
                       height={900}

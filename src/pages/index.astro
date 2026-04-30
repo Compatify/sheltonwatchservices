@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import InquiryModal from '../components/InquiryModal.astro';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { watches, watchDetailPath } from '../data/watches';
+import { getWatches, watchDetailPath } from '../utils/watchEntries';
 import { localBusinessSchema } from '../data/schema/localBusiness';
 import { jsonLd } from '../utils/schema';
 import { productSchemaForWatch } from '../utils/productSchema';
@@ -36,6 +36,7 @@ const pageTitle = 'Shelton Watch Services | Buy, Sell & Service Fine Watches | L
 const pageDescription =
   'Expert watch repair, buying, and selling in the Lehigh Valley. Transparent pricing, 12+ years experience. Rolex, Omega, Seiko, vintage and more. Bethlehem PA.';
 
+const watches = await getWatches();
 const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
 
 /** Serialize Lucide icon node to inline SVG (npm `lucide`). */
@@ -99,7 +100,14 @@ function lucideToSvg(icon: readonly (readonly [string, Record<string, string | n
             watches.map((watch) => (
               <a href={watchDetailPath(watch.slug)} class="watch-card">
                 <div class="watch-card-img">
-                  {watchPhotos[watch.slug] && (
+                  {watch.photo ? (
+                    <img
+                      src={watch.photo}
+                      alt={`${watch.brand} ${watch.model}`}
+                      class="watch-photo"
+                      loading="lazy"
+                    />
+                  ) : watchPhotos[watch.slug] ? (
                     <Image
                       src={watchPhotos[watch.slug]}
                       alt={`${watch.brand} ${watch.model}`}
@@ -108,7 +116,7 @@ function lucideToSvg(icon: readonly (readonly [string, Record<string, string | n
                       height={280}
                       loading="lazy"
                     />
-                  )}
+                  ) : null}
                   <span class="watch-badge">Available</span>
                 </div>
                 <div class="watch-card-info">

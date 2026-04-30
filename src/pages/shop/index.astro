@@ -4,9 +4,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
 import WatchCard from '../../components/WatchCard.astro';
 import shopHeroImg from '../../assets/watches/photo-1773755060442-6d128b70dd20.jpeg';
-import { watches } from '../../data/watches';
+import { getWatches } from '../../utils/watchEntries';
 import { productSchemaForWatch } from '../../utils/productSchema';
 import { jsonLd } from '../../utils/schema';
+
+const watches = await getWatches();
 
 const title = 'Shop Pre-Owned Watches | Shelton Watch Services';
 const description =

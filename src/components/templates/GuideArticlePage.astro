@@ -14,11 +14,12 @@ interface Props {
   faqs: { q: string; a: string }[];
   ctaHref: string;
   ctaLabel: string;
-  coverPhoto: ImageMetadata;
+  coverPhoto: ImageMetadata | string;
 }
 
 const { title, description, h1, answer, faqs, ctaHref, ctaLabel, coverPhoto } = Astro.props;
 const faqLd = faqPageSchema(faqs);
+const coverIsUrl = typeof coverPhoto === 'string';
 ---
 
 <BaseLayout {title} {description}>
@@ -29,13 +30,17 @@ const faqLd = faqPageSchema(faqs);
         <div class="container guide">
           <h1>{h1}</h1>
           <div class="guide-hero-photo">
-            <Image
-              src={coverPhoto}
-              alt=""
-              width={1600}
-              height={760}
-              class="guide-hero-img"
-            />
+            {coverIsUrl ? (
+              <img src={coverPhoto as string} alt="" class="guide-hero-img" loading="eager" />
+            ) : (
+              <Image
+                src={coverPhoto as ImageMetadata}
+                alt=""
+                width={1600}
+                height={760}
+                class="guide-hero-img"
+              />
+            )}
           </div>
           <div class="answer-capsule">
             <p>{answer}</p>

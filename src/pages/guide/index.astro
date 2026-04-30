@@ -1,8 +1,32 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../../components/SiteChrome.astro';
 import GuideCard from '../../components/GuideCard.astro';
-import { guideCoverByHref } from '../../data/guideCovers';
+import { getGuideCoverBySlug } from '../../data/guideCovers';
+
+const entries = await getCollection('journal');
+const sorted = entries.sort((a, b) => {
+  const ad = a.data.date ? a.data.date.getTime() : 0;
+  const bd = b.data.date ? b.data.date.getTime() : 0;
+  return bd - ad;
+});
+
+const articles = sorted.map((entry) => {
+  const slug = entry.data.slug || entry.slug;
+  const cover =
+    typeof entry.data.coverPhoto === 'string' && entry.data.coverPhoto.trim() !== ''
+      ? entry.data.coverPhoto
+      : getGuideCoverBySlug(slug);
+  return {
+    slug,
+    href: `/guide/${slug}/`,
+    title: entry.data.h1 || entry.data.title,
+    excerpt: entry.data.excerpt || '',
+    category: entry.data.category || '',
+    cover,
+  };
+});
 ---
 
 <BaseLayout
@@ -18,48 +42,17 @@ import { guideCoverByHref } from '../../data/guideCovers';
           search.
         </p>
         <div class="card-grid guide-hub-grid">
-          <GuideCard
-            category="Rolex"
-            title="How Often Should You Service a Rolex Watch?"
-            excerpt="Official 10-year guidance vs. what daily wear typically needs in the real world."
-            href="/guide/how-often-service-rolex/"
-            coverPhoto={guideCoverByHref['/guide/how-often-service-rolex/']}
-          />
-          <GuideCard
-            category="Decision guide"
-            title="Is My Watch Worth Repairing?"
-            excerpt="Repair cost, market value, and sentimental weight — how to think it through."
-            href="/guide/is-my-watch-worth-repairing/"
-            coverPhoto={guideCoverByHref['/guide/is-my-watch-worth-repairing/']}
-          />
-          <GuideCard
-            category="Rolex"
-            title="How Much Does a Rolex Service Cost?"
-            excerpt="Authorized service vs. independent specialists — realistic ranges in 2026."
-            href="/guide/rolex-service-cost/"
-            coverPhoto={guideCoverByHref['/guide/rolex-service-cost/']}
-          />
-          <GuideCard
-            category="Troubleshooting"
-            title="My Watch Stopped Working — What Should I Do?"
-            excerpt="Start with the simple checks, then know when to escalate to a watchmaker."
-            href="/guide/watch-stopped-working/"
-            coverPhoto={guideCoverByHref['/guide/watch-stopped-working/']}
-          />
-          <GuideCard
-            category="Accuracy"
-            title="Why Is My Watch Losing Time?"
-            excerpt="Magnetism, lubrication, regulation — the usual causes in plain language."
-            href="/guide/why-is-my-watch-losing-time/"
-            coverPhoto={guideCoverByHref['/guide/why-is-my-watch-losing-time/']}
-          />
-          <GuideCard
-            category="DIY"
-            title="How to Service a Watch at Home"
-            excerpt="Safe owner maintenance vs. work that belongs under a loupe."
-            href="/guide/how-to-service-watch-at-home/"
-            coverPhoto={guideCoverByHref['/guide/how-to-service-watch-at-home/']}
-          />
+          {articles.map((a) =>
+            a.cover ? (
+              <GuideCard
+                category={a.category}
+                title={a.title}
+                excerpt={a.excerpt}
+                href={a.href}
+                coverPhoto={a.cover}
+              />
+            ) : null,
+          )}
         </div>
       </div>
     </main>

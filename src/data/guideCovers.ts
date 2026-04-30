@@ -6,18 +6,17 @@ import coverStopped from '../assets/watches/photo-1611243705491-71487c2ed137.jpe
 import coverLosingTime from '../assets/watches/photo-1600003014755-ba31aa59c4b6.jpeg';
 import coverAtHome from '../assets/watches/photo-1556453007-ee036169934b.jpeg';
 
-/** Guide hub card + article banner cover — keyed by canonical href */
-export const guideCoverByHref: Record<string, ImageMetadata> = {
-  '/guide/how-often-service-rolex/': coverHowOften,
-  '/guide/is-my-watch-worth-repairing/': coverWorthRepairing,
-  '/guide/rolex-service-cost/': coverRolexCost,
-  '/guide/watch-stopped-working/': coverStopped,
-  '/guide/why-is-my-watch-losing-time/': coverLosingTime,
-  '/guide/how-to-service-watch-at-home/': coverAtHome,
+/** Legacy fallback covers, keyed by journal-entry slug. New CMS-managed entries
+ * carry their own `coverPhoto` URL string in frontmatter. */
+export const guideCoverBySlug: Record<string, ImageMetadata> = {
+  'how-often-service-rolex': coverHowOften,
+  'is-my-watch-worth-repairing': coverWorthRepairing,
+  'rolex-service-cost': coverRolexCost,
+  'watch-stopped-working': coverStopped,
+  'why-is-my-watch-losing-time': coverLosingTime,
+  'how-to-service-watch-at-home': coverAtHome,
 };
 
-export function getGuideCover(href: string): ImageMetadata {
-  const img = guideCoverByHref[href];
-  if (!img) throw new Error(`Missing guide cover for ${href}`);
-  return img;
+export function getGuideCoverBySlug(slug: string): ImageMetadata | undefined {
+  return guideCoverBySlug[slug];
 }

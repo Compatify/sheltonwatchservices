@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteChrome from '../SiteChrome.astro';
 import WatchCard from '../WatchCard.astro';
-import { watches } from '../../data/watches';
+import { getWatches } from '../../utils/watchEntries';
 import { localBusinessSchema } from '../../data/schema/localBusiness';
 import { productSchemaForWatch } from '../../utils/productSchema';
 import { jsonLd } from '../../utils/schema';
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const { title, description, h1, cityLabel } = Astro.props;
+const watches = await getWatches();
 const productGraph = { '@context': 'https://schema.org', '@graph': watches.map(productSchemaForWatch) };
 ---
 

@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteChrome from '../components/SiteChrome.astro';
-import { watches, watchDetailPath } from '../data/watches';
+import { getWatches, watchDetailPath } from '../utils/watchEntries';
 
 const title = 'Sitemap | Shelton Watch Services';
 const description =
   'Complete sitemap for Shelton Watch Services — all service, shop, sell, and guide pages.';
+
+const watches = await getWatches();
 ---
 
 <BaseLayout title={title} description={description}>

@@ -1,4 +1,4 @@
-import type { Watch } from '../data/watches';
+import type { Watch } from './watchEntries';
 
 const site = 'https://sheltonwatchservices.com';
 

@@ -1,0 +1,52 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import GuideArticlePage from '../../components/templates/GuideArticlePage.astro';
+import { getGuideCoverBySlug } from '../../data/guideCovers';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('journal');
+  return entries.map((entry) => {
+    const slug = entry.data.slug || entry.slug;
+    return {
+      params: { slug },
+      props: { entry },
+    };
+  });
+}
+
+interface Props {
+  entry: CollectionEntry<'journal'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const data = entry.data;
+
+const slug = data.slug || entry.slug;
+const cmsCover = typeof data.coverPhoto === 'string' && data.coverPhoto.trim() !== '' ? data.coverPhoto : null;
+const legacyCover = !cmsCover ? getGuideCoverBySlug(slug) : undefined;
+const coverPhoto = cmsCover ?? legacyCover;
+
+const title = data.title;
+const description = data.description ?? data.excerpt ?? '';
+const h1 = data.h1 ?? data.title;
+const answer = data.answer ?? data.excerpt ?? '';
+const faqs = data.faqs ?? [];
+const ctaHref = data.ctaHref ?? '/contact/';
+const ctaLabel = data.ctaLabel ?? 'Get in touch →';
+---
+
+{coverPhoto ? (
+  <GuideArticlePage
+    title={title}
+    description={description}
+    h1={h1}
+    answer={answer}
+    faqs={faqs}
+    ctaHref={ctaHref}
+    ctaLabel={ctaLabel}
+    coverPhoto={coverPhoto}
+  >
+    <Content />
+  </GuideArticlePage>
+) : null}
