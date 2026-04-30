@@ -9,8 +9,8 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.6.0",
     "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/vercel": "^9.0.5",
     "@tinacms/auth": "^1.1.2",
     "astro": "^5.16.0",
     "lucide": "^1.8.0",

@@ -6,7 +6,10 @@ dist/
 .env
 .env.*
 
-# Local Netlify folder
+# Vercel build output
+.vercel
+
+# Legacy Netlify build folder (kept ignored in case it's regenerated locally)
 .netlify
 
 # TinaCMS — generated each build
