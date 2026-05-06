@@ -488,11 +488,11 @@ function lucideToSvg(icon: readonly (readonly [string, Record<string, string | n
 <style>
   .hero {
     position: relative;
-    min-height: 320px;
+    height: 340px;
     background: var(--forest);
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(320px, auto);
+    grid-template-rows: 340px;
     overflow: hidden;
   }
   .hero-overlay {
@@ -511,8 +511,7 @@ function lucideToSvg(icon: readonly (readonly [string, Record<string, string | n
     overflow: hidden;
     justify-self: end;
     width: 45%;
-    min-height: 320px;
-    height: 100%;
+    height: 340px;
     align-self: stretch;
   }
   .hero-img {
@@ -536,7 +535,7 @@ function lucideToSvg(icon: readonly (readonly [string, Record<string, string | n
     z-index: 3;
     align-self: center;
     width: 100%;
-    padding-block: 40px;
+    padding-block: 24px;
     padding-inline: 0;
     pointer-events: none;
   }
@@ -566,12 +565,12 @@ function lucideToSvg(icon: readonly (readonly [string, Record<string, string | n
   .hero-h1 {
     font-family: var(--sans);
     font-weight: 600;
-    font-size: clamp(32px, 4vw, 58px);
+    font-size: clamp(28px, 3.4vw, 44px);
     line-height: 1.05;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #fafaf5;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
   .hero-h1 em {
     font-style: italic;
@@ -604,22 +603,21 @@ function lucideToSvg(icon: readonly (readonly [string, Record<string, string | n
   }
   @media (max-width: 768px) {
     .hero {
+      height: auto;
       grid-template-rows: auto auto;
-      min-height: auto;
     }
     .hero-photo-col {
       grid-column: 1;
       grid-row: 1;
       width: 100%;
       justify-self: stretch;
-      height: 300px;
-      min-height: unset;
+      height: 220px;
     }
     .hero-content {
       grid-column: 1;
       grid-row: 2;
       align-self: stretch;
-      padding-block: 48px;
+      padding-block: 32px;
       padding-inline: 0;
     }
     .hero-overlay {

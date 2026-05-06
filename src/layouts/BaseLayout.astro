@@ -52,5 +52,89 @@ const canonicalURL = canonical || `https://sheltonwatchservices.com${Astro.url.p
   <body>
     <AnnouncementBar />
     <slot />
+    <div class="sws-cursor" aria-hidden="true">
+      <svg
+        class="sws-cursor-svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+        focusable="false"
+      >
+        <line x1="12" y1="3" x2="12" y2="6.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <circle cx="12" cy="13" r="5.4" fill="none" stroke="currentColor" stroke-width="1.6" />
+        <circle cx="12" cy="13" r="1.1" fill="currentColor" />
+      </svg>
+    </div>
+    <script is:inline>
+      (function () {
+        if (
+          typeof window === 'undefined' ||
+          !window.matchMedia ||
+          !window.matchMedia('(hover: hover) and (pointer: fine)').matches
+        ) {
+          return;
+        }
+        var cursor = document.querySelector('.sws-cursor');
+        if (!cursor) return;
+        document.documentElement.classList.add('sws-cursor-on');
+
+        var x = -100;
+        var y = -100;
+        function place() {
+          cursor.style.transform = 'translate3d(' + (x - 12) + 'px, ' + (y - 12) + 'px, 0)';
+        }
+        place();
+
+        document.addEventListener(
+          'mousemove',
+          function (e) {
+            x = e.clientX;
+            y = e.clientY;
+            place();
+            if (!cursor.classList.contains('is-active')) cursor.classList.add('is-active');
+          },
+          { passive: true },
+        );
+
+        document.addEventListener('mouseleave', function () {
+          cursor.classList.remove('is-active');
+        });
+
+        document.addEventListener('mouseenter', function () {
+          cursor.classList.add('is-active');
+        });
+
+        var hoverSel =
+          'a, button, input[type="submit"], input[type="button"], select, summary, label, [role="button"], .watch-inquire, [data-cursor-hover]';
+        document.addEventListener(
+          'mouseover',
+          function (e) {
+            var t = e.target;
+            if (t instanceof Element && t.closest(hoverSel)) {
+              cursor.classList.add('is-hover');
+            }
+          },
+          true,
+        );
+        document.addEventListener(
+          'mouseout',
+          function (e) {
+            var t = e.target;
+            if (t instanceof Element && t.closest(hoverSel)) {
+              cursor.classList.remove('is-hover');
+            }
+          },
+          true,
+        );
+
+        document.addEventListener('mousedown', function () {
+          cursor.classList.add('is-down');
+        });
+        document.addEventListener('mouseup', function () {
+          cursor.classList.remove('is-down');
+        });
+      })();
+    </script>
   </body>
 </html>
